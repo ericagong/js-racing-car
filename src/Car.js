@@ -1,10 +1,10 @@
 import {
     CAR_INIT_POSITION,
+    CAR_ERROR_MESSAGE,
     CAR_MOVE_STEP,
     CAN_MOVE,
     CAR_NAME_MAX_LENGTH,
-    ERROR_MESSAGE,
-} from './settings.js';
+} from './constants/gameController.js';
 
 export default class Car {
     #name;
@@ -16,10 +16,13 @@ export default class Car {
         this.#name = name;
         this.#position = position;
     }
+    c;
 
     validateName(name) {
+        if (!name) throw new Error(CAR_ERROR_MESSAGE.EMPTY_NAME);
+
         if (name.length > CAR_NAME_MAX_LENGTH)
-            throw new Error(ERROR_MESSAGE.LONG_CAR_NAME);
+            throw new Error(CAR_ERROR_MESSAGE.LONG_NAME);
 
         return;
     }

@@ -1,4 +1,7 @@
-import { RANDOM_NUM_LOWER_LIMIT, RANDOM_NUM_UPPER_LIMIT } from './settings.js';
+import {
+    RANDOM_NUM_LOWER_LIMIT,
+    RANDOM_NUM_UPPER_LIMIT,
+} from './constants/gameController.js';
 
 /**
  * getRandomIntRangeOf - Returns a random integer between min (inclusive) and max (inclusive).
