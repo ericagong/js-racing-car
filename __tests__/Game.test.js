@@ -1,5 +1,5 @@
-import Game from '../src/Game';
-import { TOTAL_GAME_ROUNDS } from '../src/constants/settings';
+import Game from '../src/Game.js';
+import { TOTAL_GAME_ROUNDS } from '../src/settings.js';
 
 describe('[feature4] 총 5라운드를 반복하고, 우승 자동차 정보를 반환한다.', () => {
     const NAME = 'erica';
