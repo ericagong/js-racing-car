@@ -80,9 +80,9 @@
 
 ## 프로젝트 구현 요구 사항
 
-:.: else 예약어를 쓰지 않는다.
-:.: 도메인 로직과 UI 로직을 분리한다.
-:.: 모든 도메인 로직에 단위 테스트를 구현한다. (UI 로직은 제외)
+:V: else 예약어를 쓰지 않는다.
+:V: 도메인 로직과 UI 로직을 분리한다.
+:V: 모든 도메인 로직에 단위 테스트를 구현한다. (UI 로직은 제외)
 
 1. 유지보수 편의성을 고려하여 MVC 패턴으로 코드 리팩토링
 
@@ -90,15 +90,15 @@
 -   Controller: GameController
 -   View: View
 -   MVC 리팩토링 체크 사항
-    :.: Model은 Controller와 View에 의존하지 않음
+    :V: Model은 Controller와 View에 의존하지 않음
 
-    :.: View는 Model에만 의존하고, Controller에 의존해서는 안됨
+    :V: View는 Model에만 의존하고, Controller에 의존해서는 안됨
 
-    :.: View가 Model로부터 데이터를 받을 때는, 사용자마다 다르게 보여줘야하는 데이터에 한함
+    :V: View가 Model로부터 데이터를 받을 때는, 사용자마다 다르게 보여줘야하는 데이터에 한함
 
-    :.: View가 Model로부터 데이터를 받을 때는 항상 Controller를 거쳐야 함
+    :V: View가 Model로부터 데이터를 받을 때는 항상 Controller를 거쳐야 함
 
-    :.: Controller는 Model과 View에 의존해도 됨
+    :V: Controller는 Model과 View에 의존해도 됨
 
 2. 의도 드러내기
 
