@@ -4,6 +4,7 @@ import {
     CAR_ERROR_MESSAGE,
     CAR_NAME_MAX_LENGTH,
 } from './constants/car.js';
+
 export default class Car {
     #name;
     #position;
