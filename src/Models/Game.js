@@ -10,6 +10,12 @@ export default class Game {
 
     static INITIAL_ROUND = 1;
 
+    static ERROR_MESSAGE = Object.freeze({
+        EMPTY: '빈 값으로는 프로그램이 동작할 수 없습니다.',
+        DUPLICATE_CAR_NAME:
+            '중복된 자동차 이름으로는 프로그램이 동작할 수 없습니다.',
+    });
+
     static getRandomNumber = () => {
         return getRandomIntRangeOf(
             Game.RANDOM_NUM_LOWER_LIMIT,
@@ -17,33 +23,38 @@ export default class Game {
         );
     };
 
-    static isMovable = (randomNumber) => {
+    static #isMovable = (randomNumber) => {
         return randomNumber >= Game.CAR_MOVE_CRITERIA;
     };
 
-    static ERROR_MESSAGE = Object.freeze({
-        EMPTY: '빈 값으로는 프로그램이 동작할 수 없습니다.',
-        DUPLICATE_CAR_NAME:
-            '중복된 자동차 이름으로는 프로그램이 동작할 수 없습니다.',
-    });
+    static get isMovable() {
+        return Game.#isMovable;
+    }
+
+    // 어느 지점에서든, 어느 시점에서든 전진 함수 변경 가능
+    static set isMovable(canMoveFunc) {
+        Game.#isMovable = canMoveFunc;
+    }
 
     #cars;
     #currRound;
     #roundHistory;
     #winners;
 
-    constructor(userInput) {
+    constructor(userInput, canMoveFunc = Game.isMovable) {
         this.#validateUserInput(userInput);
 
         const carNames = this.#parseCarNames(userInput);
 
         this.#validateDuplicateCarNames(carNames);
 
-        this.#cars = carNames.map(Car.of);
+        this.#cars = carNames.map((carName) => Car.of(carName));
 
         this.#currRound = Game.INITIAL_ROUND;
         this.#roundHistory = [];
         this.#winners = [];
+
+        Game.isMovable = canMoveFunc;
     }
 
     get cars() {
@@ -62,13 +73,8 @@ export default class Game {
         return this.#winners;
     }
 
-    #isEmptyUserInput(userInput) {
-        return !userInput;
-    }
-
     #validateUserInput(userInput) {
-        if (this.#isEmptyUserInput(userInput))
-            throw new Error(Game.ERROR_MESSAGE.EMPTY);
+        if (!userInput) throw new Error(Game.ERROR_MESSAGE.EMPTY);
     }
 
     #parseCarNames(userInput) {

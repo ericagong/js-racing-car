@@ -9,13 +9,15 @@ export default class Car {
         EMPTY_NAME: '자동차 이름은 빈 값으로 설정할 수 없습니다.',
     });
 
-    static of = (name, position) => new Car(name, position);
+    static of(name, position) {
+        return new Car(name, position);
+    }
 
     #name;
     #position;
 
     constructor(name, position = Car.INITIAL_POSITION) {
-        this.validateName(name);
+        this.#validateName(name);
 
         this.#name = name;
         this.#position = position;
@@ -37,7 +39,7 @@ export default class Car {
         return name.length > Car.NAME_MAX_LENGTH;
     }
 
-    validateName(name) {
+    #validateName(name) {
         if (this.#isEmptyName(name))
             throw new Error(Car.ERROR_MESSAGE.EMPTY_NAME);
 
