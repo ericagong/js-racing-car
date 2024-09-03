@@ -1,17 +1,17 @@
 // Phase 1
-import Car from '../src/Car.js';
+import Car from '../src/Models/Car.js';
 import {
     CAR_MOVE_CRITERIA,
     CAR_MOVE_STEP,
     RANDOM_NUM_LOWER_LIMIT,
     RANDOM_NUM_UPPER_LIMIT,
-} from '../src/constants/game.js';
+} from '../src/Models/constants/game.js';
 import {
     CAR_ERROR_MESSAGE,
     CAR_INIT_POSITION,
     CAR_NAME_MAX_LENGTH,
-} from '../src/constants/car.js';
-import { getRandomIntRangeOf } from '../src/utils/utils.js';
+} from '../src/Models/constants/car.js';
+import { getRandomIntRangeOf } from '../src/Models/utils/utils.js';
 
 /**
  * 테스트 파일에서 사용하는 공통 상수

@@ -1,11 +1,11 @@
-import Game from '../src/Game';
+import Game from '../src/Models/Game';
 import {
     INPUT_ERROR_MESSAGE,
     GAME_INIT_ROUND,
     TOTAL_GAME_ROUNDS,
-} from '../src/constants/game';
+} from '../src/Models/constants/game';
 
-import { CAR_ERROR_MESSAGE } from '../src/constants/car';
+import { CAR_ERROR_MESSAGE } from '../src/Models/constants/car';
 
 describe('[feature1] 사용자가 입력한 값의 유효성을 확인한다.', () => {
     it.each([
@@ -76,6 +76,6 @@ describe('[feature4] 총 5라운드를 반복하고, 우승 자동차 정보를 
 
     it('배열 형태로 우승자 정보를 반환한다.', () => {
         expect(game.winners).toBeInstanceOf(Array);
-        expect(game.winners.length).toBeGreaterThan(1);
+        expect(game.winners.length).toBeGreaterThanOrEqual(1);
     });
 });
