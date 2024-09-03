@@ -1,21 +1,17 @@
-// Phase 1
+import Game from '../src/Models/Game.js';
 import Car from '../src/Models/Car.js';
-import {
-    CAR_MOVE_CRITERIA,
-    CAR_MOVE_STEP,
-    RANDOM_NUM_LOWER_LIMIT,
-    RANDOM_NUM_UPPER_LIMIT,
-} from '../src/Models/constants/game.js';
-import {
-    CAR_ERROR_MESSAGE,
-    CAR_INIT_POSITION,
-    CAR_NAME_MAX_LENGTH,
-} from '../src/Models/constants/car.js';
-import { getRandomIntRangeOf } from '../src/Models/utils/utils.js';
+import { getRandomIntRangeOf } from '../src/utils/utils.js';
 
 /**
  * 테스트 파일에서 사용하는 공통 상수
  */
+const CAR_MOVE_CRITERIA = Game.CAR_MOVE_CRITERIA;
+const CAR_MOVE_STEP = Game.CAR_MOVE_STEP;
+const RANDOM_NUM_LOWER_LIMIT = Game.RANDOM_NUM_LOWER_LIMIT;
+const RANDOM_NUM_UPPER_LIMIT = Game.RANDOM_NUM_UPPER_LIMIT;
+const CAR_INIT_POSITION = Car.CAR_INITIAL_POSITION;
+const CAR_ERROR_MESSAGE = Car.ERROR_MESSAGE;
+const CAR_NAME_MAX_LENGTH = Car.NAME_MAX_LENGTH;
 const BASE_STR = 'a';
 const VALID_NAME = BASE_STR.repeat(CAR_NAME_MAX_LENGTH);
 
