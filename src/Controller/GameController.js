@@ -1,13 +1,13 @@
+import PromptView from '../View/PromptView';
 import Game from '../Models/Game';
-import View from '../View/View';
 
 export default class GameController {
     #view;
     #game;
 
     constructor() {
-        this.#view = new View();
-        this.addEventHandlerToView();
+        this.#view = new PromptView();
+        this.#addEventHandlerToView();
     }
 
     get view() {
@@ -18,24 +18,22 @@ export default class GameController {
         return this.#game;
     }
 
-    addEventHandlerToView() {
-        this.#view.handleInputWith((userInput) =>
-            this.#playGameWith(userInput),
-        );
+    #addEventHandlerToView() {
+        const promptEventHandler = (userInput) => this.#playGameWith(userInput);
+        this.#view.addEventHandlerToPrompt(promptEventHandler);
     }
 
     #playGameWith(userInput) {
         try {
-            this.#setGame(userInput);
+            this.#setUpGame(userInput);
             this.#startGame();
             this.#printGameResult();
         } catch (error) {
-            // 에러 발생 시 에러 메시지 보여주고 프로그램 종료
             this.#printError(error);
         }
     }
 
-    #setGame(userInput) {
+    #setUpGame(userInput) {
         this.#game = new Game(userInput);
     }
 
