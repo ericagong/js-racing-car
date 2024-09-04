@@ -162,14 +162,14 @@
 
 3. 객체의 역할과 책임 분리
 
-    :.: 테스트가 필요한 핵심적인 private 코드가 있다면 역할 분리 고민 -> generateNumber 분리?
+    :V: 테스트가 필요한 핵심적인 private 코드가 있다면 역할 분리 고민 -> generateNumber 분리? -> NO
 
     :V: 객체는 메시지로 소통
 
 ### step2 피드백 기반 질문
 
-    :.: test layer와 production layer 분리 의미 = testFixures 어디에 위치?
+:.: test layer와 production layer 분리 의미 = testFixures 어디에 위치?
 
-    :.: 테스트가 필요한 핵심적인 private 코드가 있다면 역할 분리 고민 -> GenerateNumber 분리 ?
+:V: 테스트가 필요한 핵심적인 private 코드가 있다면 역할 분리 고민 -> generateNumber 분리 하지 않기로 결정 (캡슐화 << 추상 메소드 미구현 에러처리)
 
-    :.: test용 파일을 위한 test 코드 -> 배보다 배꼽이 커지는 건 아닌지?
+:.: test용 파일을 위한 test 코드 -> 배보다 배꼽이 커지는 건 아닌지?
