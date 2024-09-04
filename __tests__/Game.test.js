@@ -1,23 +1,61 @@
 import { Cars } from '../src/Models/Cars';
 import { Game } from '../src/Models/Game';
+import { MoveStrategies } from '../src/Models/MoveStrategy';
 
 const DEFAULT_TOTAL_ROUNDS = 5;
 describe('사용자가 유효한 값을 입력한 경우, 게임을 세팅한다.', () => {
-    it('사용자 입력이 빈 값인 경우, 에러를 발생시킨다.', () => {
-        // CHECK 테스트 코드를 위해 public으로 빼는게 맞는지?
-        expect(() => Game.setGame('', DEFAULT_TOTAL_ROUNDS)).toThrow(
-            Game.ERROR_MESSAGE.EMPTY,
-        );
-    });
+    it.each(['', null, undefined, ' '])(
+        '자동차 이름들이 빈 값인 경우, 에러를 발생시킨다.',
+        (carNamesInput) => {
+            expect(() =>
+                Game.setGame(carNamesInput, DEFAULT_TOTAL_ROUNDS),
+            ).toThrow(Game.ERROR_MESSAGE.EMPTY);
+        },
+    );
 
-    describe('사용자가 유효한 값을 입력하면, 자동차 배열을 생성한다.', () => {
+    it.each(['', null, undefined, ' '])(
+        '시도 횟수가 빈 값인 경우, 에러를 발생시킨다.',
+        (roundsInput) => {
+            expect(() => Game.setGame('erica', roundsInput)).toThrow(
+                Game.ERROR_MESSAGE.EMPTY,
+            );
+        },
+    );
+
+    it.each(['12@', '123456*', '12ab', 'abcde', '-12a'])(
+        '시도 횟수가 숫자 형태가 아닌 경우, 에러를 발생시킨다.',
+        (roundsInput) => {
+            expect(() => Game.setGame('erica', roundsInput)).toThrow(
+                Game.ERROR_MESSAGE.NOT_NUMBER,
+            );
+        },
+    );
+
+    it.each([1.5, 0.5, 1.03])(
+        '시도 횟수가 정수가 아닌 경우, 에러를 발생시킨다.',
+        (roundsInput) => {
+            expect(() => Game.setGame('erica', roundsInput)).toThrow(
+                Game.ERROR_MESSAGE.NOT_INTEGER,
+            );
+        },
+    );
+
+    it.each([-10, -1, 0])(
+        '시도 횟수가 양의 정수가 아닌 경우, 에러를 발생시킨다.',
+        (roundsInput) => {
+            expect(() => Game.setGame('erica', roundsInput)).toThrow(
+                Game.ERROR_MESSAGE.NOT_POSITIVE,
+            );
+        },
+    );
+
+    describe('사용자가 유효한 값을 입력하면, 에러를 발생시키지 않는다.', () => {
         it.each(['e', 'er', 'eri', 'eric', 'erica', '  _', '!!! '])(
             '자동차 이름을 하나만 입력한 경우',
             (userInput) => {
                 expect(() =>
                     Game.setGame(userInput, DEFAULT_TOTAL_ROUNDS),
                 ).not.toThrow();
-                // CHECK : 자동차 배열이 private 필드라 접근 불가 -> 어떻게 테스트코드 작성?
             },
         );
 
@@ -31,43 +69,68 @@ describe('사용자가 유효한 값을 입력한 경우, 게임을 세팅한다
             expect(() =>
                 Game.setGame(userInput, DEFAULT_TOTAL_ROUNDS),
             ).not.toThrow();
-            // CHECK : 자동차 배열이 private 필드라 접근 불가 -> 어떻게 테스트코드 작성?
         });
     });
 });
 
-describe(`게임을 총 ${DEFAULT_TOTAL_ROUNDS}라운드를 진행하고, 게임 결과를 반환한다.`, () => {
-    Game.setGame('hyun, ja, yeo, yang, erica, star', DEFAULT_TOTAL_ROUNDS);
+describe(`게임을 총 ${DEFAULT_TOTAL_ROUNDS}라운드 진행한다.`, () => {
+    const CAR_NAMES_INPUT = 'erica, Erica, ryang, yang, theon';
     const spyPlayOneRound = jest.spyOn(Cars, 'playOneRound');
-    Game.playGame();
 
-    describe(`게임은 총 ${DEFAULT_TOTAL_ROUNDS}라운드를 진행한다.`, () => {
-        it('각 라운드를 진행하는 함수를 5번 호출한다.', () => {
-            expect(spyPlayOneRound).toBeCalledTimes(DEFAULT_TOTAL_ROUNDS);
-        });
+    Game.setGame(CAR_NAMES_INPUT, DEFAULT_TOTAL_ROUNDS);
+    Game.playGame(new MoveStrategies('50011'));
+    const gameResult = Game.getGameResult();
 
-        it('각 라운드 별 기록을 roundHistory에 저장한다.', () => {
-            expect(Game.getGameResult().roundHistory).toHaveLength(
-                DEFAULT_TOTAL_ROUNDS,
-            );
-        });
+    it('각 라운드를 진행하는 함수를 5번 호출한다.', () => {
+        expect(spyPlayOneRound).toBeCalledTimes(DEFAULT_TOTAL_ROUNDS);
     });
 
-    describe(`${DEFAULT_TOTAL_ROUNDS} 라운드의 게임 기록과 우승자 정보를 반환한다.`, () => {
-        it(`${DEFAULT_TOTAL_ROUNDS} 라운드의 게임 기록을 반환한다.`, () => {
-            expect(Game.getGameResult().roundHistory).toHaveLength(
-                DEFAULT_TOTAL_ROUNDS,
-            );
+    it('각 라운드 별 기록을 올바르게 roundHistory에 저장한다.', () => {
+        const carNames = CAR_NAMES_INPUT.split(',').map((carName) =>
+            carName.trim(),
+        );
+        const expectedRoundHistory = carNames.map((carName) => ({
+            name: carName,
+            position: 0,
+        }));
+
+        gameResult.roundHistory.forEach((roundRecord) => {
+            expectedRoundHistory[0].position += 1;
+            expect(roundRecord).toEqual(expectedRoundHistory);
         });
 
-        it('라운드 게임 기록은 Car의 이름과 위치를 저장한 객체 배열 형태이다.', () => {
-            const roundRecord = Game.getGameResult().roundHistory[0];
-            roundRecord.forEach((carRecord) => {
-                expect(carRecord).toHaveProperty('name');
-                expect(carRecord).toHaveProperty('position');
-            });
-        });
-
-        // CHECK 우승자 정보가 정확한지 체크하는 테스트 코드 작성
+        expect(gameResult.roundHistory).toHaveLength(DEFAULT_TOTAL_ROUNDS);
     });
+
+    it('우승자가 한 명인 경우, 올바른 우승자를 찾는다.', () => {
+        expect(gameResult.winnerNames).toEqual(['erica']);
+    });
+});
+
+describe('올바른 우승자 정보를 반환한다.', () => {
+    const CAR_NAMES_INPUT = 'erica, Erica, ryang, yang, theon';
+
+    it('우승자가 한 명인 경우, 올바른 우승자를 반환한다.', () => {
+        Game.setGame(CAR_NAMES_INPUT, DEFAULT_TOTAL_ROUNDS);
+        Game.playGame(new MoveStrategies('50000'));
+        const gameResult = Game.getGameResult();
+        expect(gameResult.winnerNames).toEqual(['erica']);
+    });
+
+    it.each(['55000', '55500', '55500', '55550', '55555'])(
+        '우승자가 두 명 이상인 경우, 올바른 우승자를 반환한다.',
+        (str) => {
+            Game.setGame(CAR_NAMES_INPUT, DEFAULT_TOTAL_ROUNDS);
+            Game.playGame(new MoveStrategies(str));
+            const gameResult = Game.getGameResult();
+
+            const carNames = CAR_NAMES_INPUT.split(',').map((carName) =>
+                carName.trim(),
+            );
+            const expectedWinnerNames = carNames.filter(
+                (_, index) => str[index] === '5',
+            );
+            expect(gameResult.winnerNames).toEqual(expectedWinnerNames);
+        },
+    );
 });

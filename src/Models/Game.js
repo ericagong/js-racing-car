@@ -1,9 +1,11 @@
 import { Cars } from './Cars';
+import { MoveStrategies } from './MoveStrategy';
 
 export const Game = (function () {
     const roundHistory = [];
     let cars = [];
     let totalRounds = 0;
+
     const ERROR_MESSAGE = Object.freeze({
         EMPTY: '빈 값으로는 프로그램이 동작할 수 없습니다.',
         NOT_NUMBER: '시도 횟수로는 숫자를 입력해주세요.',
@@ -11,12 +13,18 @@ export const Game = (function () {
         NOT_POSITIVE: '시도 횟수로는 1 이상의 숫자를 입력해주세요.',
     });
 
+    function isEmpty(value) {
+        if (value === null || value === undefined) return true;
+        if (typeof value === 'string' && value.trim() === '') return true;
+        return false;
+    }
+
     function validateUserInput(input) {
-        if (!input) throw new Error(ERROR_MESSAGE.EMPTY);
+        if (isEmpty(input)) throw new Error(ERROR_MESSAGE.EMPTY);
     }
 
     function validateRoundsInput(input) {
-        if (!input) throw new Error(ERROR_MESSAGE.EMPTY);
+        if (isEmpty(input)) throw new Error(ERROR_MESSAGE.EMPTY);
 
         const round = Number(input);
         if (isNaN(round)) throw new Error(ERROR_MESSAGE.NOT_NUMBER);
@@ -40,9 +48,11 @@ export const Game = (function () {
         totalRounds = Number(roundsInput);
     }
 
-    function playGame() {
+    function playGame(
+        moveStrategies = new MoveStrategies('R'.repeat(cars.length)),
+    ) {
         while (totalRounds--) {
-            Cars.playOneRound(cars);
+            Cars.playOneRound(cars, moveStrategies);
 
             roundHistory.push(Cars.getRoundRecord(cars));
         }
@@ -65,7 +75,7 @@ export const Game = (function () {
     }
 
     return {
-        // CHECK 테스트 코드를 위해 public으로 빼는게 맞는지?
+        // TODO: 테스트 코드를 위해 public으로 빼는게 맞는지?
         ERROR_MESSAGE,
         setGame,
         playGame,

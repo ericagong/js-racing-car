@@ -1,8 +1,6 @@
 import Car from './Car';
-import { getRandomIntRangeOf } from '../utils';
 
 export const Cars = (function () {
-    const CAR_MOVE_CRITERIA = 4;
     const ERROR_MESSAGE = Object.freeze({
         DUPLICATE_CAR_NAME:
             '중복된 자동차 이름으로는 프로그램이 동작할 수 없습니다.',
@@ -23,13 +21,9 @@ export const Cars = (function () {
         return carNames.map((carName) => Car.of(carName));
     }
 
-    // TODO 랜덤 숫자 생성 외부로 분리
-    function playOneRound(cars) {
-        cars.forEach((car) => {
-            const randomNumber = getRandomIntRangeOf(0, 9);
-            if (randomNumber >= CAR_MOVE_CRITERIA) {
-                car.move();
-            }
+    function playOneRound(cars, moveStrategies) {
+        cars.forEach((car, idx) => {
+            car.tryMove(moveStrategies[idx]);
         });
     }
 
@@ -38,7 +32,7 @@ export const Cars = (function () {
     }
 
     return {
-        // CHECK 테스트 코드를 위해 public으로 빼는게 맞는지?
+        // TODO: 테스트 코드를 위해 public으로 빼는게 맞는지?
         ERROR_MESSAGE,
         from,
         playOneRound,

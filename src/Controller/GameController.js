@@ -1,6 +1,5 @@
 import { Game } from '../Models/Game';
 import { PromptView } from '../View/PromptView';
-import { readLineInterface } from '../utils';
 
 export const GameController = (function () {
     function addEventHandlerToPrompt() {
@@ -23,12 +22,12 @@ export const GameController = (function () {
             terminateGame();
         } catch (error) {
             handleError(error);
-            // setEventHandler();
+            addEventHandlerToPrompt();
         }
     }
 
     function terminateGame() {
-        readLineInterface.close();
+        PromptView.close();
     }
 
     return {
