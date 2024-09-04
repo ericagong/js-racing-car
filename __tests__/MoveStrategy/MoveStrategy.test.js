@@ -1,5 +1,5 @@
 import MoveStrategy from '../../src/Models/MoveStrategy';
-import EmptyStrategy from '../../testFixture/EmptyStrategy';
+import EmptyStrategy from '../../test/EmptyStrategy';
 import {
     MoveStrategyIsAbstractClassError,
     GenerateNumberNotImplementedError,
