@@ -1,3 +1,4 @@
-import { GameController } from './GameController';
+import { createGameController } from './GameController';
 
-GameController.addEventHandlerToPrompt();
+const { initiate } = createGameController();
+initiate();
