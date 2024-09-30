@@ -1,4 +1,4 @@
-import RuntimeError from '../../RuntimeError';
+import RuntimeError from '../../RuntimeError.js';
 
 export class CarNamesIsEmptyError extends RuntimeError {
     static MESSAGE =

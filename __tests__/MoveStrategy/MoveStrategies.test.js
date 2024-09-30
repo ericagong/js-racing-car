@@ -1,10 +1,10 @@
-import MoveStrategies from '../../test/MoveStrategies';
+import MoveStrategies from '../../test/MoveStrategies.js';
 import {
     StrategiesNotStringError,
     StrategyElementNotRorNumericError,
-} from '../../src/Models/MoveStrategy/errors';
-import FixedStrategy from '../../test/FixedStrategy';
-import RandomStrategy from '../../src/Models/MoveStrategy/RandomStrategy';
+} from '../../src/Models/MoveStrategy/errors.js';
+import FixedStrategy from '../../test/FixedStrategy.js';
+import RandomStrategy from '../../src/Models/MoveStrategy/RandomStrategy/RandomStrategy.js';
 
 describe('생성자 테스트', () => {
     describe('str 유효성 검사 테스트', () => {

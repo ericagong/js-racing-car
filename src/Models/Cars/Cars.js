@@ -1,7 +1,7 @@
-import Car from '../Car';
+import Car from '../Car/Car';
 import { DuplicatedCarNameError } from './errors';
 
-export const createCars = () => {
+export default function createCars() {
     function hasDuplicatedCarNames(carNames) {
         return new Set(carNames).size !== carNames.length;
     }
@@ -31,4 +31,4 @@ export const createCars = () => {
         playOneRound,
         getRoundRecord,
     };
-};
+}

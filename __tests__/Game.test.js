@@ -1,12 +1,12 @@
-import { createGame } from '../src/Models/Game';
+import createGame from '../src/Models/Game/Game.js';
 import {
     CarNamesIsEmptyError,
     TotalRoundsNotNumberError,
     TotalRoundsNotIntegerError,
     TotalRoundsNotPositiveError,
     TotalRoundsIsEmptyError,
-} from '../src/Models/Game/errors';
-import MoveStrategies from '../test/MoveStrategies';
+} from '../src/Models/Game/errors.js';
+import MoveStrategies from '../test/MoveStrategies.js';
 
 describe('게임 설정 테스트', () => {
     const { setGame } = createGame();

@@ -1,9 +1,9 @@
 import {
     StrategiesNotStringError,
     StrategyElementNotRorNumericError,
-} from '../src/Models/MoveStrategy/errors';
-import RandomStrategy from '../src/Models/MoveStrategy/RandomStrategy';
-import FixedStrategy from './FixedStrategy';
+} from '../src/Models/MoveStrategy/errors.js';
+import RandomStrategy from '../src/Models/MoveStrategy/RandomStrategy/RandomStrategy.js';
+import FixedStrategy from './FixedStrategy.js';
 
 export default class MoveStrategies {
     #strategies;

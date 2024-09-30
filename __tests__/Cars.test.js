@@ -1,7 +1,7 @@
-import Car from '../src/Models/Car';
-import { createCars } from '../src/Models/Cars';
-import { DuplicatedCarNameError } from '../src/Models/Cars/errors';
-import MoveStrategies from '../test/MoveStrategies';
+import Car from '../src/Models/Car/Car.js';
+import createCars from '../src/Models/Cars/Cars.js';
+import { DuplicatedCarNameError } from '../src/Models/Cars/errors.js';
+import MoveStrategies from '../test/MoveStrategies.js';
 
 const { from, playOneRound, getRoundRecord } = createCars();
 describe('from() 테스트', () => {

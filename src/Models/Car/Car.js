@@ -2,7 +2,7 @@ import {
     CarNameNotStringError,
     CarNameEmptyError,
     CarNameTooLongError,
-} from './errors';
+} from './errors.js';
 
 export default class Car {
     #name;

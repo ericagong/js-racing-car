@@ -1,6 +1,6 @@
-export default function createConsoleWritter() {
-    const write = console.log;
+const write = console.log;
 
+export default function createConsoleWritter() {
     function dividerTemplate() {
         write('');
     }

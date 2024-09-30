@@ -4,11 +4,11 @@ import {
     TotalRoundsNotNumberError,
     TotalRoundsNotIntegerError,
     TotalRoundsNotPositiveError,
-} from './errors';
-import { createCars } from '../Cars';
-import RandomStrategy from '../MoveStrategy/RandomStrategy';
+} from './errors.js';
+import createCars from '../Cars/Cars.js';
+import RandomStrategy from '../MoveStrategy/RandomStrategy/RandomStrategy.js';
 
-export const createGame = (carNamesInput, roundsInput) => {
+export default function createGame(carNamesInput, roundsInput) {
     const roundHistory = [];
     let cars = [];
     let totalRounds = 0;
@@ -84,4 +84,4 @@ export const createGame = (carNamesInput, roundsInput) => {
         playGame,
         getGameResult,
     };
-};
+}

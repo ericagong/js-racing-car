@@ -1,4 +1,4 @@
-import RuntimeError from '../src/RuntimeError';
+import RuntimeError from '../src/RuntimeError.js';
 
 describe('getMessage() 테스트', () => {
     describe('message를 반환한다.', () => {

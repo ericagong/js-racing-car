@@ -1,8 +1,8 @@
-import RandomStrategy from '../../src/Models/MoveStrategy/RandomStrategy';
+import RandomStrategy from '../../src/Models/MoveStrategy/RandomStrategy/RandomStrategy.js';
 import {
     MinMaxNumberIsNotNumberError,
     MinNumberGreaterThanMaxNumberError,
-} from '../../src/Models/MoveStrategy/errors';
+} from '../../src/Models/MoveStrategy/errors.js';
 
 describe('생성자 테스트', () => {
     describe('min, max 유효성 검사 테스트', () => {

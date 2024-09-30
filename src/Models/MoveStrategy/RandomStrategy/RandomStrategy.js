@@ -1,8 +1,8 @@
-import MoveStrategy from '.';
+import MoveStrategy from '../MoveStrategy.js';
 import {
     MinMaxNumberIsNotNumberError,
     MinNumberGreaterThanMaxNumberError,
-} from './errors';
+} from './errors.js';
 
 export default class RandomStrategy extends MoveStrategy {
     #min;

@@ -1,11 +1,11 @@
-import MoveStrategy from '../../src/Models/MoveStrategy';
-import EmptyStrategy from '../../test/EmptyStrategy';
+import MoveStrategy from '../../src/Models/MoveStrategy/MoveStrategy.js';
+import EmptyStrategy from '../../test/EmptyStrategy.js';
 import {
     MoveStrategyIsAbstractClassError,
     GenerateNumberNotImplementedError,
     IsMovableNotImplementedError,
     ConditionFunctionNotFunctionError,
-} from '../../src/Models/MoveStrategy/errors';
+} from '../../src/Models/MoveStrategy/errors.js';
 
 describe('MoveStrategy 추상 클래스 테스트', () => {
     it('new MoveStrategy()로 인스턴스를 생성하면 에러가 발생합니다.', () => {

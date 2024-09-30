@@ -1,4 +1,4 @@
-import Car from '../src/Models/Car';
+import Car from '../src/Models/Car/Car.js';
 import {
     CarNameNotStringError,
     CarNameEmptyError,

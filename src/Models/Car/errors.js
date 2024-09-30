@@ -1,4 +1,4 @@
-import RuntimeError from '../../RuntimeError';
+import RuntimeError from '../../RuntimeError.js';
 
 export class CarNameNotStringError extends RuntimeError {
     static MESSAGE = '자동차 이름은 문자열이어야 합니다.';

@@ -1,4 +1,4 @@
-import RuntimeError from '../../RuntimeError';
+import RuntimeError from '../../RuntimeError.js';
 
 export class MoveStrategyIsAbstractClassError extends RuntimeError {
     static MESSAGE = 'MoveStrategy는 추상 클래스입니다.';
@@ -29,21 +29,5 @@ export class ConditionFunctionNotFunctionError extends RuntimeError {
 
     constructor() {
         super(ConditionFunctionNotFunctionError.MESSAGE);
-    }
-}
-
-export class MinMaxNumberIsNotNumberError extends RuntimeError {
-    static MESSAGE = 'min, max는 숫자여야 합니다.';
-
-    constructor() {
-        super(MinMaxNumberIsNotNumberError.MESSAGE);
-    }
-}
-
-export class MinNumberGreaterThanMaxNumberError extends RuntimeError {
-    static MESSAGE = 'min은 max 보다 클 수 없습니다.';
-
-    constructor() {
-        super(MinNumberGreaterThanMaxNumberError.MESSAGE);
     }
 }

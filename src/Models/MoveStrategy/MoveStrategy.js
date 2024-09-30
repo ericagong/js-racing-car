@@ -3,7 +3,7 @@ import {
     GenerateNumberNotImplementedError,
     IsMovableNotImplementedError,
     ConditionFunctionNotFunctionError,
-} from './errors';
+} from './errors.js';
 
 export default class MoveStrategy {
     #movableCondition;
