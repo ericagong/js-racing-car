@@ -5,30 +5,18 @@ export default function createGameController() {
     const view = createView();
 
     function initiateGame() {
-        view.addEventHandlerToInputReader(play);
+        view.addEventHandlerToInputReader(gameEventHandler);
     }
 
-    function handleResult(result) {
-        view.printGameResult(result);
-    }
-
-    function handleError(error) {
-        view.printErrorMessage(error.getMessage());
-    }
-
-    function terminateGame() {
-        view.closeInputReader();
-    }
-
-    function play(carNames, totalRounds) {
+    function gameEventHandler(carNames, totalRounds) {
         const { setGame, playGame, getGameResult } = createGame();
         try {
             setGame(carNames, totalRounds);
             playGame();
-            handleResult(getGameResult());
-            terminateGame();
+            view.printGameResult(getGameResult());
+            view.closeInputReader();
         } catch (error) {
-            handleError(error);
+            view.printErrorMessage(error.getMessage());
             initiateGame();
         }
     }
