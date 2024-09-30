@@ -1,24 +1,23 @@
-import { createView } from './View';
+import createView from './View';
 import { createGame } from './Models/Game';
 
-export const createGameController = () => {
-    const { addEventHandlerToView, closeView, logErrorMessage, logGameResult } =
-        createView();
+export default function createGameController() {
+    const view = createView();
 
-    function initiate() {
-        addEventHandlerToView(play);
+    function initiateGame() {
+        view.addEventHandlerToInputReader(play);
     }
 
     function handleResult(result) {
-        logGameResult(result);
+        view.printGameResult(result);
     }
 
     function handleError(error) {
-        logErrorMessage(error.getMessage());
+        view.printErrorMessage(error.getMessage());
     }
 
-    function terminate() {
-        closeView();
+    function terminateGame() {
+        view.closeInputReader();
     }
 
     function play(carNames, totalRounds) {
@@ -27,14 +26,14 @@ export const createGameController = () => {
             setGame(carNames, totalRounds);
             playGame();
             handleResult(getGameResult());
-            terminate();
+            terminateGame();
         } catch (error) {
             handleError(error);
-            initiate();
+            initiateGame();
         }
     }
 
     return {
-        initiate,
+        initiateGame,
     };
-};
+}

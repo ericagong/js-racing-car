@@ -1,4 +1,5 @@
-import { createGameController } from './GameController';
+import createGameController from './GameController';
 
-const { initiate } = createGameController();
-initiate();
+const gameController = createGameController();
+
+gameController.initiateGame();
