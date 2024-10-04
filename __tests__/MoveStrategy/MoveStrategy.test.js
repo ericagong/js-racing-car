@@ -1,7 +1,7 @@
 import MoveStrategy from '../../src/Models/MoveStrategy/MoveStrategy.js';
 import EmptyStrategy from '../Fixture/EmptyStrategy.js';
 import {
-    MoveStrategyIsAbstractClassError,
+    MoveStrategyAbstractClassError,
     GenerateNumberNotImplementedError,
     IsMovableNotImplementedError,
     ConditionFunctionNotFunctionError,
@@ -10,7 +10,7 @@ import {
 describe('MoveStrategy 추상 클래스 테스트', () => {
     it('new MoveStrategy()로 인스턴스를 생성하면 에러가 발생합니다.', () => {
         expect(() => new MoveStrategy()).toThrow(
-            MoveStrategyIsAbstractClassError,
+            MoveStrategyAbstractClassError,
         );
     });
 

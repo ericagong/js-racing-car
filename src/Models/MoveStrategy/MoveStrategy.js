@@ -1,5 +1,5 @@
 import {
-    MoveStrategyIsAbstractClassError,
+    MoveStrategyAbstractClassError,
     GenerateNumberNotImplementedError,
     IsMovableNotImplementedError,
     ConditionFunctionNotFunctionError,
@@ -12,7 +12,7 @@ export default class MoveStrategy {
 
     constructor() {
         if (new.target === MoveStrategy)
-            throw new MoveStrategyIsAbstractClassError();
+            throw new MoveStrategyAbstractClassError();
         this.#movableCondition = MoveStrategy.defaultMovableCondition;
     }
 

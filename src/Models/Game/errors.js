@@ -1,20 +1,20 @@
 import RuntimeError from '../../RuntimeError.js';
 
-export class CarNamesIsEmptyError extends RuntimeError {
+export class CarNamesEmptyError extends RuntimeError {
     static MESSAGE =
         '자동차 이름들을 입력하지 않으면, 프로그램이 동작할 수 없습니다.';
 
     constructor() {
-        super(CarNamesIsEmptyError.MESSAGE);
+        super(CarNamesEmptyError.MESSAGE);
     }
 }
 
-export class TotalRoundsIsEmptyError extends RuntimeError {
+export class TotalRoundsEmptyError extends RuntimeError {
     static MESSAGE =
         '총 라운드 수를 입력하지 않으면, 프로그램이 동작할 수 없습니다.';
 
     constructor() {
-        super(TotalRoundsIsEmptyError.MESSAGE);
+        super(TotalRoundsEmptyError.MESSAGE);
     }
 }
 

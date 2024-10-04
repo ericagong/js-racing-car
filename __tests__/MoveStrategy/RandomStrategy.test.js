@@ -1,6 +1,6 @@
 import RandomStrategy from '../../src/Models/MoveStrategy/RandomStrategy/RandomStrategy.js';
 import {
-    MinMaxNumberIsNotNumberError,
+    MinMaxNumberNotNumberError,
     MinNumberGreaterThanMaxNumberError,
 } from '../../src/Models/MoveStrategy/errors.js';
 
@@ -17,7 +17,7 @@ describe('생성자 테스트', () => {
                 { min: function () {}, max: function () {} },
             ])('min: $min, max: $max', ({ min, max }) => {
                 expect(() => new RandomStrategy(min, max)).toThrow(
-                    MinMaxNumberIsNotNumberError,
+                    MinMaxNumberNotNumberError,
                 );
             });
         });

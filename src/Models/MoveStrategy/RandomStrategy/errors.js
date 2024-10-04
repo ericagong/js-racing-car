@@ -1,10 +1,10 @@
 import RuntimeError from '../../../RuntimeError.js';
 
-export class MinMaxNumberIsNotNumberError extends RuntimeError {
+export class MinMaxNumberNotNumberError extends RuntimeError {
     static MESSAGE = 'min, max는 숫자여야 합니다.';
 
     constructor() {
-        super(MinMaxNumberIsNotNumberError.MESSAGE);
+        super(MinMaxNumberNotNumberError.MESSAGE);
     }
 }
 

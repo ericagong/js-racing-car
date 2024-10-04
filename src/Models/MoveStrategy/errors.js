@@ -1,10 +1,10 @@
 import RuntimeError from '../../RuntimeError.js';
 
-export class MoveStrategyIsAbstractClassError extends RuntimeError {
+export class MoveStrategyAbstractClassError extends RuntimeError {
     static MESSAGE = 'MoveStrategy는 추상 클래스입니다.';
 
     constructor() {
-        super(MoveStrategyIsAbstractClassError.MESSAGE);
+        super(MoveStrategyAbstractClassError.MESSAGE);
     }
 }
 

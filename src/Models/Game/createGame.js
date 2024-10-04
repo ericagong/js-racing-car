@@ -1,6 +1,6 @@
 import {
-    CarNamesIsEmptyError,
-    TotalRoundsIsEmptyError,
+    CarNamesEmptyError,
+    TotalRoundsEmptyError,
     TotalRoundsNotNumberError,
     TotalRoundsNotIntegerError,
     TotalRoundsNotPositiveError,
@@ -14,34 +14,34 @@ export default function createGame() {
     let totalRounds = 0;
     const { from, playOnce, getRecord } = createCars();
 
-    function isEmpty(value) {
+    const isEmpty = (value) => {
         return (
             value === null ||
             value === undefined ||
             (typeof value === 'string' && value.trim() === '')
         );
-    }
+    };
 
-    function validateCarNames(input) {
-        if (isEmpty(input)) throw new CarNamesIsEmptyError();
-    }
+    const validateCarNames = (input) => {
+        if (isEmpty(input)) throw new CarNamesEmptyError();
+    };
 
     const ROUND_MIN = 1;
-    function validateRounds(input) {
-        if (isEmpty(input)) throw new TotalRoundsIsEmptyError();
+    const validateRounds = (input) => {
+        if (isEmpty(input)) throw new TotalRoundsEmptyError();
 
         const round = Number(input);
         if (Number.isNaN(round)) throw new TotalRoundsNotNumberError();
         if (!Number.isInteger(round)) throw new TotalRoundsNotIntegerError();
 
         if (round < ROUND_MIN) throw new TotalRoundsNotPositiveError();
-    }
+    };
 
-    function split(userInput) {
+    const split = (userInput) => {
         return userInput.split(',').map((carName) => carName.trim());
-    }
+    };
 
-    function set(carNamesInput, roundsInput) {
+    const set = (carNamesInput, roundsInput) => {
         validateCarNames(carNamesInput);
 
         validateRounds(roundsInput);
@@ -51,25 +51,25 @@ export default function createGame() {
         cars = from(carNames);
 
         totalRounds = Number(roundsInput);
-    }
+    };
 
-    function play(moveStrategies = cars.map(() => new RandomStrategy())) {
+    const play = (moveStrategies = cars.map(() => new RandomStrategy())) => {
         while (totalRounds--) {
             playOnce(cars, moveStrategies);
 
             roundHistory.push(getRecord(cars));
         }
-    }
+    };
 
-    function getWinners() {
+    const getWinners = () => {
         const maxPosition = Math.max(
             ...cars.map((car) => car.getRecord().position),
         );
 
         return cars.filter((car) => car.getRecord().position === maxPosition);
-    }
+    };
 
-    function getGameResult() {
+    const getResult = () => {
         const winners = getWinners();
         const winnerNames = winners.map((car) => car.getRecord().name);
 
@@ -77,11 +77,11 @@ export default function createGame() {
             roundHistory,
             winnerNames,
         };
-    }
+    };
 
     return {
         set,
         play,
-        getGameResult,
+        getResult,
     };
 }

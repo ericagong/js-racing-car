@@ -137,11 +137,11 @@ export default function createGameController() {
     }
 
     function gameEventHandler(carNames, totalRounds) {
-        const { set, play, getGameResult } = createGame();
+        const { set, play, getResult } = createGame();
         try {
             set(carNames, totalRounds);
             play();
-            view.printGameResult(getGameResult());
+            view.printGameResult(getResult());
             view.closeInputReader();
         } catch (error) {
             view.printErrorMessage(error.getMessage());

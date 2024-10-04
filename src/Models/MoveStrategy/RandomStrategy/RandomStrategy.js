@@ -1,6 +1,6 @@
 import MoveStrategy from '../MoveStrategy.js';
 import {
-    MinMaxNumberIsNotNumberError,
+    MinMaxNumberNotNumberError,
     MinNumberGreaterThanMaxNumberError,
 } from './errors.js';
 
@@ -25,7 +25,7 @@ export default class RandomStrategy extends MoveStrategy {
 
     #validateMinMaxNumber(min, max) {
         if (typeof min !== 'number' || typeof max !== 'number')
-            throw new MinMaxNumberIsNotNumberError();
+            throw new MinMaxNumberNotNumberError();
         if (min > max) throw new MinNumberGreaterThanMaxNumberError();
     }
 

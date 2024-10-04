@@ -1,10 +1,10 @@
 import createGame from '../src/Models/Game/createGame.js';
 import {
-    CarNamesIsEmptyError,
+    CarNamesEmptyError,
     TotalRoundsNotNumberError,
     TotalRoundsNotIntegerError,
     TotalRoundsNotPositiveError,
-    TotalRoundsIsEmptyError,
+    TotalRoundsEmptyError,
 } from '../src/Models/Game/errors.js';
 import MoveStrategies from './Fixture/MoveStrategies.js';
 
@@ -13,9 +13,7 @@ describe('게임 설정 테스트', () => {
     describe('유효하지 않은 값을 입력한 경우', () => {
         describe('carNames가 빈 값이면, 에러를 발생시킨다.', () => {
             it.each(['', null, undefined, ' '])('%p', (carNamesInput) => {
-                expect(() => set(carNamesInput, 5)).toThrow(
-                    CarNamesIsEmptyError,
-                );
+                expect(() => set(carNamesInput, 5)).toThrow(CarNamesEmptyError);
             });
         });
 
@@ -24,7 +22,7 @@ describe('게임 설정 테스트', () => {
                 '시도 횟수가 빈 값인 경우, 에러를 발생시킨다.',
                 (roundsInput) => {
                     expect(() => set('erica', roundsInput)).toThrow(
-                        TotalRoundsIsEmptyError,
+                        TotalRoundsEmptyError,
                     );
                 },
             );
@@ -83,11 +81,11 @@ describe('게임 설정 테스트', () => {
 });
 
 describe('play() 테스트', () => {
-    const { set, play, getGameResult } = createGame();
+    const { set, play, getResult } = createGame();
     describe('게임을 총 5라운드 진행한다.', () => {
         set('erica, Erica, ryang, yang, theon', 5);
         play(new MoveStrategies('50011'));
-        const gameResult = getGameResult();
+        const gameResult = getResult();
 
         it('게임을 총 5라운드 진행한다.', () => {
             expect(gameResult.roundHistory).toHaveLength(5);
@@ -107,9 +105,9 @@ describe('play() 테스트', () => {
     });
 });
 
-describe('getGameResult() 테스트', () => {
+describe('getResult() 테스트', () => {
     describe('올바른 우승자를 반환한다.', () => {
-        const { set, play, getGameResult } = createGame();
+        const { set, play, getResult } = createGame();
         it.each([
             {
                 strategies: '50000',
@@ -139,15 +137,15 @@ describe('getGameResult() 테스트', () => {
         ])('winnerNames: $winnerNames', ({ winnerNames, strategies }) => {
             set('erica, Erica, ryang, yang, theon', 5);
             play(new MoveStrategies(strategies));
-            expect(getGameResult().winnerNames).toEqual(winnerNames);
+            expect(getResult().winnerNames).toEqual(winnerNames);
         });
     });
 
     describe('게임 기록과 우승자 정보를 반환한다.', () => {
-        const { set, play, getGameResult } = createGame();
+        const { set, play, getResult } = createGame();
         set('erica, Erica, ryang, yang, theon', 5);
         play(new MoveStrategies('50011'));
-        const gameResult = getGameResult();
+        const gameResult = getResult();
         gameResult.roundHistory.forEach((roundRecord, idx) => {
             expect(roundRecord).toEqual([
                 { name: 'erica', position: idx + 1 },
