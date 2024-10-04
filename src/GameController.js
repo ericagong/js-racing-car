@@ -1,5 +1,5 @@
 import createView from './View/index.js';
-import createGame from './Models/Game/Game.js';
+import createGame from './Models/Game/createGame.js';
 
 export default function createGameController() {
     const view = createView();
