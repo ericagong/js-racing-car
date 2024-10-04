@@ -136,10 +136,10 @@ export default function createGameController() {
         view.addEventHandlerToInputReader(gameEventHandler);
     }
 
-    function gameEventHandler(carNames, totalRounds) {
+    function gameEventHandler(carNames, RoundCount) {
         const { set, play, getResult } = createGame();
         try {
-            set(carNames, totalRounds);
+            set(carNames, RoundCount);
             play();
             view.printGameResult(getResult());
             view.closeInputReader();

@@ -44,14 +44,27 @@ describe('createCars() 테스트', () => {
 
         // TODO 내부에 car 이름 유효성 검사가 안맞으면 다른 에러 발생 가능
         // QUESTION: 이 경우에는 어떻게 처리해야할지?
-        describe('carNames에 중복된 이름이 없으면, carNames 에러를 발생시키지 않는다.', () => {
-            it.each([
-                { carNames: 'erica,Erica' },
-                { carNames: 'gong0,Gong0,1031,1031!,*****' },
-                { carNames: '*e*1C,*e*1c,ERICA,Pan,theon' },
-                { carNames: '!****,*!***,**!**,***!*,****!' },
-            ])('$carNames', ({ carNames }) => {
-                expect(() => createCars(carNames)).not.toThrow();
+
+        describe('유효한 값을 입력한 경우', () => {
+            describe('carNames를 하나만 입력한 경우, 에러를 발생시키지 않는다.', () => {
+                it.each(['e', 'er', 'eri', 'eric', 'erica', '  _', '!!! '])(
+                    '%p',
+                    (carNames) => {
+                        expect(() => createCars(carNames)).not.toThrow();
+                    },
+                );
+            });
+
+            describe('중복 없이 carNames를 여러 개 입력한 경우, 에러를 발생시키지 않는다.', () => {
+                it.each([
+                    'car1, car2, car3',
+                    '12345, aBcDe, !*_',
+                    'test1, Test2, tEsT1, test2, TeSt1',
+                    '*e*1C, *e*1c, ERICA, Pan, theon',
+                    '!****, *!***, **!**, ***!*, ****!',
+                ])('%p', (carNames) => {
+                    expect(() => createCars(carNames)).not.toThrow();
+                });
             });
         });
     });

@@ -1,41 +1,24 @@
-import { isEmpty } from '../utils/utils.js';
-import {
-    TotalRoundsEmptyError,
-    TotalRoundsNotNumberError,
-    TotalRoundsNotIntegerError,
-    TotalRoundsNotPositiveError,
-} from './errors.js';
 import createCars from '../Cars/createCars.js';
 import RandomStrategy from '../MoveStrategy/RandomStrategy/RandomStrategy.js';
+import validateRoundCount from '../Round/validateRoundCount.js';
 
 export default function createGame() {
     const roundHistory = [];
     let cars = [];
-    let totalRounds = 0;
-
-    const ROUND_MIN = 1;
-    const validateRounds = (input) => {
-        if (isEmpty(input)) throw new TotalRoundsEmptyError();
-
-        const round = Number(input);
-        if (Number.isNaN(round)) throw new TotalRoundsNotNumberError();
-        if (!Number.isInteger(round)) throw new TotalRoundsNotIntegerError();
-
-        if (round < ROUND_MIN) throw new TotalRoundsNotPositiveError();
-    };
+    let RoundCount = 0;
 
     // 준비
     const set = (carNames, roundsInput) => {
         cars = createCars(carNames);
 
-        validateRounds(roundsInput);
+        validateRoundCount(roundsInput);
 
-        totalRounds = Number(roundsInput);
+        RoundCount = Number(roundsInput);
     };
 
     // 게임 반복
     const play = (moveStrategies = cars.map(() => new RandomStrategy())) => {
-        while (totalRounds--) {
+        while (RoundCount--) {
             cars.forEach((car, idx) => {
                 car.tryMove(moveStrategies[idx]);
             });
