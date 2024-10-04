@@ -1,4 +1,4 @@
-import MoveStrategy from '../src/Models/MoveStrategy/MoveStrategy.js';
+import MoveStrategy from '../../src/Models/MoveStrategy/MoveStrategy.js';
 import { FixedNumberIsNotNumberError } from './errors.js';
 
 export default class FixedStrategy extends MoveStrategy {
