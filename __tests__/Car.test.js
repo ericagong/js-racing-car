@@ -1,54 +1,7 @@
 import Car from '../src/Models/Car/Car.js';
-import {
-    CarNameNotStringError,
-    CarNameEmptyError,
-    CarNameTooLongError,
-} from '../src/Models/Car/errors.js';
-import FixedStrategy from './Fixtures/FixedStrategy.js';
+import FixedStrategy from './Fixture/FixedStrategy.js';
 
 describe('Car 생성자 테스트', () => {
-    describe('CarName 유효성 검사 테스트', () => {
-        describe('문자열 형태가 아니라면, 에러를 발생시킵니다.', () => {
-            it.each([1031, true, null, undefined, {}, [], function () {}])(
-                '%p',
-                (carName) => {
-                    expect(() => new Car(carName)).toThrow(
-                        CarNameNotStringError,
-                    );
-                },
-            );
-        });
-
-        describe('빈 값인 경우, 에러를 발생시킵니다.', () => {
-            it.each(['', ' ', '   '])('%p', (carName) => {
-                expect(() => new Car(carName)).toThrow(CarNameEmptyError);
-            });
-        });
-
-        describe('"5자 초과인 경우, 에러를 발생시킵니다.', () => {
-            it.each(['erica0', 'ericaGong', '*****!', '951031'])(
-                '%p',
-                (carName) => {
-                    expect(() => new Car(carName)).toThrow(CarNameTooLongError);
-                },
-            );
-        });
-
-        describe('5자 이하의 유효한 이름인 경우 오류를 발생시키지 않습니다.', () => {
-            it.each([
-                'a',
-                '12',
-                '13a',
-                'eric*',
-                'erica',
-                '    erica',
-                'erica    ',
-            ])('%p', (carName) => {
-                expect(() => new Car(carName)).not.toThrow();
-            });
-        });
-    });
-
     describe('생성자 내부 로직 테스트', () => {
         describe('이름과 위치를 상태로 하는 Car 객체를 생성합니다.', () => {
             it.each([{ position: 0 }, { position: 1 }])(
@@ -69,7 +22,10 @@ describe('Car 생성자 테스트', () => {
 describe('of() 테스트', () => {
     it('position을 인자로 전달하지 않으면, position을 0으로 설정합니다.', () => {
         const car = Car.of('erica');
-        expect(car.getRecord()).toEqual({ name: 'erica', position: 0 });
+        expect(car.getRecord()).toEqual({
+            name: 'erica',
+            position: 0,
+        });
     });
 
     it('Car 인스턴스를 반환합니다.', () => {

@@ -1,5 +1,5 @@
-import Car from '../Car/Car';
-import { DuplicatedCarNameError } from './errors';
+import Car from '../Car/Car.js';
+import { DuplicatedCarNameError } from './errors.js';
 
 export default function createCars() {
     const hasDuplicate = (carNames) => {

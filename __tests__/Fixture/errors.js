@@ -1,4 +1,4 @@
-import RuntimeError from '../../src/RuntimeError';
+import RuntimeError from '../../src/RuntimeError.js';
 
 export class StrategiesNotStringError extends RuntimeError {
     static MESSAGE = 'strategies는 문자열이어야 합니다.';

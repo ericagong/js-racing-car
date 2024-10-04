@@ -1,7 +1,7 @@
 import Car from '../src/Models/Car/Car.js';
 import createCars from '../src/Models/Cars/createCars.js';
 import { DuplicatedCarNameError } from '../src/Models/Cars/errors.js';
-import MoveStrategies from './Fixtures/MoveStrategies.js';
+import MoveStrategies from './Fixture/MoveStrategies.js';
 
 const { from, playOnce, getRecord } = createCars();
 describe('from() 테스트', () => {
@@ -34,7 +34,7 @@ describe('from() 테스트', () => {
                 cars.forEach((car, idx) => {
                     expect(car).toBeInstanceOf(Car);
                     const { name, position } = car.getRecord();
-                    expect(name).toBe(carNames[idx]);
+                    expect(name).toEqual(carNames[idx]);
                     expect(position).toBe(0);
                 });
 

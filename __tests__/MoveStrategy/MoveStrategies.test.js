@@ -1,9 +1,9 @@
-import MoveStrategies from '../Fixtures/MoveStrategies.js';
+import MoveStrategies from '../Fixture/MoveStrategies.js';
 import {
     StrategiesNotStringError,
     StrategyElementNotRorNumericError,
 } from '../../src/Models/MoveStrategy/errors.js';
-import FixedStrategy from '../Fixtures/FixedStrategy.js';
+import FixedStrategy from '../Fixture/FixedStrategy.js';
 import RandomStrategy from '../../src/Models/MoveStrategy/RandomStrategy/RandomStrategy.js';
 
 describe('생성자 테스트', () => {
