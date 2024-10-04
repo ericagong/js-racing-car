@@ -1,5 +1,5 @@
+import { isEmpty } from '../utils/utils.js';
 import {
-    CarNamesEmptyError,
     TotalRoundsEmptyError,
     TotalRoundsNotNumberError,
     TotalRoundsNotIntegerError,
@@ -12,19 +12,6 @@ export default function createGame() {
     const roundHistory = [];
     let cars = [];
     let totalRounds = 0;
-    const { from, playOnce, getRecord } = createCars();
-
-    const isEmpty = (value) => {
-        return (
-            value === null ||
-            value === undefined ||
-            (typeof value === 'string' && value.trim() === '')
-        );
-    };
-
-    const validateCarNames = (input) => {
-        if (isEmpty(input)) throw new CarNamesEmptyError();
-    };
 
     const ROUND_MIN = 1;
     const validateRounds = (input) => {
@@ -37,30 +24,27 @@ export default function createGame() {
         if (round < ROUND_MIN) throw new TotalRoundsNotPositiveError();
     };
 
-    const split = (userInput) => {
-        return userInput.split(',').map((carName) => carName.trim());
-    };
-
-    const set = (carNamesInput, roundsInput) => {
-        validateCarNames(carNamesInput);
+    // 준비
+    const set = (carNames, roundsInput) => {
+        cars = createCars(carNames);
 
         validateRounds(roundsInput);
-
-        const carNames = split(carNamesInput);
-
-        cars = from(carNames);
 
         totalRounds = Number(roundsInput);
     };
 
+    // 게임 반복
     const play = (moveStrategies = cars.map(() => new RandomStrategy())) => {
         while (totalRounds--) {
-            playOnce(cars, moveStrategies);
+            cars.forEach((car, idx) => {
+                car.tryMove(moveStrategies[idx]);
+            });
 
-            roundHistory.push(getRecord(cars));
+            roundHistory.push(cars.map((car) => car.getRecord()));
         }
     };
 
+    // 최종 우승자 추출
     const getWinners = () => {
         const maxPosition = Math.max(
             ...cars.map((car) => car.getRecord().position),
@@ -69,6 +53,7 @@ export default function createGame() {
         return cars.filter((car) => car.getRecord().position === maxPosition);
     };
 
+    // 최종 결과 추출
     const getResult = () => {
         const winners = getWinners();
         const winnerNames = winners.map((car) => car.getRecord().name);

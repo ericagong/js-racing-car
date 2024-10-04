@@ -1,34 +1,31 @@
 import Car from '../Car/Car.js';
-import { DuplicatedCarNameError } from './errors.js';
+import {
+    CarNamesNotStringError,
+    CarNamesEmptyStringError,
+    CarNamesDuplicatedError,
+} from './errors.js';
 
-export default function createCars() {
-    const hasDuplicate = (carNames) => {
-        return new Set(carNames).size !== carNames.length;
-    };
+const isString = (carNames) => typeof carNames === 'string';
+const isEmptyString = (carNames) => carNames.trim() === '';
 
-    const validateDuplicate = (carNames) => {
-        if (hasDuplicate(carNames)) throw new DuplicatedCarNameError();
-    };
+const stringToArray = (carNames) =>
+    carNames.split(',').map((carName) => carName.trim());
 
-    const from = (carNames) => {
-        validateDuplicate(carNames);
+const hasDuplicate = (carNames) => {
+    const carNamesArr = stringToArray(carNames);
+    return new Set(carNamesArr).size !== carNamesArr.length;
+};
 
-        return carNames.map((carName) => Car.of(carName));
-    };
+const validateCarNames = (carNames) => {
+    if (!isString(carNames)) throw new CarNamesNotStringError();
+    if (isEmptyString(carNames)) throw new CarNamesEmptyStringError();
+    if (hasDuplicate(carNames)) throw new CarNamesDuplicatedError();
+};
 
-    const playOnce = (cars, moveStrategies) => {
-        cars.forEach((car, idx) => {
-            car.tryMove(moveStrategies[idx]);
-        });
-    };
+const createCar = (carName) => Car.of(carName);
 
-    const getRecord = (cars) => {
-        return cars.map((car) => car.getRecord());
-    };
-
-    return {
-        from,
-        playOnce,
-        getRecord,
-    };
+export default function createCars(carNames) {
+    validateCarNames(carNames);
+    const carNamesArr = stringToArray(carNames);
+    return carNamesArr.map(createCar);
 }
