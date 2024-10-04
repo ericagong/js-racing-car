@@ -1,4 +1,4 @@
-import createGame from '../src/Models/Game/Game.js';
+import createGame from '../src/Models/Game/createGame.js';
 import {
     CarNamesIsEmptyError,
     TotalRoundsNotNumberError,
@@ -9,11 +9,11 @@ import {
 import MoveStrategies from '../test/MoveStrategies.js';
 
 describe('게임 설정 테스트', () => {
-    const { setGame } = createGame();
+    const { set } = createGame();
     describe('유효하지 않은 값을 입력한 경우', () => {
         describe('carNames가 빈 값이면, 에러를 발생시킨다.', () => {
             it.each(['', null, undefined, ' '])('%p', (carNamesInput) => {
-                expect(() => setGame(carNamesInput, 5)).toThrow(
+                expect(() => set(carNamesInput, 5)).toThrow(
                     CarNamesIsEmptyError,
                 );
             });
@@ -23,7 +23,7 @@ describe('게임 설정 테스트', () => {
             it.each(['', null, undefined, ' '])(
                 '시도 횟수가 빈 값인 경우, 에러를 발생시킨다.',
                 (roundsInput) => {
-                    expect(() => setGame('erica', roundsInput)).toThrow(
+                    expect(() => set('erica', roundsInput)).toThrow(
                         TotalRoundsIsEmptyError,
                     );
                 },
@@ -34,7 +34,7 @@ describe('게임 설정 테스트', () => {
             it.each(['12@', '123456*', '12ab', 'abcde', '-12a'])(
                 '%p',
                 (roundsInput) => {
-                    expect(() => setGame('erica', roundsInput)).toThrow(
+                    expect(() => set('erica', roundsInput)).toThrow(
                         TotalRoundsNotNumberError,
                     );
                 },
@@ -43,7 +43,7 @@ describe('게임 설정 테스트', () => {
 
         describe('totalRounds가 정수 형태가 아니면, 에러를 발생시킨다.', () => {
             it.each([1.5, 0.5, 1.03])('%p', (roundsInput) => {
-                expect(() => setGame('erica', roundsInput)).toThrow(
+                expect(() => set('erica', roundsInput)).toThrow(
                     TotalRoundsNotIntegerError,
                 );
             });
@@ -51,7 +51,7 @@ describe('게임 설정 테스트', () => {
 
         describe('totalRounds가 양의 정수가 아니면, 에러를 발생시킨다.', () => {
             it.each([-10, -1, 0])('%p', (roundsInput) => {
-                expect(() => setGame('erica', roundsInput)).toThrow(
+                expect(() => set('erica', roundsInput)).toThrow(
                     TotalRoundsNotPositiveError,
                 );
             });
@@ -63,7 +63,7 @@ describe('게임 설정 테스트', () => {
             it.each(['e', 'er', 'eri', 'eric', 'erica', '  _', '!!! '])(
                 '%p',
                 (userInput) => {
-                    expect(() => setGame(userInput, 5)).not.toThrow();
+                    expect(() => set(userInput, 5)).not.toThrow();
                 },
             );
         });
@@ -76,17 +76,17 @@ describe('게임 설정 테스트', () => {
                 'test1, Test2, tEsT1, test2, TeSt1',
                 'name1, name2, name3, name4, name5',
             ])('%p', (userInput) => {
-                expect(() => setGame(userInput, 5)).not.toThrow();
+                expect(() => set(userInput, 5)).not.toThrow();
             });
         });
     });
 });
 
-describe('playGame() 테스트', () => {
-    const { setGame, playGame, getGameResult } = createGame();
+describe('play() 테스트', () => {
+    const { set, play, getGameResult } = createGame();
     describe('게임을 총 5라운드 진행한다.', () => {
-        setGame('erica, Erica, ryang, yang, theon', 5);
-        playGame(new MoveStrategies('50011'));
+        set('erica, Erica, ryang, yang, theon', 5);
+        play(new MoveStrategies('50011'));
         const gameResult = getGameResult();
 
         it('게임을 총 5라운드 진행한다.', () => {
@@ -109,7 +109,7 @@ describe('playGame() 테스트', () => {
 
 describe('getGameResult() 테스트', () => {
     describe('올바른 우승자를 반환한다.', () => {
-        const { setGame, playGame, getGameResult } = createGame();
+        const { set, play, getGameResult } = createGame();
         it.each([
             {
                 strategies: '50000',
@@ -137,16 +137,16 @@ describe('getGameResult() 테스트', () => {
                 winnerCount: 5,
             },
         ])('winnerNames: $winnerNames', ({ winnerNames, strategies }) => {
-            setGame('erica, Erica, ryang, yang, theon', 5);
-            playGame(new MoveStrategies(strategies));
+            set('erica, Erica, ryang, yang, theon', 5);
+            play(new MoveStrategies(strategies));
             expect(getGameResult().winnerNames).toEqual(winnerNames);
         });
     });
 
     describe('게임 기록과 우승자 정보를 반환한다.', () => {
-        const { setGame, playGame, getGameResult } = createGame();
-        setGame('erica, Erica, ryang, yang, theon', 5);
-        playGame(new MoveStrategies('50011'));
+        const { set, play, getGameResult } = createGame();
+        set('erica, Erica, ryang, yang, theon', 5);
+        play(new MoveStrategies('50011'));
         const gameResult = getGameResult();
         gameResult.roundHistory.forEach((roundRecord, idx) => {
             expect(roundRecord).toEqual([

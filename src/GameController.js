@@ -9,10 +9,10 @@ export default function createGameController() {
     }
 
     function gameEventHandler(carNames, totalRounds) {
-        const { setGame, playGame, getGameResult } = createGame();
+        const { set, play, getGameResult } = createGame();
         try {
-            setGame(carNames, totalRounds);
-            playGame();
+            set(carNames, totalRounds);
+            play();
             view.printGameResult(getGameResult());
             view.closeInputReader();
         } catch (error) {

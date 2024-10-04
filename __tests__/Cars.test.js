@@ -1,9 +1,9 @@
 import Car from '../src/Models/Car/Car.js';
-import createCars from '../src/Models/Cars/Cars.js';
+import createCars from '../src/Models/Cars/createCars.js';
 import { DuplicatedCarNameError } from '../src/Models/Cars/errors.js';
 import MoveStrategies from '../test/MoveStrategies.js';
 
-const { from, playOneRound, getRoundRecord } = createCars();
+const { from, playOnce, getRecord } = createCars();
 describe('from() 테스트', () => {
     describe('CarNames 유효성 검사', () => {
         describe('중복된 자동차 이름이 존재하면, 에러를 발생시킨다.', () => {
@@ -53,9 +53,9 @@ describe('from() 테스트', () => {
     });
 });
 
-describe('playOneRound() 테스트', () => {
+describe('playOnce() 테스트', () => {
     const cars = from(['erica', 'Erica', 'theon', 'yang', 'ryang']);
-    playOneRound(cars, new MoveStrategies('12345'));
+    playOnce(cars, new MoveStrategies('12345'));
 
     it('Cars 배열 내 모든 자동차들이 올바르게 이동한다.', () => {
         expect(cars.map((car) => car.getRecord().position)).toEqual([
@@ -64,7 +64,7 @@ describe('playOneRound() 테스트', () => {
     });
 });
 
-describe('getRoundRecord() 테스트', () => {
+describe('getRecord() 테스트', () => {
     describe('Cars 내 모든 Car 정보를 반환한다.', () => {
         it.each([
             { carNames: ['erica', 'Erica'] },
@@ -72,7 +72,7 @@ describe('getRoundRecord() 테스트', () => {
             { carNames: ['*e*1C', '*e*1c', 'ERICA', 'Pan', 'theon'] },
         ])('$carNames', ({ carNames }) => {
             const cars = from(carNames);
-            const roundRecord = getRoundRecord(cars);
+            const roundRecord = getRecord(cars);
 
             roundRecord.forEach((record, idx) => {
                 expect(record.name).toBe(carNames[idx]);

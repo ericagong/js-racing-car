@@ -2,33 +2,33 @@ import Car from '../Car/Car';
 import { DuplicatedCarNameError } from './errors';
 
 export default function createCars() {
-    function hasDuplicatedCarNames(carNames) {
+    const hasDuplicate = (carNames) => {
         return new Set(carNames).size !== carNames.length;
-    }
+    };
 
-    function validateDuplicateCarNames(carNames) {
-        if (hasDuplicatedCarNames(carNames)) throw new DuplicatedCarNameError();
-    }
+    const validateDuplicate = (carNames) => {
+        if (hasDuplicate(carNames)) throw new DuplicatedCarNameError();
+    };
 
-    function from(carNames) {
-        validateDuplicateCarNames(carNames);
+    const from = (carNames) => {
+        validateDuplicate(carNames);
 
         return carNames.map((carName) => Car.of(carName));
-    }
+    };
 
-    function playOneRound(cars, moveStrategies) {
+    const playOnce = (cars, moveStrategies) => {
         cars.forEach((car, idx) => {
             car.tryMove(moveStrategies[idx]);
         });
-    }
+    };
 
-    function getRoundRecord(cars) {
+    const getRecord = (cars) => {
         return cars.map((car) => car.getRecord());
-    }
+    };
 
     return {
         from,
-        playOneRound,
-        getRoundRecord,
+        playOnce,
+        getRecord,
     };
 }
