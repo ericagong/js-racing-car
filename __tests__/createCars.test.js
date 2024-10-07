@@ -1,0 +1,71 @@
+import createCars from '../src/Models/Cars/createCars.js';
+import {
+    CarNamesNotStringError,
+    CarNamesEmptyStringError,
+    CarNamesDuplicatedError,
+} from '../src/Models/Cars/errors.js';
+
+describe('createCars() 테스트', () => {
+    describe('CarNames 유효성 검사', () => {
+        describe('carNames가 문자열 타입이 아닌 경우, 에러 발생', () => {
+            it.each([1031, true, null, undefined, {}, [], function () {}])(
+                'carNames: %p',
+                (carNames) => {
+                    expect(() => createCars(carNames)).toThrow(
+                        CarNamesNotStringError,
+                    );
+                },
+            );
+        });
+
+        describe('carNames가 빈 문자열인 경우, 에러 발생', () => {
+            it.each(['', ' ', '   '])('carNames: "%s"', (carNames) => {
+                expect(() => createCars(carNames)).toThrow(
+                    CarNamesEmptyStringError,
+                );
+            });
+        });
+
+        describe('carNames에 중복된 자동차 이름이 존재하면, 에러를 발생시킨다.', () => {
+            it.each([
+                { carNames: 'erica,erica, ' },
+                { carNames: 'gong0,gong0,Gong' },
+                { carNames: '1031,1031' },
+                { carNames: '*****,*****,**!**,***!*,*****' },
+                { carNames: '*e*1C,*e*1C' },
+                { carNames: ' , ' },
+                { carNames: ',' },
+            ])('$carNames', ({ carNames }) => {
+                expect(() => createCars(carNames)).toThrow(
+                    CarNamesDuplicatedError,
+                );
+            });
+        });
+
+        // TODO 내부에 car 이름 유효성 검사가 안맞으면 다른 에러 발생 가능
+        // QUESTION: 이 경우에는 어떻게 처리해야할지?
+
+        describe('유효한 값을 입력한 경우', () => {
+            describe('carNames를 하나만 입력한 경우, 에러를 발생시키지 않는다.', () => {
+                it.each(['e', 'er', 'eri', 'eric', 'erica', '  _', '!!! '])(
+                    '%p',
+                    (carNames) => {
+                        expect(() => createCars(carNames)).not.toThrow();
+                    },
+                );
+            });
+
+            describe('중복 없이 carNames를 여러 개 입력한 경우, 에러를 발생시키지 않는다.', () => {
+                it.each([
+                    'car1, car2, car3',
+                    '12345, aBcDe, !*_',
+                    'test1, Test2, tEsT1, test2, TeSt1',
+                    '*e*1C, *e*1c, ERICA, Pan, theon',
+                    '!****, *!***, **!**, ***!*, ****!',
+                ])('%p', (carNames) => {
+                    expect(() => createCars(carNames)).not.toThrow();
+                });
+            });
+        });
+    });
+});
