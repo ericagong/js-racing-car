@@ -3,19 +3,18 @@ import RandomStrategy from '../MoveStrategy/RandomStrategy/RandomStrategy.js';
 import validateRoundCount from '../Round/validateRoundCount.js';
 import Round from '../Round/Round.js';
 
+// TODO 항상 실행 순서가 보장되어야 하는 함수들은 어떻게 처리해야할지? - set -> play -> getResult
 export default function createGame() {
     let cars = [];
     let totalRounds = 0;
     let rounds = [];
 
-    // 게임 실행 준비
     const set = (carNames, roundsInput) => {
         cars = createCars(carNames);
         validateRoundCount(roundsInput);
         totalRounds = Number(roundsInput);
     };
 
-    // 게임 실행 - 라운드 반복
     const play = (moveStrategies = cars.map(() => new RandomStrategy())) => {
         Array.from({ length: totalRounds }).forEach((_, idx) => {
             const round = Round.of(idx + 1);
@@ -24,7 +23,6 @@ export default function createGame() {
         });
     };
 
-    // 최종 우승자 추출
     const getWinnerNames = () => {
         const maxPosition = Math.max(...cars.map((car) => car.getPosition()));
         return cars
@@ -32,13 +30,10 @@ export default function createGame() {
             .map((car) => car.getName());
     };
 
-    // 최종 결과 추출
     const getResult = () => {
-        const roundHistory = rounds.map((round) => round.getSnapShot());
-        const winnerNames = getWinnerNames();
         return {
-            roundHistory,
-            winnerNames,
+            roundHistory: rounds.map((round) => round.getSnapShot()),
+            winnerNames: getWinnerNames(),
         };
     };
 

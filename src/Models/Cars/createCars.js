@@ -8,10 +8,8 @@ import {
 // TODO 모델 중 클래스가 아닌 것도 있는데 폴더 명을 어떻게 해야할까?
 
 const isString = (carNames) => typeof carNames === 'string';
-const isEmptyString = (carNames) => carNames.trim() === '';
 
-const stringToArray = (carNames) =>
-    carNames.split(',').map((carName) => carName.trim());
+const isEmptyString = (carNames) => carNames.trim() === '';
 
 const hasDuplicate = (carNames) => {
     const carNamesArr = stringToArray(carNames);
@@ -23,6 +21,9 @@ const validateCarNames = (carNames) => {
     if (isEmptyString(carNames)) throw new CarNamesEmptyStringError();
     if (hasDuplicate(carNames)) throw new CarNamesDuplicatedError();
 };
+
+const stringToArray = (carNames) =>
+    carNames.split(',').map((carName) => carName.trim());
 
 const createCar = (carName) => Car.of(carName);
 

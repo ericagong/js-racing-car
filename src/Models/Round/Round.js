@@ -1,6 +1,6 @@
 export default class Round {
-    #index;
-    #snapshot;
+    #index = 0;
+    #snapshot = [];
 
     static of(index) {
         return new Round(index);
@@ -8,6 +8,15 @@ export default class Round {
 
     constructor(index) {
         this.#index = index;
+    }
+
+    #takeSnapshot(cars) {
+        this.#snapshot = cars.map((car) => {
+            return {
+                name: car.getName(),
+                position: car.getPosition(),
+            };
+        });
     }
 
     run(cars, moveStrategies) {
@@ -18,15 +27,6 @@ export default class Round {
         this.#takeSnapshot(cars);
 
         return cars;
-    }
-
-    #takeSnapshot(cars) {
-        this.#snapshot = cars.map((car) => {
-            return {
-                name: car.getName(),
-                position: car.getPosition(),
-            };
-        });
     }
 
     getRoundIndex() {

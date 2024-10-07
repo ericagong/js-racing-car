@@ -1,6 +1,6 @@
-import RuntimeError from '../../src/RuntimeError.js';
+import ValidationError from '../../src/Models/ValidationError.js';
 
-export class StrategiesNotStringError extends RuntimeError {
+export class StrategiesNotStringError extends ValidationError {
     static MESSAGE = 'strategies는 문자열이어야 합니다.';
 
     constructor() {
@@ -8,7 +8,7 @@ export class StrategiesNotStringError extends RuntimeError {
     }
 }
 
-export class StrategyElementNotRorNumericError extends RuntimeError {
+export class StrategyElementNotRorNumericError extends ValidationError {
     static MESSAGE = 'strategies의 원소는 R 또는 0~9의 숫자여야 합니다.';
 
     constructor() {
@@ -16,7 +16,7 @@ export class StrategyElementNotRorNumericError extends RuntimeError {
     }
 }
 
-export class FixedNumberIsNotNumberError extends RuntimeError {
+export class FixedNumberIsNotNumberError extends ValidationError {
     static MESSAGE = 'fixedNumber는 숫자여야 합니다.';
 
     constructor() {

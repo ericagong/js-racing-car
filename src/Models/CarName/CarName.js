@@ -5,7 +5,7 @@ import {
 } from './errors.js';
 
 export default class CarName {
-    #name;
+    #name = '';
 
     static of(name) {
         return new CarName(name);
