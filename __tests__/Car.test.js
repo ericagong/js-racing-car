@@ -9,10 +9,8 @@ describe('Car 생성자 테스트', () => {
                 ({ position }) => {
                     const car = new Car('erica', position);
                     expect(car).toBeInstanceOf(Car);
-                    expect(car.getRecord()).toEqual({
-                        name: 'erica',
-                        position,
-                    });
+                    expect(car.getName()).toBe('erica');
+                    expect(car.getPosition()).toBe(position);
                 },
             );
         });
@@ -22,10 +20,8 @@ describe('Car 생성자 테스트', () => {
 describe('of() 테스트', () => {
     it('position을 인자로 전달하지 않으면, position을 0으로 설정합니다.', () => {
         const car = Car.of('erica');
-        expect(car.getRecord()).toEqual({
-            name: 'erica',
-            position: 0,
-        });
+        expect(car.getName()).toBe('erica');
+        expect(car.getPosition()).toBe(0);
     });
 
     it('Car 인스턴스를 반환합니다.', () => {
@@ -39,7 +35,7 @@ describe('전진 동작 테스트', () => {
             it.each([4, 9])('%p', (number) => {
                 const car = Car.of('erica', 0);
                 car.tryMove(new FixedStrategy(number));
-                expect(car.getRecord().position).toBe(1);
+                expect(car.getPosition()).toBe(1);
             });
         });
 
@@ -47,7 +43,7 @@ describe('전진 동작 테스트', () => {
             it.each([0, 3])('%p', (number) => {
                 const car = Car.of('erica', 0);
                 car.tryMove(new FixedStrategy(number));
-                expect(car.getRecord().position).toBe(0);
+                expect(car.getPosition()).toBe(0);
             });
         });
     });
@@ -59,7 +55,7 @@ describe('전진 동작 테스트', () => {
                 const strategy = new FixedStrategy(number);
                 strategy.setMovableCondition((number) => number >= 5);
                 car.tryMove(strategy);
-                expect(car.getRecord().position).toBe(1);
+                expect(car.getPosition()).toBe(1);
             });
         });
 
@@ -69,18 +65,19 @@ describe('전진 동작 테스트', () => {
                 const strategy = new FixedStrategy(number);
                 strategy.setMovableCondition((number) => number >= 5);
                 car.tryMove(strategy);
-                expect(car.getRecord().position).toBe(0);
+                expect(car.getPosition()).toBe(0);
             });
         });
     });
 });
 
 describe('Car 정보 반환 테스트', () => {
-    it('getRecord()는 Car 이름과 위치를 객체 형태로 반환한다.', () => {
-        const car = Car.of('erica', 0);
-        expect(car.getRecord()).toBeInstanceOf(Object);
-        const { name, position } = car.getRecord();
-        expect(name).toBe('erica');
-        expect(position).toBe(0);
+    const car = Car.of('erica', 0);
+
+    it('getName()은 Car 이름을 반환한다.', () => {
+        expect(car.getName()).toBe('erica');
+    });
+    it('getPosition()은 Car 현재 위치를 반환한다.', () => {
+        expect(car.getPosition()).toBe(0);
     });
 });

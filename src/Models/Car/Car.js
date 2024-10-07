@@ -16,11 +16,12 @@ export default class Car {
         this.#position = position;
     }
 
-    getRecord() {
-        return {
-            name: this.#name.getName(),
-            position: this.#position,
-        };
+    getName() {
+        return this.#name.getName();
+    }
+
+    getPosition() {
+        return this.#position;
     }
 
     #move() {

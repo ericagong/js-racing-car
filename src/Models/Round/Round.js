@@ -21,7 +21,12 @@ export default class Round {
     }
 
     #takeSnapshot(cars) {
-        this.#snapshot = cars.map((car) => car.getRecord());
+        this.#snapshot = cars.map((car) => {
+            return {
+                name: car.getName(),
+                position: car.getPosition(),
+            };
+        });
     }
 
     getRoundIndex() {

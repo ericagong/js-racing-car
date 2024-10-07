@@ -51,15 +51,10 @@ describe('Round 실행 관련 테스트', () => {
 
     const strategies = new MoveStrategies('12345');
 
-    const updatedCars = round.run(cars, strategies);
+    round.run(cars, strategies);
 
     describe('run() 테스트', () => {
         // TODO MoveStategies 보다 테스트 직관적인 코드로 변경
-        it('cars 내 자동차들 중, 4를 이상 값을 받은 자동차들은 한 칸 전진한다.', () => {
-            expect(updatedCars.map((car) => car.getRecord())).toEqual(
-                carsAfter,
-            );
-        });
 
         it('실행 결과가 스냅샷 상태로 저장된다.', () => {
             expect(round.getSnapShot()).toEqual(carsAfter);
