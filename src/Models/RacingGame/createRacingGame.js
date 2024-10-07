@@ -1,22 +1,22 @@
 import createCars from '../Cars/createCars.js';
 import RandomStrategy from '../MoveStrategy/RandomStrategy/RandomStrategy.js';
-import validateRoundCount from '../Round/validateRoundCount.js';
+import validateRoundCount from '../Round/validateTotalRound.js';
 import Round from '../Round/Round.js';
 
 // TODO 항상 실행 순서가 보장되어야 하는 함수들은 어떻게 처리해야할지? - set -> play -> getResult
-export default function createGame() {
+export default function createRacingGame() {
     let cars = [];
-    let totalRounds = 0;
+    let totalRound = 0;
     let rounds = [];
 
     const set = (carNames, roundsInput) => {
         cars = createCars(carNames);
         validateRoundCount(roundsInput);
-        totalRounds = Number(roundsInput);
+        totalRound = Number(roundsInput);
     };
 
     const play = (moveStrategies = cars.map(() => new RandomStrategy())) => {
-        Array.from({ length: totalRounds }).forEach((_, idx) => {
+        Array.from({ length: totalRound }).forEach((_, idx) => {
             const round = Round.of(idx + 1);
             cars = round.run(cars, moveStrategies);
             rounds.push(round);

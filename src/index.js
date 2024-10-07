@@ -1,5 +1,5 @@
-import createGameController from './GameController';
+import createController from './Controller/Controller.js';
 
-const gameController = createGameController();
+const controller = createController();
 
-gameController.initiateGame();
+controller.initiate();

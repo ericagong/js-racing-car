@@ -129,17 +129,17 @@
 ```jsx
 // src/GameController.js
 
-export default function createGameController() {
+export default function createController() {
     const view = createView();
 
     function initiateGame() {
         view.addEventHandlerToInputReader(gameEventHandler);
     }
 
-    function gameEventHandler(carNames, RoundCount) {
-        const { set, play, getResult } = createGame();
+    function gameEventHandler(carNames, totalRound) {
+        const { set, play, getResult } = createRacingGame();
         try {
-            set(carNames, RoundCount);
+            set(carNames, totalRound);
             play();
             view.printGameResult(getResult());
             view.closeInputReader();

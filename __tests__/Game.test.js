@@ -1,8 +1,8 @@
-import createGame from '../src/Models/Game/createGame.js';
+import createRacingGame from '../src/Models/RacingGame/createRacingGame.js';
 import MoveStrategies from './Fixture/MoveStrategies.js';
 
 describe('play() 테스트', () => {
-    const { set, play, getResult } = createGame();
+    const { set, play, getResult } = createRacingGame();
     describe('게임을 총 5라운드 진행한다.', () => {
         set('erica, Erica, ryang, yang, theon', 5);
         play(new MoveStrategies('50011'));
@@ -28,7 +28,7 @@ describe('play() 테스트', () => {
 
 describe('getResult() 테스트', () => {
     describe('올바른 우승자를 반환한다.', () => {
-        const { set, play, getResult } = createGame();
+        const { set, play, getResult } = createRacingGame();
         it.each([
             {
                 strategies: '50000',
@@ -63,7 +63,7 @@ describe('getResult() 테스트', () => {
     });
 
     describe('게임 기록과 우승자 정보를 반환한다.', () => {
-        const { set, play, getResult } = createGame();
+        const { set, play, getResult } = createRacingGame();
         set('erica, Erica, ryang, yang, theon', 5);
         play(new MoveStrategies('50011'));
         const gameResult = getResult();
