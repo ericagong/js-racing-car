@@ -3,7 +3,7 @@ import RandomStrategy from '../MoveStrategy/RandomStrategy/RandomStrategy.js';
 import validateRoundCount from '../Round/validateTotalRound.js';
 import Round from '../Round/Round.js';
 
-// TODO 항상 실행 순서가 보장되어야 하는 함수들은 어떻게 처리해야할지? - set -> play -> getResult
+// TODO 항상 실행 순서가 보장되어야 하는 함수들은 어떻게 처리하는게 좋을지? - set -> play -> getResult
 export default function createRacingGame() {
     let cars = [];
     let totalRound = 0;
@@ -37,6 +37,7 @@ export default function createRacingGame() {
         };
     };
 
+    // TODO module 내보내기 방식 차이 질문
     return {
         set,
         play,

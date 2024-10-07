@@ -5,6 +5,7 @@ import {
     ConditionFunctionNotFunctionError,
 } from './errors.js';
 
+// TODO 추상 클래스 부분 Mixin으로 변경
 export default class MoveStrategy {
     #movableCondition;
 

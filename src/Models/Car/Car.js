@@ -5,7 +5,7 @@ export default class Car {
     #position = 0;
 
     static INITIAL_POSITION = 0;
-    static MOVE_STEP = 1; // TODO: Car 책임 소재인지 점검
+    static MOVE_STEP = 1; // TODO: Car 책임 소재일지 질문
 
     static of(name, position = Car.INITIAL_POSITION) {
         return new Car(name, position);

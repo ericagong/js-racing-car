@@ -5,7 +5,7 @@ import {
     CarNamesDuplicatedError,
 } from './errors.js';
 
-// TODO 모델 중 클래스가 아닌 것도 있는데 폴더 명을 어떻게 해야할까?
+// TODO 모델 중 클래스가 아닌 것도 있는데 폴더명을 어떻게 하는게 좋은 컨벤션일지?
 
 const isString = (carNames) => typeof carNames === 'string';
 
