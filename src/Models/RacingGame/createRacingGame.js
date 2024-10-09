@@ -4,6 +4,7 @@ import validateRoundCount from '../Round/validateTotalRound.js';
 import Round from '../Round/Round.js';
 
 // TODO 항상 실행 순서가 보장되어야 하는 함수들은 어떻게 처리하는게 좋을지? - set -> play -> getResult
+// TODO moveStrategies를 createGame 시, 외부주입 받는 형태로 변경
 export default function createRacingGame() {
     let cars = [];
     let totalRound = 0;
