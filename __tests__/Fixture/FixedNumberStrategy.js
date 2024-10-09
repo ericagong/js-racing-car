@@ -1,11 +1,12 @@
 import MoveStrategy from '../../src/Models/MoveStrategy/MoveStrategy.js';
+import { isNumber } from '../../src/Models/utils/utils.js';
 import { FixedNumberIsNotNumberError } from './errors.js';
 
-export default class FixedStrategy extends MoveStrategy {
+export default class FixedNumberStrategy extends MoveStrategy {
     #number;
 
-    constructor(number) {
-        super();
+    constructor(movableCondition, number) {
+        super(movableCondition);
 
         this.#validateNumber(number);
 
@@ -13,15 +14,15 @@ export default class FixedStrategy extends MoveStrategy {
     }
 
     #validateNumber(number) {
-        if (typeof number !== 'number') throw new FixedNumberIsNotNumberError();
+        if (!isNumber(number)) throw new FixedNumberIsNotNumberError();
     }
 
-    generateNumber() {
+    #generateNumber() {
         return this.#number;
     }
 
     isMovable() {
         const movableFunction = this.getMovableCondition();
-        return movableFunction(this.generateNumber());
+        return movableFunction(this.#generateNumber());
     }
 }

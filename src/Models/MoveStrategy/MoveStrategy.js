@@ -1,39 +1,44 @@
 import {
     MoveStrategyInstantiationError,
-    GenerateNumberNotImplementedError,
+    MovableConditionNotFunctionError,
+    // GenerateNumberNotImplementedError,
     IsMovableNotImplementedError,
-    ConditionFunctionNotFunctionError,
 } from './errors.js';
 
 // TODO 추상 클래스 부분 Mixin으로 변경
 export default class MoveStrategy {
     #movableCondition;
 
-    static defaultMovableCondition = (num) => num >= 4;
+    static defaultMovableCondition = () => true;
 
-    constructor() {
+    constructor(movableCondition = MoveStrategy.defaultMovableCondition) {
         if (new.target === MoveStrategy)
             throw new MoveStrategyInstantiationError();
-        this.#movableCondition = MoveStrategy.defaultMovableCondition;
+        this.#validateMovableCondition(movableCondition);
+        this.#movableCondition = movableCondition;
     }
 
-    #validateCondition(conditionFunc) {
-        if (typeof conditionFunc !== 'function')
-            throw new ConditionFunctionNotFunctionError();
+    #isFunction(target) {
+        return typeof target === 'function';
+    }
+
+    #validateMovableCondition(movableCondition) {
+        if (!this.#isFunction(movableCondition))
+            throw new MovableConditionNotFunctionError();
     }
 
     getMovableCondition() {
         return this.#movableCondition;
     }
 
-    setMovableCondition(conditionFunc) {
-        this.#validateCondition(conditionFunc);
-        this.#movableCondition = conditionFunc;
+    setMovableCondition(movableCondition) {
+        this.#validateMovableCondition(movableCondition);
+        this.#movableCondition = movableCondition;
     }
 
-    generateNumber() {
-        throw new GenerateNumberNotImplementedError();
-    }
+    // generateNumber() {
+    //     throw new GenerateNumberNotImplementedError();
+    // }
 
     isMovable() {
         throw new IsMovableNotImplementedError();

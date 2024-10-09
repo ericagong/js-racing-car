@@ -13,13 +13,13 @@ export class MoveStrategyInstantiationError extends AbstractClassInstantiationEr
     }
 }
 
-export class GenerateNumberNotImplementedError extends AbstractMethodNotImplementedError {
-    static MESSAGE = 'generateNumber()가 구현되지 않았습니다.';
+// export class GenerateNumberNotImplementedError extends AbstractMethodNotImplementedError {
+//     static MESSAGE = 'generateNumber()가 구현되지 않았습니다.';
 
-    constructor() {
-        super(GenerateNumberNotImplementedError.MESSAGE);
-    }
-}
+//     constructor() {
+//         super(GenerateNumberNotImplementedError.MESSAGE);
+//     }
+// }
 
 export class IsMovableNotImplementedError extends AbstractMethodNotImplementedError {
     static MESSAGE = 'isMovable()이 구현되지 않았습니다.';
@@ -29,10 +29,10 @@ export class IsMovableNotImplementedError extends AbstractMethodNotImplementedEr
     }
 }
 
-export class ConditionFunctionNotFunctionError extends RuntimeError {
-    static MESSAGE = 'conditionFunc은 함수여야 합니다.';
+export class MovableConditionNotFunctionError extends RuntimeError {
+    static MESSAGE = 'movableCondition은 함수 형태여야 합니다.';
 
     constructor() {
-        super(ConditionFunctionNotFunctionError.MESSAGE);
+        super(MovableConditionNotFunctionError.MESSAGE);
     }
 }

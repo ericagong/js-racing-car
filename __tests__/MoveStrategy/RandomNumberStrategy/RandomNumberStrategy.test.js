@@ -1,8 +1,10 @@
-import RandomStrategy from '../../src/Models/MoveStrategy/RandomStrategy/RandomStrategy.js';
+import RandomNumberStrategy from '../../../src/Models/MoveStrategy/RandomNumberStrategy/RandomNumberStrategy.js';
 import {
     MinMaxNumberNotNumberError,
     MinNumberGreaterThanMaxNumberError,
-} from '../../src/Models/MoveStrategy/errors.js';
+} from '../../../src/Models/MoveStrategy/errors.js';
+
+const defaultMovableCondition = (num) => num >= 4;
 
 describe('생성자 테스트', () => {
     describe('min, max 유효성 검사 테스트', () => {
@@ -16,9 +18,14 @@ describe('생성자 테스트', () => {
                 { min: [], max: [] },
                 { min: function () {}, max: function () {} },
             ])('min: $min, max: $max', ({ min, max }) => {
-                expect(() => new RandomStrategy(min, max)).toThrow(
-                    MinMaxNumberNotNumberError,
-                );
+                expect(
+                    () =>
+                        new RandomNumberStrategy(
+                            defaultMovableCondition,
+                            min,
+                            max,
+                        ),
+                ).toThrow(MinMaxNumberNotNumberError);
             });
         });
 
@@ -28,9 +35,14 @@ describe('생성자 테스트', () => {
                 { min: 2, max: -1 },
                 { min: 100, max: 99 },
             ])('min: $min, max: $max', ({ min, max }) => {
-                expect(() => new RandomStrategy(min, max)).toThrow(
-                    MinNumberGreaterThanMaxNumberError,
-                );
+                expect(
+                    () =>
+                        new RandomNumberStrategy(
+                            defaultMovableCondition,
+                            min,
+                            max,
+                        ),
+                ).toThrow(MinNumberGreaterThanMaxNumberError);
             });
         });
 
@@ -41,30 +53,23 @@ describe('생성자 테스트', () => {
                 { min: -1, max: 1 },
                 { min: 1, max: 100 },
             ])('min: $min, max: $max', ({ min, max }) => {
-                expect(() => new RandomStrategy(min, max)).not.toThrow();
+                expect(
+                    () =>
+                        new RandomNumberStrategy(
+                            defaultMovableCondition,
+                            min,
+                            max,
+                        ),
+                ).not.toThrow();
             });
         });
 
         describe('min, max 값이 없으면, 기본값으로 0, 9가 설정된다.', () => {
             it('min: undefined, max: undefined', () => {
-                expect(() => new RandomStrategy()).not.toThrow();
+                expect(
+                    () => new RandomNumberStrategy(defaultMovableCondition),
+                ).not.toThrow();
             });
-        });
-    });
-});
-
-describe('generateNumber() 테스트', () => {
-    describe('[min, max] 사이의 값을 반환한다.', () => {
-        it.each([
-            { min: -100, max: -99 },
-            { min: -1, max: 0 },
-            { min: -1, max: 1 },
-            { min: 1, max: 100 },
-        ])('min: $min, max: $max', ({ min, max }) => {
-            const randomStrategy = new RandomStrategy(min, max);
-            const number = randomStrategy.generateNumber();
-            expect(number).toBeGreaterThanOrEqual(min);
-            expect(number).toBeLessThanOrEqual(max);
         });
     });
 });
@@ -123,9 +128,13 @@ describe('isMovable() 테스트', () => {
         ])(
             'number: $min, movableCondition: $movableCondition, isMovable: $expected',
             ({ min, max, movableCondition, expected }) => {
-                const randomStrategy = new RandomStrategy(min, max);
-                randomStrategy.setMovableCondition(movableCondition);
-                expect(randomStrategy.isMovable()).toBe(expected);
+                const strategy = new RandomNumberStrategy(
+                    defaultMovableCondition,
+                    min,
+                    max,
+                );
+                strategy.setMovableCondition(movableCondition);
+                expect(strategy.isMovable()).toBe(expected);
             },
         );
     });

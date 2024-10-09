@@ -1,5 +1,5 @@
 import createCars from '../Cars/createCars.js';
-import RandomStrategy from '../MoveStrategy/RandomStrategy/RandomStrategy.js';
+import RandomNumberStrategy from '../MoveStrategy/RandomNumberStrategy/RandomNumberStrategy.js';
 import validateRoundCount from '../Round/validateTotalRound.js';
 import Round from '../Round/Round.js';
 
@@ -16,7 +16,12 @@ export default function createRacingGame() {
         totalRound = Number(roundsInput);
     };
 
-    const play = (moveStrategies = cars.map(() => new RandomStrategy())) => {
+    const movableCondition = (num) => num >= 4;
+    const play = (
+        moveStrategies = cars.map(
+            () => new RandomNumberStrategy(movableCondition),
+        ),
+    ) => {
         Array.from({ length: totalRound }).forEach((_, idx) => {
             const round = Round.of(idx + 1);
             cars = round.run(cars, moveStrategies);

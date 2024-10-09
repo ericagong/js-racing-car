@@ -1,25 +1,23 @@
 import MoveStrategy from '../../src/Models/MoveStrategy/MoveStrategy.js';
-import EmptyStrategy from '../Fixture/EmptyStrategy.js';
 import {
-    MoveStrategyAbstractClassError,
-    GenerateNumberNotImplementedError,
+    MoveStrategyInstantiationError,
     IsMovableNotImplementedError,
     ConditionFunctionNotFunctionError,
 } from '../../src/Models/MoveStrategy/errors.js';
 
+class EmptyStrategy extends MoveStrategy {
+    // generateNumber() {} 구현하지 않음
+    // isMovable() {} 구현하지 않음
+}
+
 describe('MoveStrategy 추상 클래스 테스트', () => {
     it('new MoveStrategy()로 인스턴스를 생성하면 에러가 발생합니다.', () => {
         expect(() => new MoveStrategy()).toThrow(
-            MoveStrategyAbstractClassError,
+            MoveStrategyInstantiationError,
         );
     });
 
     const notImplementedStrategy = new EmptyStrategy();
-    it('getNumber() 메소드를 자식 클래스에서 구현하지 않고 호출하면, 에러가 발생합니다.', () => {
-        expect(() => notImplementedStrategy.generateNumber()).toThrow(
-            GenerateNumberNotImplementedError,
-        );
-    });
 
     it('isMovable() 메소드를 자식 클래스에서 구현하지 않고 호출하면, 에러가 발생합니다.', () => {
         expect(() => notImplementedStrategy.isMovable()).toThrow(
