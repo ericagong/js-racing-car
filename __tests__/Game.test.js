@@ -18,11 +18,11 @@ describe('play() 테스트', () => {
         const gameResult = getResult();
 
         it('게임을 총 10라운드 진행한다.', () => {
-            expect(gameResult.roundHistory).toHaveLength(10);
+            expect(gameResult.roundSnapshots).toHaveLength(10);
         });
 
         it('각 라운드 별 기록을 올바르게 roundHistory에 저장한다.', () => {
-            gameResult.roundHistory.forEach((roundRecord, idx) => {
+            gameResult.roundSnapshots.forEach((roundRecord, idx) => {
                 expect(roundRecord).toEqual([
                     { name: 'erica', position: idx + 1 },
                     { name: 'Erica', position: 0 },
@@ -48,7 +48,7 @@ describe('getResult() 테스트', () => {
                     new FixedNumberStrategy(defaultMovableCondition, 0),
                     new FixedNumberStrategy(defaultMovableCondition, 0),
                 ],
-                winnerNames: ['erica'],
+                winnerCarNames: ['erica'],
                 winnerCount: 1,
             },
             {
@@ -59,7 +59,7 @@ describe('getResult() 테스트', () => {
                     new FixedNumberStrategy(defaultMovableCondition, 0),
                     new FixedNumberStrategy(defaultMovableCondition, 0),
                 ],
-                winnerNames: ['erica', 'Erica'],
+                winnerCarNames: ['erica', 'Erica'],
                 winnerCount: 2,
             },
             {
@@ -70,7 +70,7 @@ describe('getResult() 테스트', () => {
                     new FixedNumberStrategy(defaultMovableCondition, 0),
                     new FixedNumberStrategy(defaultMovableCondition, 0),
                 ],
-                winnerNames: ['erica', 'Erica', 'ryang'],
+                winnerCarNames: ['erica', 'Erica', 'ryang'],
                 winnerCount: 3,
             },
             {
@@ -81,7 +81,7 @@ describe('getResult() 테스트', () => {
                     new FixedNumberStrategy(defaultMovableCondition, 5),
                     new FixedNumberStrategy(defaultMovableCondition, 0),
                 ],
-                winnerNames: ['erica', 'Erica', 'ryang', 'yang'],
+                winnerCarNames: ['erica', 'Erica', 'ryang', 'yang'],
                 winnerCount: 4,
             },
             {
@@ -92,15 +92,18 @@ describe('getResult() 테스트', () => {
                     new FixedNumberStrategy(defaultMovableCondition, 5),
                     new FixedNumberStrategy(defaultMovableCondition, 5),
                 ],
-                winnerNames: ['erica', 'Erica', 'ryang', 'yang', 'theon'],
+                winnerCarNames: ['erica', 'Erica', 'ryang', 'yang', 'theon'],
                 winnerCount: 5,
             },
-        ])('winnerNames: $winnerNames', ({ winnerNames, strategies }) => {
-            set('erica, Erica, ryang, yang, theon', 5);
+        ])(
+            'winnerCarNames: $winnerCarNames',
+            ({ winnerCarNames, strategies }) => {
+                set('erica, Erica, ryang, yang, theon', 5);
 
-            play(strategies);
-            expect(getResult().winnerNames).toEqual(winnerNames);
-        });
+                play(strategies);
+                expect(getResult().winnerCarNames).toEqual(winnerCarNames);
+            },
+        );
     });
 
     describe('게임 기록과 우승자 정보를 반환한다.', () => {
@@ -117,7 +120,7 @@ describe('getResult() 테스트', () => {
 
         play(moveStrategies);
         const gameResult = getResult();
-        gameResult.roundHistory.forEach((roundRecord, idx) => {
+        gameResult.roundSnapshots.forEach((roundRecord, idx) => {
             expect(roundRecord).toEqual([
                 { name: 'erica', position: idx + 1 },
                 { name: 'Erica', position: 0 },
@@ -126,6 +129,6 @@ describe('getResult() 테스트', () => {
                 { name: 'theon', position: 0 },
             ]);
         });
-        expect(gameResult.winnerNames).toEqual(['erica']);
+        expect(gameResult.winnerCarNames).toEqual(['erica']);
     });
 });

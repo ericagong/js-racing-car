@@ -23,20 +23,20 @@ export default function createConsoleWritter() {
         dividerTemplate();
     }
 
-    function winnerNamesTemplate(winnerNames) {
-        write(winnerNames.join(', ') + '가 최종 우승했습니다.');
+    function winnerNamesTemplate(winnerCarNames) {
+        write(winnerCarNames.join(', ') + '가 최종 우승했습니다.');
     }
 
     function gameResultTemplate(result) {
         resultGuideTemplate();
 
-        const { roundHistory, winnerNames } = result;
+        const { roundSnapshots, winnerCarNames } = result;
 
-        roundHistory.forEach((round) => {
+        roundSnapshots.forEach((round) => {
             roundTemplate(round);
         });
 
-        winnerNamesTemplate(winnerNames);
+        winnerNamesTemplate(winnerCarNames);
     }
 
     function errorMessageTemplate(errorMsg) {

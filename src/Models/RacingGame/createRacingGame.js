@@ -10,6 +10,7 @@ import RandomNumberStrategy from '../MoveStrategy/RandomNumberStrategy/RandomNum
 export default function createRacingGame(movableCondition) {
     let cars = [];
     let rounds = [];
+    let winners = [];
 
     const set = (carNames, totalRound) => {
         validateCarNames(carNames);
@@ -24,6 +25,11 @@ export default function createRacingGame(movableCondition) {
         );
     };
 
+    const determineWinners = () => {
+        const maxPosition = Math.max(...cars.map((car) => car.position));
+        winners = cars.filter((car) => car.position === maxPosition);
+    };
+
     const play = (
         moveStrategies = cars.map(
             () => new RandomNumberStrategy(movableCondition),
@@ -32,19 +38,14 @@ export default function createRacingGame(movableCondition) {
         rounds.map((round) => {
             cars = round.run(cars, moveStrategies);
         });
-    };
 
-    const getWinnerNames = () => {
-        const maxPosition = Math.max(...cars.map((car) => car.position));
-        return cars
-            .filter((car) => car.position === maxPosition)
-            .map((car) => car.name);
+        determineWinners();
     };
 
     const getResult = () => {
         return {
-            roundHistory: rounds.map((round) => round.snapshot),
-            winnerNames: getWinnerNames(),
+            roundSnapshots: rounds.map((round) => round.snapshot),
+            winnerCarNames: winners.map((car) => car.name),
         };
     };
 

@@ -3,7 +3,7 @@ import {
     CarNamesNotStringError,
     CarNamesEmptyStringError,
     CarNamesDuplicatedError,
-} from '../src/Models/Cars/errors.js';
+} from '../src/Models/RacingGame/errors.js';
 
 describe('validateCarNames() 테스트', () => {
     describe('CarNames 유효성 검사', () => {
