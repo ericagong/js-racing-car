@@ -1,17 +1,17 @@
-import createCars from '../src/Models/Cars/createCars.js';
+import validateCarNames from '../src/Models/RacingGame/validateCarNames.js';
 import {
     CarNamesNotStringError,
     CarNamesEmptyStringError,
     CarNamesDuplicatedError,
 } from '../src/Models/Cars/errors.js';
 
-describe('createCars() 테스트', () => {
+describe('validateCarNames() 테스트', () => {
     describe('CarNames 유효성 검사', () => {
         describe('carNames가 문자열 타입이 아닌 경우, 에러 발생', () => {
             it.each([1031, true, null, undefined, {}, [], function () {}])(
                 'carNames: %p',
                 (carNames) => {
-                    expect(() => createCars(carNames)).toThrow(
+                    expect(() => validateCarNames(carNames)).toThrow(
                         CarNamesNotStringError,
                     );
                 },
@@ -20,7 +20,7 @@ describe('createCars() 테스트', () => {
 
         describe('carNames가 빈 문자열인 경우, 에러 발생', () => {
             it.each(['', ' ', '   '])('carNames: "%s"', (carNames) => {
-                expect(() => createCars(carNames)).toThrow(
+                expect(() => validateCarNames(carNames)).toThrow(
                     CarNamesEmptyStringError,
                 );
             });
@@ -36,7 +36,7 @@ describe('createCars() 테스트', () => {
                 { carNames: ' , ' },
                 { carNames: ',' },
             ])('$carNames', ({ carNames }) => {
-                expect(() => createCars(carNames)).toThrow(
+                expect(() => validateCarNames(carNames)).toThrow(
                     CarNamesDuplicatedError,
                 );
             });
@@ -47,7 +47,7 @@ describe('createCars() 테스트', () => {
                 it.each(['e', 'er', 'eri', 'eric', 'erica', '  _', '!!! '])(
                     '%p',
                     (carNames) => {
-                        expect(() => createCars(carNames)).not.toThrow();
+                        expect(() => validateCarNames(carNames)).not.toThrow();
                     },
                 );
             });
@@ -60,7 +60,7 @@ describe('createCars() 테스트', () => {
                     '*e*1C, *e*1c, ERICA, Pan, theon',
                     '!****, *!***, **!**, ***!*, ****!',
                 ])('%p', (carNames) => {
-                    expect(() => createCars(carNames)).not.toThrow();
+                    expect(() => validateCarNames(carNames)).not.toThrow();
                 });
             });
         });

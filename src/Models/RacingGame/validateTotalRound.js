@@ -12,7 +12,7 @@ const isOutOfBoundary = (totalRound) => {
     return totalRound < ROUNDS_MIN || totalRound > ROUNDS_MAX;
 };
 
-export default function validateRoundCount(totalRound) {
+export default function validateTotalRound(totalRound) {
     if (isEmptyValue(totalRound)) throw new TotalRoundEmptyError();
 
     totalRound = Number(totalRound);
