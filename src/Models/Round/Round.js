@@ -1,4 +1,7 @@
 // TODO index 숫자인지 validation
+import { isNumber } from '../utils/utils.js';
+import { RoundIndexNotNumberError } from './errors.js';
+
 export default class Round {
     #index = 0;
     #snapshot = [];
@@ -7,14 +10,19 @@ export default class Round {
         return new Round(index);
     }
 
-    constructor(index) {
-        this.#index = index;
+    static #validateIndex(index) {
+        if (!isNumber(index)) throw new RoundIndexNotNumberError();
     }
 
     static #moveCars(cars, moveStrategies) {
         return cars.map((car, i) => {
             return car.tryMove(moveStrategies[i]);
         });
+    }
+
+    constructor(index) {
+        Round.#validateIndex(index);
+        this.#index = index;
     }
 
     #takeSnapshot(cars) {

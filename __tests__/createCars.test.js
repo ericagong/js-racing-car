@@ -42,9 +42,6 @@ describe('createCars() 테스트', () => {
             });
         });
 
-        // TODO 내부에 car 이름 유효성 검사가 안맞으면 다른 에러 발생 가능
-        // QUESTION: 이 경우에는 어떻게 처리해야할지?
-
         describe('유효한 값을 입력한 경우', () => {
             describe('carNames를 하나만 입력한 경우, 에러를 발생시키지 않는다.', () => {
                 it.each(['e', 'er', 'eri', 'eric', 'erica', '  _', '!!! '])(

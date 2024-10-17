@@ -10,25 +10,26 @@ export default class RandomNumberStrategy extends MoveStrategy {
     #min;
     #max;
 
-    constructor(movableCondition, min = 0, max = 9) {
-        super(movableCondition);
-        this.#validateNumber(min, max);
-        this.#min = min;
-        this.#max = max;
-    }
-
-    #isNumber(min, max) {
+    static #isNumber(min, max) {
         return !isNumber(min) || !isNumber(max);
     }
 
-    #isMaxGreaterThanMin(min, max) {
+    static #isMaxGreaterThanMin(min, max) {
         return min > max;
     }
 
-    #validateNumber(min, max) {
-        if (this.#isNumber(min, max)) throw new MinMaxNumberNotNumberError();
-        if (this.#isMaxGreaterThanMin(min, max))
+    static #validateNumber(min, max) {
+        if (RandomNumberStrategy.#isNumber(min, max))
+            throw new MinMaxNumberNotNumberError();
+        if (RandomNumberStrategy.#isMaxGreaterThanMin(min, max))
             throw new MinNumberGreaterThanMaxNumberError();
+    }
+
+    constructor(movableCondition, min = 0, max = 9) {
+        super(movableCondition);
+        RandomNumberStrategy.#validateNumber(min, max);
+        this.#min = min;
+        this.#max = max;
     }
 
     isMovable() {

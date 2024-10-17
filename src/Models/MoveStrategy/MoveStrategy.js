@@ -8,9 +8,7 @@ import {
 export default class MoveStrategy {
     #movableCondition;
 
-    static #DEFAULT_MOVABLE_CONDITION = () => true;
-
-    constructor(movableCondition = MoveStrategy.#DEFAULT_MOVABLE_CONDITION) {
+    constructor(movableCondition = () => true) {
         if (new.target === MoveStrategy)
             throw new MoveStrategyInstantiationError();
 

@@ -12,7 +12,6 @@ const isOutOfBoundary = (totalRound) => {
     return totalRound < ROUNDS_MIN || totalRound > ROUNDS_MAX;
 };
 
-// TODO 숫자 형태의 문자열 예외처리
 export default function validateRoundCount(totalRound) {
     if (isEmptyValue(totalRound)) throw new TotalRoundEmptyError();
 

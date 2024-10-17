@@ -15,19 +15,19 @@ export default class CarName {
         return new CarName(name);
     }
 
-    constructor(name) {
-        this.#validate(name);
-        this.#name = name.trim();
-    }
-
-    #isTooLong(name) {
+    static #isTooLong(name) {
         return name.trim().length > CarName.MAX_LENGTH;
     }
 
-    #validate(name) {
+    static #validate(name) {
         if (!isString(name)) throw new CarNameNotStringError();
         if (isEmptyString(name)) throw new CarNameEmptyError();
-        if (this.#isTooLong(name)) throw new CarNameTooLongError();
+        if (CarName.#isTooLong(name)) throw new CarNameTooLongError();
+    }
+
+    constructor(name) {
+        CarName.#validate(name);
+        this.#name = name.trim();
     }
 
     get name() {

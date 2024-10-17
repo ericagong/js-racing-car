@@ -49,20 +49,18 @@ describe('Round 실행 관련 테스트', () => {
     const round = Round.of(1);
     const cars = carsBefore.map(({ name, position }) => Car.of(name, position));
 
-    const defaultMovableCondition = (num) => num >= 4;
+    const movableCondition = (num) => num >= 4;
     const strategies = [
-        new FixedNumberStrategy(defaultMovableCondition, 1),
-        new FixedNumberStrategy(defaultMovableCondition, 2),
-        new FixedNumberStrategy(defaultMovableCondition, 3),
-        new FixedNumberStrategy(defaultMovableCondition, 4),
-        new FixedNumberStrategy(defaultMovableCondition, 5),
+        new FixedNumberStrategy(movableCondition, 1),
+        new FixedNumberStrategy(movableCondition, 2),
+        new FixedNumberStrategy(movableCondition, 3),
+        new FixedNumberStrategy(movableCondition, 4),
+        new FixedNumberStrategy(movableCondition, 5),
     ];
 
     round.run(cars, strategies);
 
     describe('run() 테스트', () => {
-        // TODO MoveStategies 보다 테스트 직관적인 코드로 변경
-
         it('실행 결과가 스냅샷 상태로 저장된다.', () => {
             expect(round.snapshot).toEqual(carsAfter);
         });
