@@ -1,3 +1,8 @@
+import {
+    NotInitialStateError,
+    NotSetStateError,
+    NotPlayedStateError,
+} from './errors.js';
 import validateCarNames, { CAR_NAMES_SEPERATOR } from './validateCarNames.js';
 import validateTotalRound from './validateTotalRound.js';
 import { splitAndTrim } from '../utils/utils.js';
@@ -5,14 +10,21 @@ import Car from '../Car/Car.js';
 import Round from '../Round/Round.js';
 import RandomNumberStrategy from '../MoveStrategy/RandomNumberStrategy/RandomNumberStrategy.js';
 
-// TODO 항상 실행 순서가 보장되어야 하는 함수 처리 방법
-// 해결: Flag 도입
+const STATE = Object.freeze({
+    INITIATIAL: 'Inintial',
+    SET: 'Set',
+    PLAYED: 'Played',
+});
+
 export default function createRacingGame(movableCondition) {
     let cars = [];
     let rounds = [];
     let winners = [];
+    let state = STATE.INITIATIAL;
 
     const set = (carNames, totalRound) => {
+        if (state !== STATE.INITIATIAL) throw new NotInitialStateError();
+
         validateCarNames(carNames);
         validateTotalRound(totalRound);
 
@@ -23,6 +35,8 @@ export default function createRacingGame(movableCondition) {
         rounds = Array.from({ length: totalRoundNum }, (idx) =>
             Round.of(idx + 1),
         );
+
+        state = STATE.SET;
     };
 
     const determineWinners = () => {
@@ -35,14 +49,20 @@ export default function createRacingGame(movableCondition) {
             () => new RandomNumberStrategy(movableCondition),
         ),
     ) => {
+        if (state !== STATE.SET) throw new NotSetStateError();
+
         rounds.map((round) => {
             cars = round.run(cars, moveStrategies);
         });
 
         determineWinners();
+
+        state = STATE.PLAYED;
     };
 
     const getResult = () => {
+        if (state !== STATE.PLAYED) throw new NotPlayedStateError();
+
         return {
             roundSnapshots: rounds.map((round) => round.snapshot),
             winnerCarNames: winners.map((car) => car.name),
