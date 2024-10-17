@@ -1,3 +1,4 @@
+// TODO index 숫자인지 validation
 export default class Round {
     #index = 0;
     #snapshot = [];
@@ -10,30 +11,32 @@ export default class Round {
         this.#index = index;
     }
 
+    static #moveCars(cars, moveStrategies) {
+        return cars.map((car, i) => {
+            return car.tryMove(moveStrategies[i]);
+        });
+    }
+
     #takeSnapshot(cars) {
         this.#snapshot = cars.map((car) => {
             return {
-                name: car.getName(),
-                position: car.getPosition(),
+                name: car.name,
+                position: car.position,
             };
         });
     }
 
     run(cars, moveStrategies) {
-        cars.forEach((car, idx) => {
-            car.tryMove(moveStrategies[idx]);
-        });
-
+        Round.#moveCars(cars, moveStrategies);
         this.#takeSnapshot(cars);
-
         return cars;
     }
 
-    getRoundIndex() {
+    get index() {
         return this.#index;
     }
 
-    getSnapShot() {
+    get snapshot() {
         return this.#snapshot;
     }
 }

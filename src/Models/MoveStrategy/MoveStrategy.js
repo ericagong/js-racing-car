@@ -1,44 +1,37 @@
+import { isFunction } from '../utils/utils.js';
 import {
     MoveStrategyInstantiationError,
     MovableConditionNotFunctionError,
-    // GenerateNumberNotImplementedError,
     IsMovableNotImplementedError,
 } from './errors.js';
 
-// TODO 추상 클래스 부분 Mixin으로 변경
 export default class MoveStrategy {
     #movableCondition;
 
-    static defaultMovableCondition = () => true;
+    static #DEFAULT_MOVABLE_CONDITION = () => true;
 
-    constructor(movableCondition = MoveStrategy.defaultMovableCondition) {
+    constructor(movableCondition = MoveStrategy.#DEFAULT_MOVABLE_CONDITION) {
         if (new.target === MoveStrategy)
             throw new MoveStrategyInstantiationError();
-        this.#validateMovableCondition(movableCondition);
-        this.#movableCondition = movableCondition;
-    }
 
-    #isFunction(target) {
-        return typeof target === 'function';
+        this.#validateMovableCondition(movableCondition);
+
+        this.#movableCondition = movableCondition;
     }
 
     #validateMovableCondition(movableCondition) {
-        if (!this.#isFunction(movableCondition))
+        if (!isFunction(movableCondition))
             throw new MovableConditionNotFunctionError();
     }
 
-    getMovableCondition() {
+    get movableCondition() {
         return this.#movableCondition;
     }
 
-    setMovableCondition(movableCondition) {
-        this.#validateMovableCondition(movableCondition);
-        this.#movableCondition = movableCondition;
+    set movableCondition(condition) {
+        this.#validateMovableCondition(condition);
+        this.#movableCondition = condition;
     }
-
-    // generateNumber() {
-    //     throw new GenerateNumberNotImplementedError();
-    // }
 
     isMovable() {
         throw new IsMovableNotImplementedError();

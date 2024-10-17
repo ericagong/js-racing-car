@@ -1,18 +1,16 @@
-import Car from '../Car/Car.js';
+import { isString, isEmptyString } from '../utils/utils.js';
 import {
     CarNamesNotStringError,
     CarNamesEmptyStringError,
     CarNamesDuplicatedError,
 } from './errors.js';
+import Car from '../Car/Car.js';
 
-// TODO 모델 중 클래스가 아닌 것도 있는데 폴더명을 어떻게 하는게 좋은 컨벤션일지?
-
-const isString = (carNames) => typeof carNames === 'string';
-
-const isEmptyString = (carNames) => carNames.trim() === '';
+const getCarNamesArr = (carNames) =>
+    carNames.split(',').map((carName) => carName.trim());
 
 const hasDuplicate = (carNames) => {
-    const carNamesArr = stringToArray(carNames);
+    const carNamesArr = getCarNamesArr(carNames);
     return new Set(carNamesArr).size !== carNamesArr.length;
 };
 
@@ -22,13 +20,16 @@ const validateCarNames = (carNames) => {
     if (hasDuplicate(carNames)) throw new CarNamesDuplicatedError();
 };
 
-const stringToArray = (carNames) =>
-    carNames.split(',').map((carName) => carName.trim());
-
+// TODO map에 Car.of 직접 전달 시, 메서드가 함수로서 호출되어, this binding 깨짐
+// Car 인스턴스가 아닌 this가 전역 객체 가리킴
+// 해결 시도
+// 1. CarNamesArr.map(Car.of.bind(Car)) -> 실패
+// 2. carName => car.of(carName) -> 성공
+// Tip) map에 되도록이면 함수 직접 전달하지 않기!
 const createCar = (carName) => Car.of(carName);
 
 export default function createCars(carNames) {
     validateCarNames(carNames);
-    const carNamesArr = stringToArray(carNames);
+    const carNamesArr = getCarNamesArr(carNames);
     return carNamesArr.map(createCar);
 }

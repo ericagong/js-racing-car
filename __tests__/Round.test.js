@@ -10,7 +10,7 @@ describe('Round 클래스 생성자 테스트', () => {
                 ({ index }) => {
                     const round = new Round(index);
                     expect(round).toBeInstanceOf(Round);
-                    expect(round.getRoundIndex()).toBe(index);
+                    expect(round.index).toBe(index);
                 },
             );
         });
@@ -23,10 +23,10 @@ describe('of() 테스트', () => {
     });
 });
 
-describe('getRoundIndex() 테스트', () => {
+describe('get index() 테스트', () => {
     it.each([{ index: 1 }, { index: 10 }])('index: $index', ({ index }) => {
         const round = Round.of(index);
-        expect(round.getRoundIndex()).toBe(index);
+        expect(round.index).toBe(index);
     });
 });
 
@@ -64,13 +64,13 @@ describe('Round 실행 관련 테스트', () => {
         // TODO MoveStategies 보다 테스트 직관적인 코드로 변경
 
         it('실행 결과가 스냅샷 상태로 저장된다.', () => {
-            expect(round.getSnapShot()).toEqual(carsAfter);
+            expect(round.snapshot).toEqual(carsAfter);
         });
     });
 
-    describe('getSnapShot() 테스트', () => {
+    describe('snapshot 테스트', () => {
         it('스냅샷을 반환하며, 이는 Cars 배열로 구성되어 있다.', () => {
-            expect(round.getSnapShot()).toEqual([
+            expect(round.snapshot).toEqual([
                 { name: 'erica', position: 0 },
                 { name: 'Erica', position: 0 },
                 { name: 'theon', position: 0 },

@@ -53,8 +53,8 @@ describe('MovableCondition 조회, 변경 테스트', () => {
                     code: 'new Function()',
                 },
             ])('$code', ({ conditionFunc }) => {
-                expect(() =>
-                    childStrategy.setMovableCondition(conditionFunc),
+                expect(
+                    () => (childStrategy.movableCondition = conditionFunc),
                 ).not.toThrow();
             });
         });
@@ -73,8 +73,8 @@ describe('MovableCondition 조회, 변경 테스트', () => {
                     code: 'new Function()',
                 },
             ])('$code', ({ conditionFunc }) => {
-                childStrategy.setMovableCondition(conditionFunc);
-                expect(childStrategy.getMovableCondition()).toBe(conditionFunc);
+                childStrategy.movableCondition = conditionFunc;
+                expect(childStrategy.movableCondition).toBe(conditionFunc);
             });
         });
     });

@@ -133,7 +133,7 @@ describe('isMovable() 테스트', () => {
                     min,
                     max,
                 );
-                strategy.setMovableCondition(movableCondition);
+                strategy.movableCondition = movableCondition;
                 expect(strategy.isMovable()).toBe(expected);
             },
         );

@@ -90,7 +90,7 @@ describe('isMovable() 테스트', () => {
                     defaultMovableCondition,
                     number,
                 );
-                strategy.setMovableCondition(movableCondition);
+                strategy.movableCondition = movableCondition;
                 expect(strategy.isMovable()).toBe(expected);
             },
         );

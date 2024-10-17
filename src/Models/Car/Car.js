@@ -1,31 +1,31 @@
 import CarName from '../CarName/CarName.js';
 
 export default class Car {
-    #name = '';
-    #position = 0;
+    #name;
+    #position;
 
-    static INITIAL_POSITION = 0;
-    static MOVE_STEP = 1; // TODO: Car 책임 소재일지 질문
+    static #INITIAL_POSITION = 0;
+    static #MOVE_STEP = 1;
 
-    static of(name, position = Car.INITIAL_POSITION) {
+    static of(name, position = Car.#INITIAL_POSITION) {
         return new Car(name, position);
     }
 
-    constructor(name, position = Car.INITIAL_POSITION) {
+    constructor(name, position = Car.#INITIAL_POSITION) {
         this.#name = CarName.of(name);
         this.#position = position;
     }
 
     #move() {
-        this.#position += Car.MOVE_STEP;
+        this.#position += Car.#MOVE_STEP;
     }
 
-    getName() {
-        return this.#name.getName();
-    }
-
-    getPosition() {
+    get position() {
         return this.#position;
+    }
+
+    get name() {
+        return this.#name.name;
     }
 
     tryMove(moveStrategy) {

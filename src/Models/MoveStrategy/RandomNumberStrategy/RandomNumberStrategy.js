@@ -12,9 +12,7 @@ export default class RandomNumberStrategy extends MoveStrategy {
 
     constructor(movableCondition, min = 0, max = 9) {
         super(movableCondition);
-
         this.#validateNumber(min, max);
-
         this.#min = min;
         this.#max = max;
     }
@@ -34,7 +32,8 @@ export default class RandomNumberStrategy extends MoveStrategy {
     }
 
     isMovable() {
-        const movableFunc = this.getMovableCondition();
-        return movableFunc(generateRandomNumber(this.#min, this.#max));
+        const movableFunc = this.movableCondition;
+        const randomNumber = generateRandomNumber(this.#min, this.#max);
+        return movableFunc(randomNumber);
     }
 }

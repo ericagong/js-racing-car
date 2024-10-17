@@ -52,7 +52,7 @@ describe('CarName 생성자 테스트', () => {
                 ({ name }) => {
                     const carName = new CarName(name);
                     expect(carName).toBeInstanceOf(CarName);
-                    expect(carName.getName()).toEqual(name);
+                    expect(carName.name).toEqual(name);
                 },
             );
         });
@@ -65,9 +65,9 @@ describe('of() 테스트', () => {
     });
 });
 
-describe('getname() 테스트', () => {
+describe('get name() 테스트', () => {
     it('Name 객체의 name를 반환합니다.', () => {
         const name = CarName.of('erica');
-        expect(name.getName()).toBe('erica');
+        expect(name.name).toBe('erica');
     });
 });

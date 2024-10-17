@@ -3,9 +3,9 @@ import RandomNumberStrategy from '../MoveStrategy/RandomNumberStrategy/RandomNum
 import validateRoundCount from '../Round/validateTotalRound.js';
 import Round from '../Round/Round.js';
 
-// TODO 항상 실행 순서가 보장되어야 하는 함수들은 어떻게 처리하는게 좋을지? - set -> play -> getResult
-// TODO moveStrategies를 createGame 시, 외부주입 받는 형태로 변경
-export default function createRacingGame() {
+// TODO 항상 실행 순서가 보장되어야 하는 함수 처리 방법
+// 해결: Flag 도입
+export default function createRacingGame(movableCondition) {
     let cars = [];
     let totalRound = 0;
     let rounds = [];
@@ -16,7 +16,6 @@ export default function createRacingGame() {
         totalRound = Number(roundsInput);
     };
 
-    const movableCondition = (num) => num >= 4;
     const play = (
         moveStrategies = cars.map(
             () => new RandomNumberStrategy(movableCondition),
@@ -30,20 +29,20 @@ export default function createRacingGame() {
     };
 
     const getWinnerNames = () => {
-        const maxPosition = Math.max(...cars.map((car) => car.getPosition()));
+        const maxPosition = Math.max(...cars.map((car) => car.position));
         return cars
-            .filter((car) => car.getPosition() === maxPosition)
-            .map((car) => car.getName());
+            .filter((car) => car.position === maxPosition)
+            .map((car) => car.name);
     };
 
     const getResult = () => {
         return {
-            roundHistory: rounds.map((round) => round.getSnapShot()),
+            roundHistory: rounds.map((round) => round.snapshot),
             winnerNames: getWinnerNames(),
         };
     };
 
-    // TODO module 내보내기 방식 차이 질문
+    // TODO 모듈 내보내기 방식 차이의 기준 정리
     return {
         set,
         play,

@@ -22,7 +22,7 @@ export default class FixedNumberStrategy extends MoveStrategy {
     }
 
     isMovable() {
-        const movableFunction = this.getMovableCondition();
+        const movableFunction = this.movableCondition;
         return movableFunction(this.#generateNumber());
     }
 }

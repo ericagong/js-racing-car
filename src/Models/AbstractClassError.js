@@ -1,4 +1,4 @@
-import RuntimeError from '../RuntimeError.js';
+import RuntimeError from './RuntimeError.js';
 
 class AbstractClassError extends RuntimeError {
     #type;
@@ -12,17 +12,17 @@ class AbstractClassError extends RuntimeError {
 }
 
 export class AbstractClassInstantiationError extends AbstractClassError {
-    static MESSAGE = '추상 클래스로 직접 인스턴스화 할 수 없습니다.';
+    static #MESSAGE = '추상 클래스로 직접 인스턴스화 할 수 없습니다.';
 
     constructor() {
-        super(AbstractClassInstantiationError.MESSAGE);
+        super(AbstractClassInstantiationError.#MESSAGE);
     }
 }
 
 export class AbstractMethodNotImplementedError extends AbstractClassError {
-    static MESSAGE = '추상 클래스의 추상 메서드가 구현되지 않았습니다.';
+    static #MESSAGE = '추상 클래스의 추상 메서드가 구현되지 않았습니다.';
 
     constructor() {
-        super(AbstractMethodNotImplementedError.MESSAGE);
+        super(AbstractMethodNotImplementedError.#MESSAGE);
     }
 }
