@@ -12,86 +12,76 @@ const step = 1;
 const alwaysMoveStrategy = new MoveStrategy(movableCondition, () => 5, step);
 const neverMoveStrategy = new MoveStrategy(movableCondition, () => 0, step);
 
-describe('createRacingGame 내 메소드 호출 순서 테스트', () => {
-    const carNames = 'erica, ryang, yang';
-    const totalRound = 5;
-    const moveStrategies = [
-        alwaysMoveStrategy,
-        neverMoveStrategy,
-        neverMoveStrategy,
-    ];
+describe('set() 테스트', () => {
+    // TODO 외부에 분리되어 있는 validation 테스트 코드 가져오기
+    describe('INITIAL 상태 검증 테스트', () => {
+        const carNames = 'erica, ryang, yang';
+        const totalRound = 5;
+        const moveStrategies = [
+            alwaysMoveStrategy,
+            neverMoveStrategy,
+            neverMoveStrategy,
+        ];
+        describe('INITIAL 상태가 아닌 경우,', () => {
+            it('SET 상태에서 set 함수를 호출하면 에러를 발생시킨다.', () => {
+                const game = createRacingGame();
+                game.set(carNames, totalRound, moveStrategies);
+                expect(() =>
+                    game.set(carNames, totalRound, moveStrategies),
+                ).toThrow(NotInitialStateError);
+            });
 
-    describe('INITIAL 상태에서,', () => {
-        let game;
-        beforeEach(() => {
-            game = createRacingGame();
+            it('PLAYED 상태에서 set 함수를 호출하면 에러를 발생시킨다.', () => {
+                const game = createRacingGame();
+                game.set(carNames, totalRound, moveStrategies);
+                game.play();
+                expect(() =>
+                    game.set(carNames, totalRound, moveStrategies),
+                ).toThrow(NotInitialStateError);
+            });
         });
 
-        it('set 함수 호출 시 에러를 발생시키지 않는다.', () => {
+        it('INITIAL 상태인 경우, 에러를 발생시키지 않는다.', () => {
+            const game = createRacingGame();
             expect(() =>
                 game.set(carNames, totalRound, moveStrategies),
             ).not.toThrow();
-        });
-
-        it('play 함수 호출 시 NotSetStateError를 발생 시킨다.', () => {
-            expect(() => game.play()).toThrow(NotSetStateError);
-        });
-
-        it('getResult 함수 호출 시 NotPlayedStateError를 발생 시킨다.', () => {
-            expect(() => game.getResult()).toThrow(NotPlayedStateError);
-        });
-    });
-
-    describe('SET 상태에서,', () => {
-        let game;
-        beforeEach(() => {
-            game = createRacingGame();
-            game.set(carNames, totalRound, moveStrategies);
-        });
-
-        it('set 함수 호출 시 NotInitialStateError를 발생 시킨다.', () => {
-            expect(() =>
-                game.set(carNames, totalRound, moveStrategies),
-            ).toThrow(NotInitialStateError);
-        });
-
-        it('play 함수 호출 시 에러를 발생시키지 않는다.', () => {
-            expect(() => game.play()).not.toThrow();
-        });
-
-        it('getResult 함수 호출 시 NotPlayedStateError를 발생 시킨다.', () => {
-            expect(() => game.getResult()).toThrow(NotPlayedStateError);
-        });
-    });
-
-    describe('PLAYED 상태에서,', () => {
-        let game;
-        beforeEach(() => {
-            game = createRacingGame();
-            game.set(carNames, totalRound, moveStrategies);
-            game.play();
-        });
-
-        it('set 함수 호출 시 NotInitialStateError를 발생 시킨다.', () => {
-            expect(() =>
-                game.set(carNames, totalRound, moveStrategies),
-            ).toThrow(NotInitialStateError);
-        });
-
-        it('play 함수 호출 시 NotSetStateError를 발생 시킨다.', () => {
-            expect(() => game.play()).toThrow(NotSetStateError);
-        });
-
-        it('getResult 함수 호출 시 에러를 발생시키지 않는다.', () => {
-            expect(() => game.getResult()).not.toThrow();
         });
     });
 });
 
 describe('play() 테스트', () => {
-    const { set, play, getResult } = createRacingGame();
+    describe('SET 상태 검증 테스트', () => {
+        const carNames = 'erica, ryang, yang';
+        const totalRound = 5;
+        const moveStrategies = [
+            alwaysMoveStrategy,
+            neverMoveStrategy,
+            neverMoveStrategy,
+        ];
+        describe('SET 상태가 아닌 경우,', () => {
+            it('INITIAL 상태에서 play 함수를 호출하면 에러를 발생시킨다.', () => {
+                const game = createRacingGame();
+                expect(() => game.play()).toThrow(NotSetStateError);
+            });
+
+            it('PLAYED 상태에서 play 함수를 호출하면 에러를 발생시킨다.', () => {
+                const game = createRacingGame();
+                game.set(carNames, totalRound, moveStrategies);
+                game.play();
+                expect(() => game.play()).toThrow(NotSetStateError);
+            });
+        });
+
+        it('SET 상태인 경우, 에러를 발생시키지 않는다.', () => {
+            const game = createRacingGame();
+            game.set(carNames, totalRound, moveStrategies);
+            expect(() => game.play()).not.toThrow();
+        });
+    });
 
     describe('게임을 총 10 라운드 진행한다.', () => {
+        const game = createRacingGame();
         const moveStrategies = [
             alwaysMoveStrategy,
             neverMoveStrategy,
@@ -99,9 +89,9 @@ describe('play() 테스트', () => {
             neverMoveStrategy,
             neverMoveStrategy,
         ];
-        set('erica, Erica, ryang, yang, theon', 10, moveStrategies);
-        play();
-        const gameResult = getResult();
+        game.set('erica, Erica, ryang, yang, theon', 10, moveStrategies);
+        game.play();
+        const gameResult = game.getResult();
 
         it('게임을 총 10라운드 진행한다.', () => {
             expect(gameResult.roundSnapshots).toHaveLength(10);
@@ -122,6 +112,36 @@ describe('play() 테스트', () => {
 });
 
 describe('getResult() 테스트', () => {
+    describe('PLAYED 상태 검증 테스트', () => {
+        const carNames = 'erica, ryang, yang';
+        const totalRound = 5;
+        const moveStrategies = [
+            alwaysMoveStrategy,
+            neverMoveStrategy,
+            neverMoveStrategy,
+        ];
+
+        describe('PLAYED 상태가 아닌 경우,', () => {
+            it('INITIAL 상태에서 getResult 함수를 호출하면 에러를 발생시킨다.', () => {
+                const game = createRacingGame();
+                expect(() => game.getResult()).toThrow(NotPlayedStateError);
+            });
+
+            it('SET 상태에서 getResult 함수를 호출하면 에러를 발생시킨다.', () => {
+                const game = createRacingGame();
+                game.set(carNames, totalRound, moveStrategies);
+                expect(() => game.getResult()).toThrow(NotPlayedStateError);
+            });
+        });
+
+        it('PLAYED 상태인 경우, 에러를 발생시키지 않는다.', () => {
+            const game = createRacingGame();
+            game.set(carNames, totalRound, moveStrategies);
+            game.play();
+            expect(() => game.getResult()).not.toThrow();
+        });
+    });
+
     describe('올바른 우승자를 반환한다.', () => {
         it.each([
             {
