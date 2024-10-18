@@ -39,7 +39,10 @@ export default function createController() {
             const game = new RacingGame(carNames, totalRound, moveStrategies);
             game.play();
 
-            view.printGameResult(game.getResult());
+            view.printGameResult({
+                roundSnapshots: game.getRoundSnapshots(),
+                winnerCarNames: game.getWinnerCarNames(),
+            });
             view.closeInputReader();
         } catch (error) {
             view.printErrorMessage(error.getMessage());
