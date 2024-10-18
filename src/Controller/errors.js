@@ -18,7 +18,7 @@ export class MinNumberGreaterThanMaxNumberError extends ValidationError {
 }
 
 export class CarNamesNotStringError extends ValidationError {
-    static #MESSAGE = '자동차 이름들을 문자열 형태로 입력해야합니다.';
+    static #MESSAGE = '사용자는 자동차 이름들을 문자열 형태로 입력해야합니다.';
 
     constructor() {
         super(CarNamesNotStringError.#MESSAGE);
@@ -26,7 +26,7 @@ export class CarNamesNotStringError extends ValidationError {
 }
 
 export class CarNamesEmptyStringError extends ValidationError {
-    static #MESSAGE = '빈 값으로 자동차 이름들을 입력해서는 안됩니다.';
+    static #MESSAGE = '사용자는 빈 값으로 자동차 이름들을 입력해서는 안됩니다.';
 
     constructor() {
         super(CarNamesEmptyStringError.#MESSAGE);
@@ -34,7 +34,8 @@ export class CarNamesEmptyStringError extends ValidationError {
 }
 
 export class CarNamesDuplicatedError extends ValidationError {
-    static #MESSAGE = '자동차 이름들이 중복되서는 안됩니다.';
+    static #MESSAGE =
+        '사용자는 자동차 이름들로 중복되지 않은 자동차 이름을 입력해야합니다.';
 
     constructor() {
         super(CarNamesDuplicatedError.#MESSAGE);
@@ -42,7 +43,7 @@ export class CarNamesDuplicatedError extends ValidationError {
 }
 
 export class TotalRoundEmptyError extends ValidationError {
-    static #MESSAGE = '시도 횟수로 빈 값을 입력해서는 안됩니다.';
+    static #MESSAGE = '사용자는 시도 횟수로 빈 값을 입력해서는 안됩니다.';
 
     constructor() {
         super(TotalRoundEmptyError.#MESSAGE);
@@ -50,7 +51,7 @@ export class TotalRoundEmptyError extends ValidationError {
 }
 
 export class TotalRoundNotNumberError extends ValidationError {
-    static #MESSAGE = '시도 횟수로는 숫자를 입력해주세요.';
+    static #MESSAGE = '사용자는 시도 횟수로 숫자 형태를 입력해야합니다.';
 
     constructor() {
         super(TotalRoundNotNumberError.#MESSAGE);
@@ -58,7 +59,7 @@ export class TotalRoundNotNumberError extends ValidationError {
 }
 
 export class TotalRoundNotIntegerError extends ValidationError {
-    static #MESSAGE = '시도 횟수로는 정수를 입력해주세요.';
+    static #MESSAGE = '사용자는 시도 횟수로 정수를 입력해야합니다.';
 
     constructor() {
         super(TotalRoundNotIntegerError.#MESSAGE);
@@ -66,7 +67,8 @@ export class TotalRoundNotIntegerError extends ValidationError {
 }
 
 export class TotalRoundOutOfRangeError extends ValidationError {
-    static #MESSAGE = '시도 횟수로는 1 이상 10 이하의 숫자를 입력해주세요.';
+    static #MESSAGE =
+        '사용자는 시도 횟수로는 1 이상 10 이하의 숫자를 입력해야합니다.';
 
     constructor() {
         super(TotalRoundOutOfRangeError.#MESSAGE);

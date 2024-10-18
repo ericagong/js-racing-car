@@ -1,5 +1,5 @@
 import createView from '../View/index.js';
-import createRacingGame from '../Models/RacingGame/createRacingGame.js';
+import RacingGame from '../Models/RacingGame/RacingGame.js';
 import MoveStrategy from '../Models/MoveStrategy/MoveStrategy.js';
 import generateRandomNumber from './generateRandomNumber.js';
 import validateCarNames from './validateCarNames.js';
@@ -22,9 +22,9 @@ export default function createController() {
     );
 
     const eventHandler = (carNamesInput, totalRoundInput) => {
-        const racingCarGame = createRacingGame();
         try {
             // 사용자 입력값 검증
+            // TODO console 입출력 특성 고려해 validate 함수 로직 수정
             validateCarNames(carNamesInput);
             validateTotalRound(totalRoundInput);
 
@@ -35,11 +35,11 @@ export default function createController() {
             const moveStrategies = carNames.map(() => moveStrategy);
             const totalRound = Number(totalRoundInput);
 
-            // 게임 실행
-            racingCarGame.set(carNames, totalRound, moveStrategies);
-            racingCarGame.play();
+            // 게임 설정 및 실행
+            const game = new RacingGame(carNames, totalRound, moveStrategies);
+            game.play();
 
-            view.printGameResult(racingCarGame.getResult());
+            view.printGameResult(game.getResult());
             view.closeInputReader();
         } catch (error) {
             view.printErrorMessage(error.getMessage());

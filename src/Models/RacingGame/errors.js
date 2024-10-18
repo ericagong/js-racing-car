@@ -34,15 +34,6 @@ export class MovesStrategiesLengthError extends ValidationError {
     }
 }
 
-export class NotInitialStateError extends InvalidCallOrderError {
-    static #MESSAGE =
-        'set 함수는 INITIAL 상태에서만 호출할 수 있습니다. 호출 순서를 지켜주세요.';
-
-    constructor() {
-        super(NotInitialStateError.#MESSAGE);
-    }
-}
-
 export class NotSetStateError extends InvalidCallOrderError {
     static #MESSAGE =
         'play 함수는 SET 상태에서만 호출할 수 있습니다. 호출 순서를 지켜주세요.';

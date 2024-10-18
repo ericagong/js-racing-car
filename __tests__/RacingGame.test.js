@@ -1,7 +1,6 @@
-import createRacingGame from '../src/Models/RacingGame/createRacingGame.js';
+import RacingGame from '../src/Models/RacingGame/RacingGame.js';
 import MoveStrategy from '../src/Models/MoveStrategy/MoveStrategy.js';
 import {
-    NotInitialStateError,
     NotSetStateError,
     NotPlayedStateError,
 } from '../src/Models/RacingGame/errors.js';
@@ -14,40 +13,6 @@ const neverMoveStrategy = new MoveStrategy(movableCondition, () => 0, step);
 
 describe('set() 테스트', () => {
     // TODO 외부에 분리되어 있는 validation 테스트 코드 가져오기
-    describe('INITIAL 상태 검증 테스트', () => {
-        const carNames = ['erica', 'ryang', 'yang'];
-        const totalRound = 5;
-        const moveStrategies = [
-            alwaysMoveStrategy,
-            neverMoveStrategy,
-            neverMoveStrategy,
-        ];
-        describe('INITIAL 상태가 아닌 경우,', () => {
-            it('SET 상태에서 set 함수를 호출하면 에러를 발생시킨다.', () => {
-                const game = createRacingGame();
-                game.set(carNames, totalRound, moveStrategies);
-                expect(() =>
-                    game.set(carNames, totalRound, moveStrategies),
-                ).toThrow(NotInitialStateError);
-            });
-
-            it('PLAYED 상태에서 set 함수를 호출하면 에러를 발생시킨다.', () => {
-                const game = createRacingGame();
-                game.set(carNames, totalRound, moveStrategies);
-                game.play();
-                expect(() =>
-                    game.set(carNames, totalRound, moveStrategies),
-                ).toThrow(NotInitialStateError);
-            });
-        });
-
-        it('INITIAL 상태인 경우, 에러를 발생시키지 않는다.', () => {
-            const game = createRacingGame();
-            expect(() =>
-                game.set(carNames, totalRound, moveStrategies),
-            ).not.toThrow();
-        });
-    });
 });
 
 describe('play() 테스트', () => {
@@ -60,28 +25,24 @@ describe('play() 테스트', () => {
             neverMoveStrategy,
         ];
         describe('SET 상태가 아닌 경우,', () => {
-            it('INITIAL 상태에서 play 함수를 호출하면 에러를 발생시킨다.', () => {
-                const game = createRacingGame();
-                expect(() => game.play()).toThrow(NotSetStateError);
-            });
-
             it('PLAYED 상태에서 play 함수를 호출하면 에러를 발생시킨다.', () => {
-                const game = createRacingGame();
-                game.set(carNames, totalRound, moveStrategies);
+                const game = new RacingGame(
+                    carNames,
+                    totalRound,
+                    moveStrategies,
+                );
                 game.play();
                 expect(() => game.play()).toThrow(NotSetStateError);
             });
         });
 
         it('SET 상태인 경우, 에러를 발생시키지 않는다.', () => {
-            const game = createRacingGame();
-            game.set(carNames, totalRound, moveStrategies);
+            const game = new RacingGame(carNames, totalRound, moveStrategies);
             expect(() => game.play()).not.toThrow();
         });
     });
 
     describe('게임을 총 10 라운드 진행한다.', () => {
-        const game = createRacingGame();
         const moveStrategies = [
             alwaysMoveStrategy,
             neverMoveStrategy,
@@ -89,7 +50,7 @@ describe('play() 테스트', () => {
             neverMoveStrategy,
             neverMoveStrategy,
         ];
-        game.set(
+        const game = new RacingGame(
             ['erica', 'Erica', 'ryang', 'yang', 'theon'],
             10,
             moveStrategies,
@@ -126,21 +87,18 @@ describe('getResult() 테스트', () => {
         ];
 
         describe('PLAYED 상태가 아닌 경우,', () => {
-            it('INITIAL 상태에서 getResult 함수를 호출하면 에러를 발생시킨다.', () => {
-                const game = createRacingGame();
-                expect(() => game.getResult()).toThrow(NotPlayedStateError);
-            });
-
             it('SET 상태에서 getResult 함수를 호출하면 에러를 발생시킨다.', () => {
-                const game = createRacingGame();
-                game.set(carNames, totalRound, moveStrategies);
+                const game = new RacingGame(
+                    carNames,
+                    totalRound,
+                    moveStrategies,
+                );
                 expect(() => game.getResult()).toThrow(NotPlayedStateError);
             });
         });
 
         it('PLAYED 상태인 경우, 에러를 발생시키지 않는다.', () => {
-            const game = createRacingGame();
-            game.set(carNames, totalRound, moveStrategies);
+            const game = new RacingGame(carNames, totalRound, moveStrategies);
             game.play();
             expect(() => game.getResult()).not.toThrow();
         });
@@ -206,20 +164,18 @@ describe('getResult() 테스트', () => {
         ])(
             'winnerCarNames: $winnerCarNames',
             ({ winnerCarNames, strategies }) => {
-                const { set, play, getResult } = createRacingGame();
-                set(
+                const game = new RacingGame(
                     ['erica', 'Erica', 'ryang', 'yang', 'theon'],
                     5,
                     strategies,
                 );
-                play();
-                expect(getResult().winnerCarNames).toEqual(winnerCarNames);
+                game.play();
+                expect(game.getResult().winnerCarNames).toEqual(winnerCarNames);
             },
         );
     });
 
     describe('게임 기록과 우승자 정보를 반환한다.', () => {
-        const { set, play, getResult } = createRacingGame();
         const strategies = [
             alwaysMoveStrategy,
             neverMoveStrategy,
@@ -227,9 +183,13 @@ describe('getResult() 테스트', () => {
             neverMoveStrategy,
             neverMoveStrategy,
         ];
-        set(['erica', 'Erica', 'ryang', 'yang', 'theon'], 5, strategies);
-        play();
-        const gameResult = getResult();
+        const game = new RacingGame(
+            ['erica', 'Erica', 'ryang', 'yang', 'theon'],
+            5,
+            strategies,
+        );
+        game.play();
+        const gameResult = game.getResult();
         gameResult.roundSnapshots.forEach((roundRecord, idx) => {
             expect(roundRecord).toEqual([
                 { name: 'erica', position: idx + 1 },
