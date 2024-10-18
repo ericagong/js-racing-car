@@ -5,7 +5,6 @@ export default class Car {
     #position;
 
     static #INITIAL_POSITION = 0;
-    static #MOVE_STEP = 1;
 
     static of(name, position = Car.#INITIAL_POSITION) {
         return new Car(name, position);
@@ -16,8 +15,8 @@ export default class Car {
         this.#position = position;
     }
 
-    #move() {
-        this.#position += Car.#MOVE_STEP;
+    #move(step) {
+        this.#position += step;
     }
 
     get position() {
@@ -30,7 +29,7 @@ export default class Car {
 
     tryMove(moveStrategy) {
         if (moveStrategy.isMovable()) {
-            this.#move();
+            this.#move(moveStrategy.step);
         }
     }
 }

@@ -1,6 +1,6 @@
 import Round from '../src/Models/Round/Round.js';
 import Car from '../src/Models/Car/Car.js';
-import FixedNumberStrategy from './Fixture/FixedNumberStrategy.js';
+import MoveStrategy from '../src/Models/MoveStrategy/MoveStrategy.js';
 
 describe('Round 클래스 생성자 테스트', () => {
     describe('생성자 내부 로직 테스트', () => {
@@ -50,12 +50,13 @@ describe('Round 실행 관련 테스트', () => {
     const cars = carsBefore.map(({ name, position }) => Car.of(name, position));
 
     const movableCondition = (num) => num >= 4;
+    const step = 1;
     const strategies = [
-        new FixedNumberStrategy(movableCondition, 1),
-        new FixedNumberStrategy(movableCondition, 2),
-        new FixedNumberStrategy(movableCondition, 3),
-        new FixedNumberStrategy(movableCondition, 4),
-        new FixedNumberStrategy(movableCondition, 5),
+        new MoveStrategy(movableCondition, () => 1, step),
+        new MoveStrategy(movableCondition, () => 2, step),
+        new MoveStrategy(movableCondition, () => 3, step),
+        new MoveStrategy(movableCondition, () => 4, step),
+        new MoveStrategy(movableCondition, () => 5, step),
     ];
 
     round.run(cars, strategies);

@@ -1,4 +1,3 @@
-// TODO index 숫자인지 validation
 import { isNumber } from '../utils/utils.js';
 import { RoundIndexNotNumberError } from './errors.js';
 
