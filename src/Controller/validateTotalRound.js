@@ -1,10 +1,10 @@
-import { isEmptyValue } from '../utils/utils.js';
+import { isEmptyValue } from '../Models/utils/utils.js';
 import {
     TotalRoundEmptyError,
     TotalRoundNotNumberError,
     TotalRoundNotIntegerError,
     TotalRoundOutOfRangeError,
-} from './errors.js';
+} from '../Controller/errors.js';
 
 const ROUNDS_MIN = 1;
 const ROUNDS_MAX = 10;

@@ -3,9 +3,6 @@ import {
     NotSetStateError,
     NotPlayedStateError,
 } from './errors.js';
-import validateCarNames, { CAR_NAMES_SEPERATOR } from './validateCarNames.js';
-import validateTotalRound from './validateTotalRound.js';
-import { splitAndTrim } from '../utils/utils.js';
 import Car from '../Car/Car.js';
 import Round from '../Round/Round.js';
 import validateMoveStrategies from './validateMoveStrategies.js';
@@ -32,18 +29,11 @@ export default function createRacingGame() {
     const set = (carNames, totalRound, moveStrategies) => {
         if (state !== STATE.INITIATIAL) throw new NotInitialStateError();
 
-        validateCarNames(carNames);
-        validateTotalRound(totalRound);
+        validateMoveStrategies(moveStrategies, carNames.length);
 
-        const carNamesArr = splitAndTrim(carNames, CAR_NAMES_SEPERATOR);
-        const totalRoundNum = Number(totalRound);
-        validateMoveStrategies(moveStrategies, carNamesArr.length);
-
-        cars = carNamesArr.map((carName) => Car.of(carName));
+        cars = carNames.map((carName) => Car.of(carName));
         strategies = moveStrategies;
-        rounds = Array.from({ length: totalRoundNum }, (idx) =>
-            Round.of(idx + 1),
-        );
+        rounds = Array.from({ length: totalRound }, (idx) => Round.of(idx + 1));
 
         state = STATE.SET;
     };

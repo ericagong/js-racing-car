@@ -15,7 +15,7 @@ const neverMoveStrategy = new MoveStrategy(movableCondition, () => 0, step);
 describe('set() 테스트', () => {
     // TODO 외부에 분리되어 있는 validation 테스트 코드 가져오기
     describe('INITIAL 상태 검증 테스트', () => {
-        const carNames = 'erica, ryang, yang';
+        const carNames = ['erica', 'ryang', 'yang'];
         const totalRound = 5;
         const moveStrategies = [
             alwaysMoveStrategy,
@@ -52,7 +52,7 @@ describe('set() 테스트', () => {
 
 describe('play() 테스트', () => {
     describe('SET 상태 검증 테스트', () => {
-        const carNames = 'erica, ryang, yang';
+        const carNames = ['erica', 'ryang', 'yang'];
         const totalRound = 5;
         const moveStrategies = [
             alwaysMoveStrategy,
@@ -89,7 +89,11 @@ describe('play() 테스트', () => {
             neverMoveStrategy,
             neverMoveStrategy,
         ];
-        game.set('erica, Erica, ryang, yang, theon', 10, moveStrategies);
+        game.set(
+            ['erica', 'Erica', 'ryang', 'yang', 'theon'],
+            10,
+            moveStrategies,
+        );
         game.play();
         const gameResult = game.getResult();
 
@@ -113,7 +117,7 @@ describe('play() 테스트', () => {
 
 describe('getResult() 테스트', () => {
     describe('PLAYED 상태 검증 테스트', () => {
-        const carNames = 'erica, ryang, yang';
+        const carNames = ['erica', 'ryang', 'yang'];
         const totalRound = 5;
         const moveStrategies = [
             alwaysMoveStrategy,
@@ -203,7 +207,11 @@ describe('getResult() 테스트', () => {
             'winnerCarNames: $winnerCarNames',
             ({ winnerCarNames, strategies }) => {
                 const { set, play, getResult } = createRacingGame();
-                set('erica, Erica, ryang, yang, theon', 5, strategies);
+                set(
+                    ['erica', 'Erica', 'ryang', 'yang', 'theon'],
+                    5,
+                    strategies,
+                );
                 play();
                 expect(getResult().winnerCarNames).toEqual(winnerCarNames);
             },
@@ -219,7 +227,7 @@ describe('getResult() 테스트', () => {
             neverMoveStrategy,
             neverMoveStrategy,
         ];
-        set('erica, Erica, ryang, yang, theon', 5, strategies);
+        set(['erica', 'Erica', 'ryang', 'yang', 'theon'], 5, strategies);
         play();
         const gameResult = getResult();
         gameResult.roundSnapshots.forEach((roundRecord, idx) => {

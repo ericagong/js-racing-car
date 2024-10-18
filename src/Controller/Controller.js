@@ -2,6 +2,8 @@ import createView from '../View/index.js';
 import createRacingGame from '../Models/RacingGame/createRacingGame.js';
 import MoveStrategy from '../Models/MoveStrategy/MoveStrategy.js';
 import generateRandomNumber from './generateRandomNumber.js';
+import validateCarNames from './validateCarNames.js';
+import validateTotalRound from './validateTotalRound.js';
 
 export default function createController() {
     const view = createView();
@@ -19,16 +21,24 @@ export default function createController() {
         step,
     );
 
-    const eventHandler = (carNames, totalRound) => {
+    const eventHandler = (carNamesInput, totalRoundInput) => {
         const racingCarGame = createRacingGame();
         try {
-            // TODO carNames에서 carNameArr 추출 로직과 totalRound 숫자 검증 로직 set 외부로 분리 -> input 값에 대한 로직
-            const carNameArr = carNames
+            // 사용자 입력값 검증
+            validateCarNames(carNamesInput);
+            validateTotalRound(totalRoundInput);
+
+            // 사용자 입력값 파싱
+            const carNames = carNamesInput
                 .split(',')
                 .map((carName) => carName.trim());
-            const moveStrategies = carNameArr.map(() => moveStrategy);
+            const moveStrategies = carNames.map(() => moveStrategy);
+            const totalRound = Number(totalRoundInput);
+
+            // 게임 실행
             racingCarGame.set(carNames, totalRound, moveStrategies);
             racingCarGame.play();
+
             view.printGameResult(racingCarGame.getResult());
             view.closeInputReader();
         } catch (error) {

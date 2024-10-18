@@ -3,8 +3,8 @@ import {
     TotalRoundNotNumberError,
     TotalRoundNotIntegerError,
     TotalRoundOutOfRangeError,
-} from '../src/Models/RacingGame/errors.js';
-import validateTotalRound from '../src/Models/RacingGame/validateTotalRound.js';
+} from '../src/Controller/errors.js';
+import validateTotalRound from '../src/Controller/validateTotalRound.js';
 
 describe('validateTotalRound() 테스트', () => {
     describe('유효하지 않은 값을 입력한 경우', () => {

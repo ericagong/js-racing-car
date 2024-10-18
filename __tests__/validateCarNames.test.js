@@ -1,9 +1,9 @@
-import validateCarNames from '../src/Models/RacingGame/validateCarNames.js';
+import validateCarNames from '../src/Controller/validateCarNames.js';
 import {
     CarNamesNotStringError,
     CarNamesEmptyStringError,
     CarNamesDuplicatedError,
-} from '../src/Models/RacingGame/errors.js';
+} from '../src/Controller/errors.js';
 
 describe('validateCarNames() 테스트', () => {
     describe('CarNames 유효성 검사', () => {

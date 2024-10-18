@@ -1,9 +1,13 @@
-import { splitAndTrim, isString, isEmptyString } from '../utils/utils.js';
+import {
+    splitAndTrim,
+    isString,
+    isEmptyString,
+} from '../Models/utils/utils.js';
 import {
     CarNamesNotStringError,
     CarNamesEmptyStringError,
     CarNamesDuplicatedError,
-} from './errors.js';
+} from '../Controller/errors.js';
 
 export const CAR_NAMES_SEPERATOR = ',';
 const hasDuplicate = (carNames) => {
