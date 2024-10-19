@@ -1,12 +1,11 @@
 import createView from '../View/index.js';
-import RacingGame from '../Models/RacingGame/RacingGame.js';
-import MoveStrategy from '../Models/MoveStrategy/MoveStrategy.js';
-import generateRandomNumber from './generateRandomNumber.js';
 import { validateCarNames, parseCarNames } from './CarNames/CarNames.js';
 import {
     validateTotalRound,
     convertToNumber,
 } from './TotalRound/TotalRound.js';
+import defaultMoveStrategy from './DefaultMoveStrategy.js';
+import RacingGame from '../Models/RacingGame/RacingGame.js';
 
 export default function createController() {
     const view = createView();
@@ -14,15 +13,6 @@ export default function createController() {
     const initiateGame = () => {
         view.addEventHandlerToInputReader(eventHandler);
     };
-
-    // 단일 이동 전략 적용
-    const movableCondition = (number) => number >= 4;
-    const step = 1;
-    const moveStrategy = new MoveStrategy(
-        movableCondition,
-        generateRandomNumber.bind(null, 0, 9),
-        step,
-    );
 
     const eventHandler = (carNamesInput, totalRoundInput) => {
         try {
@@ -32,8 +22,9 @@ export default function createController() {
             const carNames = parseCarNames(carNamesInput);
             const totalRound = convertToNumber(totalRoundInput);
 
-            // 게임 내 단일 이동 전략 사용(향후 변경 가능)
-            const moveStrategies = carNames.map(() => moveStrategy);
+            // 게임 내 단일 이동 전략 사용(향후 변경 시, 이 지점 변경)
+            const moveStrategies = carNames.map(() => defaultMoveStrategy);
+
             const game = new RacingGame(carNames, totalRound, moveStrategies);
             game.play();
 

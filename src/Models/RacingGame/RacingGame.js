@@ -1,7 +1,7 @@
 import { NotSetStateError, NotPlayedStateError } from './errors.js';
 import Car from '../Car/Car.js';
 import Round from '../Round/Round.js';
-import validateMoveStrategies from './validateMoveStrategies.js';
+import validateMoveStrategies from './MoveStrategies.js';
 
 const STATE = Object.freeze({
     SET: 'Set',
