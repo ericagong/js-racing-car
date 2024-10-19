@@ -1,4 +1,4 @@
-import ValidationError from '../../Models/ValidationError.js';
+import ValidationError from '../ValidationError.js';
 
 export class TotalRoundEmptyError extends ValidationError {
     static #MESSAGE = '사용자는 시도 횟수로 빈 값을 입력해서는 안됩니다.';

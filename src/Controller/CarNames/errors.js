@@ -1,4 +1,4 @@
-import ValidationError from '../../Models/ValidationError.js';
+import ValidationError from '../ValidationError.js';
 
 export class CarNamesNotStringError extends ValidationError {
     static #MESSAGE = '사용자는 자동차 이름들을 문자열 형태로 입력해야합니다.';
