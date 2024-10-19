@@ -1,4 +1,4 @@
-import { isString, isEmptyString } from '../utils/utils.js';
+import { isString, isEmptyString } from '../../utils/utils.js';
 import {
     CarNameNotStringError,
     CarNameEmptyError,

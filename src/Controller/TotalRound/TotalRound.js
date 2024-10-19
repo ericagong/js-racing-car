@@ -1,4 +1,4 @@
-import { isEmptyValue } from '../../Models/utils/utils.js';
+import { isEmptyValue } from '../../utils/utils.js';
 import {
     TotalRoundEmptyError,
     TotalRoundNotNumberError,

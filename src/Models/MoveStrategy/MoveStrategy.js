@@ -1,4 +1,4 @@
-import { isFunction, isNumber } from '../utils/utils.js';
+import { isFunction, isNumber } from '../../utils/utils.js';
 import {
     MovableConditionNotFunctionError,
     GenerateConditionArgsNotFunctionError,

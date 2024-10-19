@@ -1,4 +1,4 @@
-import { isNumber } from '../Models/utils/utils';
+import { isNumber } from '../utils/utils';
 import {
     MinMaxNumberNotNumberError,
     MinNumberGreaterThanMaxNumberError,

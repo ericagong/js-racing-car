@@ -1,4 +1,4 @@
-import { isNumber } from '../utils/utils.js';
+import { isNumber } from '../../utils/utils.js';
 import { RoundIndexNotNumberError } from './errors.js';
 
 export default class Round {
