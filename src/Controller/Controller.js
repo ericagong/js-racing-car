@@ -6,6 +6,7 @@ import {
 } from './TotalRound/TotalRound.js';
 import defaultMoveStrategy from './DefaultMoveStrategy.js';
 import RacingGame from '../Models/RacingGame/RacingGame.js';
+import RuntimeError from '../RuntimeError.js';
 
 export default function createController() {
     const view = createView();
@@ -34,8 +35,14 @@ export default function createController() {
             });
             view.closeInputReader();
         } catch (error) {
-            view.printErrorMessage(error.getMessage());
-            initiateGame();
+            // 예상한 에러 - 에러 메시지 출력 후, 게임 재시작
+            if (error instanceof RuntimeError) {
+                console.log(error.getType(), error.getMessage());
+                view.printErrorMessage(error.getType(), error.getMessage());
+                initiateGame();
+            }
+            // 예상하지 못한 에러 - 프로그램 종료 처리
+            else throw error;
         }
     };
 

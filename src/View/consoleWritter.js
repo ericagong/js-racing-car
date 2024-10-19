@@ -24,7 +24,7 @@ export default function createConsoleWritter() {
     }
 
     function winnerNamesTemplate(winnerCarNames) {
-        write(winnerCarNames.join(', ') + '가 최종 우승했습니다.');
+        write(`${winnerCarNames.join(', ')}가 최종 우승했습니다.`);
     }
 
     function gameResultTemplate(result) {
@@ -39,8 +39,8 @@ export default function createConsoleWritter() {
         winnerNamesTemplate(winnerCarNames);
     }
 
-    function errorMessageTemplate(errorMsg) {
-        write('[ERROR]', errorMsg);
+    function errorMessageTemplate(errorType, errorMsg) {
+        write(`[${errorType}] ${errorMsg}`);
     }
 
     return {
