@@ -1,17 +1,20 @@
-import createCars from '../src/Models/Cars/createCars.js';
+import {
+    validateCarNames,
+    parseCarNames,
+} from '../../src/Controller/CarNames/CarNames.js';
 import {
     CarNamesNotStringError,
     CarNamesEmptyStringError,
     CarNamesDuplicatedError,
-} from '../src/Models/Cars/errors.js';
+} from '../../src/Controller/CarNames/errors.js';
 
-describe('createCars() 테스트', () => {
+describe('validateCarNames() 테스트', () => {
     describe('CarNames 유효성 검사', () => {
         describe('carNames가 문자열 타입이 아닌 경우, 에러 발생', () => {
             it.each([1031, true, null, undefined, {}, [], function () {}])(
                 'carNames: %p',
                 (carNames) => {
-                    expect(() => createCars(carNames)).toThrow(
+                    expect(() => validateCarNames(carNames)).toThrow(
                         CarNamesNotStringError,
                     );
                 },
@@ -20,7 +23,7 @@ describe('createCars() 테스트', () => {
 
         describe('carNames가 빈 문자열인 경우, 에러 발생', () => {
             it.each(['', ' ', '   '])('carNames: "%s"', (carNames) => {
-                expect(() => createCars(carNames)).toThrow(
+                expect(() => validateCarNames(carNames)).toThrow(
                     CarNamesEmptyStringError,
                 );
             });
@@ -36,21 +39,18 @@ describe('createCars() 테스트', () => {
                 { carNames: ' , ' },
                 { carNames: ',' },
             ])('$carNames', ({ carNames }) => {
-                expect(() => createCars(carNames)).toThrow(
+                expect(() => validateCarNames(carNames)).toThrow(
                     CarNamesDuplicatedError,
                 );
             });
         });
-
-        // TODO 내부에 car 이름 유효성 검사가 안맞으면 다른 에러 발생 가능
-        // QUESTION: 이 경우에는 어떻게 처리해야할지?
 
         describe('유효한 값을 입력한 경우', () => {
             describe('carNames를 하나만 입력한 경우, 에러를 발생시키지 않는다.', () => {
                 it.each(['e', 'er', 'eri', 'eric', 'erica', '  _', '!!! '])(
                     '%p',
                     (carNames) => {
-                        expect(() => createCars(carNames)).not.toThrow();
+                        expect(() => validateCarNames(carNames)).not.toThrow();
                     },
                 );
             });
@@ -63,9 +63,44 @@ describe('createCars() 테스트', () => {
                     '*e*1C, *e*1c, ERICA, Pan, theon',
                     '!****, *!***, **!**, ***!*, ****!',
                 ])('%p', (carNames) => {
-                    expect(() => createCars(carNames)).not.toThrow();
+                    expect(() => validateCarNames(carNames)).not.toThrow();
                 });
             });
+        });
+    });
+});
+
+describe('parseCarNames() 테스트', () => {
+    describe(`carNames를 ','로 구분하여 배열로 반환한다.`, () => {
+        it.each([
+            { carNames: 'erica', expected: ['erica'] },
+            {
+                carNames: 'erica, ryang, yang',
+                expected: ['erica', 'ryang', 'yang'],
+            },
+
+            {
+                carNames: 'erica, ryang, yang, Erica',
+                expected: ['erica', 'ryang', 'yang', 'Erica'],
+            },
+        ])('%p', ({ carNames, expected }) => {
+            expect(parseCarNames(carNames)).toEqual(expected);
+        });
+    });
+
+    describe('반환 할 때, 각 요소의 좌우 공백을 제거한다.', () => {
+        it.each([
+            { carNames: ' erica ', expected: ['erica'] },
+            {
+                carNames: ' erica, ryang, yang ',
+                expected: ['erica', 'ryang', 'yang'],
+            },
+            {
+                carNames: ' erica, ryang, yang, Erica ',
+                expected: ['erica', 'ryang', 'yang', 'Erica'],
+            },
+        ])('%p', ({ carNames, expected }) => {
+            expect(parseCarNames(carNames)).toEqual(expected);
         });
     });
 });

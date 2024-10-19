@@ -1,33 +1,33 @@
-import AbstractClassError from './AbstractClassError.js';
+import ValidationError from '../ValidationError.js';
 
-export class MoveStrategyAbstractClassError extends AbstractClassError {
-    static MESSAGE = 'MoveStrategy는 추상 클래스입니다.';
+export class MovableConditionNotFunctionError extends ValidationError {
+    static #MESSAGE = 'movableCondition은 함수 형태여야 합니다.';
 
     constructor() {
-        super(MoveStrategyAbstractClassError.MESSAGE);
+        super(MovableConditionNotFunctionError.#MESSAGE);
     }
 }
 
-export class GenerateNumberNotImplementedError extends AbstractClassError {
-    static MESSAGE = 'generateNumber()가 구현되지 않았습니다.';
+export class GenerateConditionArgsNotFunctionError extends ValidationError {
+    static #MESSAGE = 'generateConditionArgs는 함수 형태여야 합니다.';
 
     constructor() {
-        super(GenerateNumberNotImplementedError.MESSAGE);
+        super(GenerateConditionArgsNotFunctionError.#MESSAGE);
     }
 }
 
-export class IsMovableNotImplementedError extends AbstractClassError {
-    static MESSAGE = 'isMovable()이 구현되지 않았습니다.';
+export class StepNotNumberError extends ValidationError {
+    static #MESSAGE = 'step은 숫자여야 합니다.';
 
     constructor() {
-        super(IsMovableNotImplementedError.MESSAGE);
+        super(StepNotNumberError.#MESSAGE);
     }
 }
 
-export class ConditionFunctionNotFunctionError extends AbstractClassError {
-    static MESSAGE = 'conditionFunc은 함수여야 합니다.';
+export class StepNotIntegerError extends ValidationError {
+    static #MESSAGE = 'step은 정수여야 합니다.';
 
     constructor() {
-        super(ConditionFunctionNotFunctionError.MESSAGE);
+        super(StepNotIntegerError.#MESSAGE);
     }
 }

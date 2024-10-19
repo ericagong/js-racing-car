@@ -1,41 +1,63 @@
+import { isFunction, isNumber } from '../../utils/utils.js';
 import {
-    MoveStrategyAbstractClassError,
-    GenerateNumberNotImplementedError,
-    IsMovableNotImplementedError,
-    ConditionFunctionNotFunctionError,
+    MovableConditionNotFunctionError,
+    GenerateConditionArgsNotFunctionError,
+    StepNotNumberError,
+    StepNotIntegerError,
 } from './errors.js';
 
-// TODO 추상 클래스 부분 Mixin으로 변경
 export default class MoveStrategy {
     #movableCondition;
+    #generateConditionArgs;
+    #step;
 
-    static defaultMovableCondition = (num) => num >= 4;
-
-    constructor() {
-        if (new.target === MoveStrategy)
-            throw new MoveStrategyAbstractClassError();
-        this.#movableCondition = MoveStrategy.defaultMovableCondition;
+    static #validateCondition(movableCondition) {
+        if (!isFunction(movableCondition))
+            throw new MovableConditionNotFunctionError();
     }
 
-    #validateCondition(conditionFunc) {
-        if (typeof conditionFunc !== 'function')
-            throw new ConditionFunctionNotFunctionError();
+    static #validateGenerateConditionArgs(generateConditionArgs) {
+        if (!isFunction(generateConditionArgs))
+            throw new GenerateConditionArgsNotFunctionError();
     }
 
-    getMovableCondition() {
-        return this.#movableCondition;
+    static #validateStep(step) {
+        if (!isNumber(step)) throw new StepNotNumberError();
+        if (!Number.isInteger(step)) throw new StepNotIntegerError();
     }
 
-    setMovableCondition(conditionFunc) {
-        this.#validateCondition(conditionFunc);
-        this.#movableCondition = conditionFunc;
+    constructor(movableCondition, generateConditionArgs, step) {
+        MoveStrategy.#validateCondition(movableCondition);
+        MoveStrategy.#validateGenerateConditionArgs(generateConditionArgs);
+        MoveStrategy.#validateStep(step);
+
+        this.#movableCondition = movableCondition;
+        this.#generateConditionArgs = generateConditionArgs;
+        this.#step = step;
     }
 
-    generateNumber() {
-        throw new GenerateNumberNotImplementedError();
+    // 변경 가능
+    // set movableCondition(movableCondition) {
+    //     MoveStrategy.#validateCondition(movableCondition);
+    //     this.#movableCondition = movableCondition;
+    // }
+
+    // set generateConditionArgs(generateConditionArgs) {
+    //     MoveStrategy.#validateGenerateConditionArgs(generateConditionArgs);
+    //     this.#generateConditionArgs = generateConditionArgs;
+    // }
+
+    get step() {
+        return this.#step;
     }
+
+    // set step(step) {
+    //     MoveStrategy.#validateStep(step);
+    //     this.#step = step;
+    // }
 
     isMovable() {
-        throw new IsMovableNotImplementedError();
+        const target = this.#generateConditionArgs();
+        return this.#movableCondition(target);
     }
 }

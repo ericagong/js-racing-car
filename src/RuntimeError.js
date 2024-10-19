@@ -1,10 +1,11 @@
 export default class RuntimeError extends Error {
+    static type = 'RUNTIME';
     #type;
     #message;
 
-    constructor(message) {
+    constructor(type, message) {
         super(message);
-        this.#type = this.constructor.name;
+        this.#type = type ? type : RuntimeError.type;
         this.#message = message;
     }
 

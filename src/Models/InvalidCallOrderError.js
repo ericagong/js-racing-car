@@ -1,6 +1,6 @@
 import RuntimeError from '../RuntimeError.js';
 
-export default class AbstractClassError extends RuntimeError {
+export default class InvalidCallOrderError extends RuntimeError {
     #type;
     #message;
 

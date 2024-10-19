@@ -1,3 +1,6 @@
+import { isNumber } from '../../utils/utils.js';
+import { RoundIndexNotNumberError } from './errors.js';
+
 export default class Round {
     #index = 0;
     #snapshot = [];
@@ -6,34 +9,41 @@ export default class Round {
         return new Round(index);
     }
 
+    static #validateIndex(index) {
+        if (!isNumber(index)) throw new RoundIndexNotNumberError();
+    }
+
+    static #moveCars(cars, moveStrategies) {
+        return cars.map((car, i) => {
+            return car.tryMove(moveStrategies[i]);
+        });
+    }
+
     constructor(index) {
+        Round.#validateIndex(index);
         this.#index = index;
     }
 
     #takeSnapshot(cars) {
         this.#snapshot = cars.map((car) => {
             return {
-                name: car.getName(),
-                position: car.getPosition(),
+                name: car.name,
+                position: car.position,
             };
         });
     }
 
     run(cars, moveStrategies) {
-        cars.forEach((car, idx) => {
-            car.tryMove(moveStrategies[idx]);
-        });
-
+        Round.#moveCars(cars, moveStrategies);
         this.#takeSnapshot(cars);
-
         return cars;
     }
 
-    getRoundIndex() {
+    get index() {
         return this.#index;
     }
 
-    getSnapShot() {
+    get snapshot() {
         return this.#snapshot;
     }
 }

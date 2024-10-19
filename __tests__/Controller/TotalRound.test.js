@@ -3,8 +3,8 @@ import {
     TotalRoundNotNumberError,
     TotalRoundNotIntegerError,
     TotalRoundOutOfRangeError,
-} from '../src/Models/Round/errors.js';
-import validateTotalRound from '../src/Models/Round/validateTotalRound.js';
+} from '../../src/Controller/TotalRound/errors.js';
+import { validateTotalRound } from '../../src/Controller/TotalRound/TotalRound.js';
 
 describe('validateTotalRound() 테스트', () => {
     describe('유효하지 않은 값을 입력한 경우', () => {
@@ -47,9 +47,18 @@ describe('validateTotalRound() 테스트', () => {
         });
     });
 
-    describe('RoundCount로 1과 10 사이 정수 숫자값을 입력하면, 에러를 발생시키지 않는다.', () => {
+    describe('RoundCount로 1과 10 사이 정수 숫자 형태의 문자열 값을 입력하면, 에러를 발생시키지 않는다.', () => {
         it.each([1, 2, 3, 8, 9, 10])('totalRound: %p', (totalRound) => {
             expect(() => validateTotalRound(totalRound)).not.toThrow();
         });
+    });
+
+    describe('RoundCount로 1과 10 사이 정수 정수 형태의 문자열 값을 입력하면, 에러를 발생시키지 않는다.', () => {
+        it.each(['1', '2', '3', '8', '9', '10'])(
+            'totalRound: %p',
+            (totalRound) => {
+                expect(() => validateTotalRound(totalRound)).not.toThrow();
+            },
+        );
     });
 });
