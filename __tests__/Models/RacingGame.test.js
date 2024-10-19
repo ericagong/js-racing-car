@@ -1,9 +1,9 @@
-import RacingGame from '../src/Models/RacingGame/RacingGame.js';
-import MoveStrategy from '../src/Models/MoveStrategy/MoveStrategy.js';
+import RacingGame from '../../src/Models/RacingGame/RacingGame.js';
+import MoveStrategy from '../../src/Models/MoveStrategy/MoveStrategy.js';
 import {
     NotSetStateError,
     NotPlayedStateError,
-} from '../src/Models/RacingGame/errors.js';
+} from '../../src/Models/RacingGame/errors.js';
 
 const movableCondition = (num) => num === 5;
 const step = 1;

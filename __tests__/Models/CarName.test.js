@@ -1,9 +1,9 @@
-import CarName from '../src/Models/CarName/CarName.js';
+import CarName from '../../src/Models/CarName/CarName.js';
 import {
     CarNameNotStringError,
     CarNameEmptyError,
     CarNameTooLongError,
-} from '../src/Models/CarName/errors.js';
+} from '../../src/Models/CarName/errors.js';
 
 describe('CarName 생성자 테스트', () => {
     describe('name 유효성 검사 테스트', () => {

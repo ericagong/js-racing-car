@@ -1,9 +1,12 @@
-import validateCarNames from '../src/Controller/validateCarNames.js';
+import {
+    validateCarNames,
+    parseCarNames,
+} from '../../src/Controller/CarNames/CarNames.js';
 import {
     CarNamesNotStringError,
     CarNamesEmptyStringError,
     CarNamesDuplicatedError,
-} from '../src/Controller/errors.js';
+} from '../../src/Controller/CarNames/errors.js';
 
 describe('validateCarNames() 테스트', () => {
     describe('CarNames 유효성 검사', () => {
@@ -63,6 +66,41 @@ describe('validateCarNames() 테스트', () => {
                     expect(() => validateCarNames(carNames)).not.toThrow();
                 });
             });
+        });
+    });
+});
+
+describe('parseCarNames() 테스트', () => {
+    describe(`carNames를 ','로 구분하여 배열로 반환한다.`, () => {
+        it.each([
+            { carNames: 'erica', expected: ['erica'] },
+            {
+                carNames: 'erica, ryang, yang',
+                expected: ['erica', 'ryang', 'yang'],
+            },
+
+            {
+                carNames: 'erica, ryang, yang, Erica',
+                expected: ['erica', 'ryang', 'yang', 'Erica'],
+            },
+        ])('%p', ({ carNames, expected }) => {
+            expect(parseCarNames(carNames)).toEqual(expected);
+        });
+    });
+
+    describe('반환 할 때, 각 요소의 좌우 공백을 제거한다.', () => {
+        it.each([
+            { carNames: ' erica ', expected: ['erica'] },
+            {
+                carNames: ' erica, ryang, yang ',
+                expected: ['erica', 'ryang', 'yang'],
+            },
+            {
+                carNames: ' erica, ryang, yang, Erica ',
+                expected: ['erica', 'ryang', 'yang', 'Erica'],
+            },
+        ])('%p', ({ carNames, expected }) => {
+            expect(parseCarNames(carNames)).toEqual(expected);
         });
     });
 });

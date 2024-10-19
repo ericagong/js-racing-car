@@ -1,8 +1,8 @@
-import generateRandomNumber from '../src/Controller/generateRandomNumber.js';
+import generateRandomNumber from '../../src/Controller/generateRandomNumber.js';
 import {
     MinMaxNumberNotNumberError,
     MinNumberGreaterThanMaxNumberError,
-} from '../src/Controller/errors.js';
+} from '../../src/Controller/errors.js';
 
 describe('generateNumber(min, max) 테스트', () => {
     describe('min, max 유효성 검사 테스트', () => {

@@ -1,6 +1,6 @@
-import Round from '../src/Models/Round/Round.js';
-import Car from '../src/Models/Car/Car.js';
-import MoveStrategy from '../src/Models/MoveStrategy/MoveStrategy.js';
+import Round from '../../src/Models/Round/Round.js';
+import Car from '../../src/Models/Car/Car.js';
+import MoveStrategy from '../../src/Models/MoveStrategy/MoveStrategy.js';
 
 describe('Round 클래스 생성자 테스트', () => {
     describe('생성자 내부 로직 테스트', () => {

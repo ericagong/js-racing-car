@@ -2,8 +2,11 @@ import createView from '../View/index.js';
 import RacingGame from '../Models/RacingGame/RacingGame.js';
 import MoveStrategy from '../Models/MoveStrategy/MoveStrategy.js';
 import generateRandomNumber from './generateRandomNumber.js';
-import validateCarNames from './validateCarNames.js';
-import validateTotalRound from './validateTotalRound.js';
+import { validateCarNames, parseCarNames } from './CarNames/CarNames.js';
+import {
+    validateTotalRound,
+    convertToNumber,
+} from './TotalRound/TotalRound.js';
 
 export default function createController() {
     const view = createView();
@@ -23,19 +26,14 @@ export default function createController() {
 
     const eventHandler = (carNamesInput, totalRoundInput) => {
         try {
-            // 사용자 입력값 검증
-            // TODO console 입출력 특성 고려해 validate 함수 로직 수정
             validateCarNames(carNamesInput);
             validateTotalRound(totalRoundInput);
 
-            // 사용자 입력값 파싱
-            const carNames = carNamesInput
-                .split(',')
-                .map((carName) => carName.trim());
-            const moveStrategies = carNames.map(() => moveStrategy);
-            const totalRound = Number(totalRoundInput);
+            const carNames = parseCarNames(carNamesInput);
+            const totalRound = convertToNumber(totalRoundInput);
 
-            // 게임 설정 및 실행
+            // 게임 내 단일 이동 전략 사용(향후 변경 가능)
+            const moveStrategies = carNames.map(() => moveStrategy);
             const game = new RacingGame(carNames, totalRound, moveStrategies);
             game.play();
 

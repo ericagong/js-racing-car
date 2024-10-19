@@ -1,10 +1,10 @@
-import MoveStrategy from '../src/Models/MoveStrategy/MoveStrategy.js';
+import MoveStrategy from '../../src/Models/MoveStrategy/MoveStrategy.js';
 import {
     MovableConditionNotFunctionError,
     GenerateConditionArgsNotFunctionError,
     StepNotNumberError,
     StepNotIntegerError,
-} from '../src/Models/MoveStrategy/errors.js';
+} from '../../src/Models/MoveStrategy/errors.js';
 
 describe('MoveStrategy 생성자 테스트', () => {
     describe('movableCondition이 함수가 아니면, 에러가 발생한다.', () => {
