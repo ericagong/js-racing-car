@@ -37,7 +37,6 @@ export default function createController() {
         } catch (error) {
             // 예상한 에러 - 에러 메시지 출력 후, 게임 재시작
             if (error instanceof RuntimeError) {
-                console.log(error.getType(), error.getMessage());
                 view.printErrorMessage(error.getType(), error.getMessage());
                 initiateGame();
             }
