@@ -12,7 +12,40 @@ const neverMoveStrategy = new MoveStrategy(movableCondition, () => 0, step);
 
 describe('RacingGame 테스트', () => {
     describe('RacingGame 생성자 테스트', () => {
-        // TODO 외부에 분리되어 있는 validation 테스트 코드 가져오기
+        describe('moveStrategies 유효성 검증 테스트', () => {
+            it('moveStrategies의 길이가 carNames의 길이보다 작은 경우, 에러를 발생시킨다.', () => {
+                const carNames = ['erica', 'ryang', 'yang'];
+                const moveStrategies = [alwaysMoveStrategy, neverMoveStrategy];
+                expect(
+                    () => new RacingGame(carNames, 5, moveStrategies),
+                ).toThrow(Error);
+            });
+
+            it('moveStrategies의 길이가 carNames의 길이보다 큰 경우, 에러를 발생시킨다.', () => {
+                const carNames = ['erica', 'ryang', 'yang'];
+                const moveStrategies = [
+                    alwaysMoveStrategy,
+                    neverMoveStrategy,
+                    neverMoveStrategy,
+                    neverMoveStrategy,
+                ];
+                expect(
+                    () => new RacingGame(carNames, 5, moveStrategies),
+                ).toThrow(Error);
+            });
+
+            it('moveStrategies의 길이가 carNames의 길이와 같은 경우, 에러를 발생시키지 않는다.', () => {
+                const carNames = ['erica', 'ryang', 'yang'];
+                const moveStrategies = [
+                    alwaysMoveStrategy,
+                    neverMoveStrategy,
+                    neverMoveStrategy,
+                ];
+                expect(
+                    () => new RacingGame(carNames, 5, moveStrategies),
+                ).not.toThrow();
+            });
+        });
     });
 
     describe('play() 테스트', () => {

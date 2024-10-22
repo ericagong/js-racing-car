@@ -8,9 +8,8 @@ const STATE = Object.freeze({
     PLAYED: 'Played',
 });
 
-// Controller 로직이 아닌지 고민해보기 - set, play, getResult 모두
-// 사실 Controller가 해야하는 일을 추상화 한 파일이라 느껴짐 -> Controller 하위로 위치 변경?
-// TODO 불필요한 상태 관리 제거
+// Controller 로직이 아닌지 고민해보기 - constructor, play, get* 모두 -> Controller 로직을 추상화 한 파일이 아닌지 질문하기
+// TODO 불필요한 상태 관리 제거 -> 함수 분리에 따른 상태 관리 필드 수 증가 질문
 export default class RacingGame {
     #state;
     #cars;
