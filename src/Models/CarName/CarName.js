@@ -6,31 +6,31 @@ import {
 } from './errors.js';
 
 export default class CarName {
-    #name;
+    #value;
 
     // TODO 순환 참조 문제 해결
     static MAX_LENGTH = 5;
 
-    static of(name) {
-        return new CarName(name);
+    static of(value) {
+        return new CarName(value);
     }
 
-    static #isTooLong(name) {
-        return name.trim().length > CarName.MAX_LENGTH;
+    static #isTooLong(value) {
+        return value.trim().length > CarName.MAX_LENGTH;
     }
 
-    static #validate(name) {
-        if (!isString(name)) throw new CarNameNotStringError();
-        if (isEmptyString(name)) throw new CarNameEmptyError();
-        if (CarName.#isTooLong(name)) throw new CarNameTooLongError();
+    static #validate(value) {
+        if (!isString(value)) throw new CarNameNotStringError();
+        if (isEmptyString(value)) throw new CarNameEmptyError();
+        if (CarName.#isTooLong(value)) throw new CarNameTooLongError();
     }
 
-    constructor(name) {
-        CarName.#validate(name);
-        this.#name = name.trim();
+    constructor(value) {
+        CarName.#validate(value);
+        this.#value = value.trim();
     }
 
-    get name() {
-        return this.#name;
+    get value() {
+        return this.#value;
     }
 }

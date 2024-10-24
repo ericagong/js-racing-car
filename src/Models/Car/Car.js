@@ -24,7 +24,7 @@ export default class Car {
     }
 
     get name() {
-        return this.#name.name;
+        return this.#name.value;
     }
 
     tryMove(moveStrategy) {

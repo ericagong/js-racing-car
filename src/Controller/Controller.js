@@ -4,7 +4,7 @@ import {
     validateTotalRound,
     convertToNumber,
 } from './TotalRound/TotalRound.js';
-import defaultMoveStrategy from './DefaultMoveStrategy.js';
+import defaultMoveStrategy from './DefaultMoveStrategy/DefaultMoveStrategy.js';
 import RacingGame from '../Models/RacingGame/RacingGame.js';
 import RuntimeError from '../RuntimeError.js';
 

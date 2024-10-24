@@ -5,6 +5,6 @@ export default class ValidationError extends RuntimeError {
     static #type = 'USER_INPUT';
 
     constructor(message) {
-        super(`${ValidationError.#type}`, message);
+        super(ValidationError.#type, message);
     }
 }

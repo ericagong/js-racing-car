@@ -5,7 +5,7 @@ export default class RuntimeError extends Error {
 
     constructor(type, message) {
         super(message);
-        this.#type = type ? type : RuntimeError.type;
+        this.#type = type ?? RuntimeError.type;
         this.#message = message;
     }
 
