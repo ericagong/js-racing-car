@@ -3,8 +3,8 @@ import {
     TotalRoundNotNumberError,
     TotalRoundNotIntegerError,
     TotalRoundOutOfRangeError,
-} from '../../src/Controller/TotalRound/errors.js';
-import { validateTotalRound } from '../../src/Controller/TotalRound/TotalRound.js';
+} from '../../src/Models/service/TotalRound/errors.js';
+import { validateTotalRound } from '../../src/Models/service/TotalRound/TotalRound.js';
 
 describe('validateTotalRound() 테스트', () => {
     describe('유효하지 않은 값을 입력한 경우', () => {

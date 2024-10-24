@@ -1,4 +1,4 @@
-import RuntimeError from '../../RuntimeError.js';
+import RuntimeError from '../../../RuntimeError.js';
 
 export class MinMaxNumberNotNumberError extends RuntimeError {
     static #MESSAGE = 'generateRandomNumber의 인자 min, max는 숫자여야 합니다.';

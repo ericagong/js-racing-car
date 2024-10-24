@@ -1,13 +1,22 @@
 import createView from '../View/index.js';
-import { validateCarNames, parseCarNames } from './CarNames/CarNames.js';
+import {
+    validateCarNames,
+    parseCarNames,
+} from '../Models/service/CarNames/CarNames.js';
 import {
     validateTotalRound,
     convertToNumber,
-} from './TotalRound/TotalRound.js';
-import defaultMoveStrategy from './DefaultMoveStrategy/DefaultMoveStrategy.js';
-import RacingGame from '../Models/RacingGame/RacingGame.js';
+} from '../Models/service/TotalRound/TotalRound.js';
+import defaultMoveStrategy from '../Models/service/DefaultMoveStrategy/DefaultMoveStrategy.js';
+import RacingGame from '../Models/service/RacingGame/RacingGame.js';
 import RuntimeError from '../RuntimeError.js';
 
+// 리팩토링 방향성
+// [ ] Controller와 Model 영역 확실히 분리 - view 까지 의존하는지 여부
+// [ ] moveStrategy 관련 코드 의도 드러내기
+// [ ] map 함수 직접 전달 형태 에러 재확인
+// [ ] 순환 참조 에러 : eslint rule 추가
+// [ ] 코딩 컨벤션 일괄 적용
 export default function createController() {
     const view = createView();
 

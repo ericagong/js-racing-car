@@ -1,4 +1,4 @@
-import MoveStrategy from '../MoveStrategy/MoveStrategy.js';
+import MoveStrategy from '../../entities/MoveStrategy/MoveStrategy.js';
 import {
     MoveStrategiesNotArrayError,
     MoveStrategiesElementNotMoveStrategyError,

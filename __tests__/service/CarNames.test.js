@@ -1,12 +1,12 @@
 import {
     validateCarNames,
     parseCarNames,
-} from '../../src/Controller/CarNames/CarNames.js';
+} from '../../src/Models/service/CarNames/CarNames.js';
 import {
     CarNamesNotStringError,
     CarNamesEmptyStringError,
     CarNamesDuplicatedError,
-} from '../../src/Controller/CarNames/errors.js';
+} from '../../src/Models/service/CarNames/errors.js';
 
 describe('validateCarNames() 테스트', () => {
     describe('CarNames 유효성 검사', () => {

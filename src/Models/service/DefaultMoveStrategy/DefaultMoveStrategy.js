@@ -1,4 +1,4 @@
-import MoveStrategy from '../../Models/MoveStrategy/MoveStrategy.js';
+import MoveStrategy from '../../entities/MoveStrategy/MoveStrategy.js';
 
 // 미션에서 설정된 게임 내 이동전략
 const MOVABLE_CONDITION = (number) => number >= 4;

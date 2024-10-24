@@ -1,4 +1,4 @@
-import ValidationError from '../../src/Models/ValidationError.js';
+import ValidationError from '../../src/Models/entities/ValidationError.js';
 
 describe('getMessage() 테스트', () => {
     describe('message를 반환한다.', () => {

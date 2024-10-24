@@ -1,4 +1,4 @@
-import RuntimeError from '../RuntimeError.js';
+import RuntimeError from '../../RuntimeError.js';
 
 export default class InvalidCallOrderError extends RuntimeError {
     #type;
