@@ -3,17 +3,18 @@ import {
     validateCarNames,
     validateTotalRound,
 } from '../Models/service/validation.js';
-import { parseAndTrim } from '../Models/utils/utils.js';
-import defaultMoveStrategy from '../Models/service/DefaultMoveStrategy/DefaultMoveStrategy.js';
+import { parseAndTrim } from '../../src/Models/utils/utils.js';
+import { randomNumberStrategy } from '../Models/service/moveStrategies.js';
 import RacingGame from '../Models/service/RacingGame/RacingGame.js';
 import RuntimeError from '../RuntimeError.js';
 
 // 리팩토링 방향성
 // [V] Controller와 Model 영역 확실히 분리 - view 까지 의존하는지 여부
-// [ ] moveStrategy 관련 코드 의도 드러내기
+// [V] moveStrategy 관련 코드 의도 드러내기
 // [ ] map 함수 직접 전달 형태 에러 재확인
 // [ ] 순환 참조 에러 : eslint rule 추가
 // [ ] 코딩 컨벤션 일괄 적용
+
 export default function createController() {
     const view = createView();
 
@@ -21,24 +22,40 @@ export default function createController() {
         view.addEventHandlerToInputReader(eventHandler);
     };
 
+    const CAR_NAMES_INPUT_SEPERATOR = ',';
     const eventHandler = (carNamesInput, totalRoundInput) => {
         try {
             validateCarNames(carNamesInput);
             validateTotalRound(totalRoundInput);
 
-            const carNames = parseAndTrim(carNamesInput, ',');
+            const carNames = parseAndTrim(
+                carNamesInput,
+                CAR_NAMES_INPUT_SEPERATOR,
+            );
             const totalRound = Number(totalRoundInput);
 
-            // 게임 내 단일 이동 전략 사용(향후 변경 시, 이 지점 변경)
-            const moveStrategies = carNames.map(() => defaultMoveStrategy);
+            // ** 게임 내 이동 전략이 변경되면, RacingGame에 주입되는 MoveStrategy[#Round][#Car] 배열만 변경하면 됨 **
+            // ** 각 라운드마다 각 자동차들은 MoveStrategies[roundIdx][carIdx]에 매칭되는 이동 전략에 따라 이동 **
+            // ** 따라서 자동차마다 다른 이동 여부 판단 함수, 판단 함수 인자 생성 함수, 이동 크기 적용 가능 **
 
-            const game = new RacingGame(carNames, totalRound, moveStrategies);
+            // (현재) 매 라운드, 모든 자동차가 동일한 이동 전략을 사용한다고 가정해 sameStrategiesForAllRoundAndAllCars 주입
+            const sameStrategiesForAllRoundAndAllCars = Array.from({
+                length: carNames.length,
+            }).fill(randomNumberStrategy);
+
+            const game = new RacingGame(
+                carNames,
+                totalRound,
+                sameStrategiesForAllRoundAndAllCars,
+            );
+
             game.play();
 
             view.printGameResult({
                 roundSnapshots: game.getRoundSnapshots(),
                 winnerCarNames: game.getWinnerCarNames(),
             });
+
             view.closeInputReader();
         } catch (error) {
             // 예상한 에러 - 에러 메시지 출력 후, 게임 재시작

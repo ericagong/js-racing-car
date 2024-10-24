@@ -1,7 +1,14 @@
-import { NotSetStateError, NotPlayedStateError } from './errors.js';
+import { hasSameLength } from '../../utils/utils.js';
+import MoveStrategy from '../../entities/MoveStrategy/MoveStrategy.js';
+import {
+    MoveStrategiesNotArrayError,
+    MoveStrategiesElementNotMoveStrategyError,
+    MovesStrategiesLengthError,
+    NotSetStateError,
+    NotPlayedStateError,
+} from './errors.js';
 import Car from '../../entities/Car/Car.js';
 import Round from '../../entities/Round/Round.js';
-import validateMoveStrategies from './MoveStrategies.js';
 
 const STATE = Object.freeze({
     SET: 'Set',
@@ -17,9 +24,20 @@ export default class RacingGame {
     #moveStrategies;
     #winnerCars;
 
-    constructor(carNames, totalRound, moveStrategies) {
-        validateMoveStrategies(moveStrategies, carNames.length);
+    static #hasNonMoveStrategyElement = (moveStrategies) =>
+        moveStrategies.some((strategy) => !(strategy instanceof MoveStrategy));
 
+    static #validate(moveStrategies, carsCount) {
+        if (!Array.isArray(moveStrategies))
+            throw new MoveStrategiesNotArrayError();
+        if (RacingGame.#hasNonMoveStrategyElement(moveStrategies))
+            throw new MoveStrategiesElementNotMoveStrategyError();
+        if (!hasSameLength(moveStrategies, carsCount))
+            throw new MovesStrategiesLengthError();
+    }
+
+    constructor(carNames, totalRound, moveStrategies) {
+        RacingGame.#validate(moveStrategies, carNames.length);
         this.#cars = carNames.map((carName) => Car.of(carName));
         this.#moveStrategies = moveStrategies;
         this.#rounds = Array.from({ length: totalRound }, (idx) =>
