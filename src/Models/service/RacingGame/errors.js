@@ -1,7 +1,7 @@
-import ValidationError from '../ValidationError.js';
+import RuntimeError from '../../../RuntimeError.js';
 import InvalidCallOrderError from '../InvalidCallOrderError.js';
 
-export class RoundIndexNotNumberError extends ValidationError {
+export class RoundIndexNotNumberError extends RuntimeError {
     static #MESSAGE = '라운드 인덱스로 숫자 타입을 입력해주세요.';
 
     constructor() {
@@ -9,7 +9,7 @@ export class RoundIndexNotNumberError extends ValidationError {
     }
 }
 
-export class MoveStrategiesNotArrayError extends ValidationError {
+export class MoveStrategiesNotArrayError extends RuntimeError {
     static #MESSAGE = '이동 전략들은 배열 형태로 입력해주세요.';
 
     constructor() {
@@ -17,7 +17,7 @@ export class MoveStrategiesNotArrayError extends ValidationError {
     }
 }
 
-export class MoveStrategiesElementNotMoveStrategyError extends ValidationError {
+export class MoveStrategiesElementNotMoveStrategyError extends RuntimeError {
     static #MESSAGE =
         '이동 전략들은 MoveStrategy의 인스턴스로 구성되어야합니다.';
 
@@ -26,7 +26,7 @@ export class MoveStrategiesElementNotMoveStrategyError extends ValidationError {
     }
 }
 
-export class MovesStrategiesLengthError extends ValidationError {
+export class MovesStrategiesLengthError extends RuntimeError {
     static #MESSAGE = '이동 전략의 개수는 자동차의 수와 같아야합니다.';
 
     constructor() {

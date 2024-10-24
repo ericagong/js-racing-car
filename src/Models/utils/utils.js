@@ -11,3 +11,7 @@ export const isEmptyValue = (target) => {
         (isString(target) && isEmptyString(target))
     );
 };
+
+export const parseAndTrim = (target, separator) => {
+    return target.split(separator).map((item) => item.trim());
+};
