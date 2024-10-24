@@ -66,3 +66,28 @@ export class TotalRoundOutOfRangeError extends ValidationError {
         super(TotalRoundOutOfRangeError.#MESSAGE);
     }
 }
+
+export class MoveStrategiesNotArrayError extends RuntimeError {
+    static #MESSAGE = '이동 전략들은 배열 형태로 입력해주세요.';
+
+    constructor() {
+        super(MoveStrategiesNotArrayError.#MESSAGE);
+    }
+}
+
+export class MoveStrategiesElementNotMoveStrategyError extends RuntimeError {
+    static #MESSAGE =
+        '이동 전략들은 MoveStrategy의 인스턴스로 구성되어야합니다.';
+
+    constructor() {
+        super(MoveStrategiesElementNotMoveStrategyError.#MESSAGE);
+    }
+}
+
+export class MovesStrategiesLengthError extends RuntimeError {
+    static #MESSAGE = '이동 전략의 개수는 자동차의 수와 같아야합니다.';
+
+    constructor() {
+        super(MovesStrategiesLengthError.#MESSAGE);
+    }
+}

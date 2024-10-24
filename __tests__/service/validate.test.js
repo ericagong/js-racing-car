@@ -1,6 +1,7 @@
 import {
     validateCarNames,
     validateTotalRound,
+    validateMoveStrategies,
 } from '../../src/Models/service/validation.js';
 import {
     CarNamesNotStringError,
@@ -10,7 +11,11 @@ import {
     TotalRoundNotNumberError,
     TotalRoundNotIntegerError,
     TotalRoundOutOfRangeError,
+    MoveStrategiesNotArrayError,
+    MoveStrategiesElementNotMoveStrategyError,
+    MovesStrategiesLengthError,
 } from '../../src/Models/service/errors.js';
+import MoveStrategy from '../../src/Models/entities/MoveStrategy/MoveStrategy.js';
 
 describe('validateCarNames(input) 테스트', () => {
     describe('유효하지 않은 형태의 input이라면, 에러가 발생한다.', () => {
@@ -73,61 +78,131 @@ describe('validateCarNames(input) 테스트', () => {
         });
     });
 });
-describe('validateTotalRound() 테스트', () => {
+describe('validateTotalRound(input) 테스트', () => {
     describe('유효하지 않은 값을 입력한 경우, 에러가 발생한다.', () => {
-        describe('RoundCount가 빈 값인 경우', () => {
-            it.each(['', null, undefined, ' '])(
-                '시도 횟수가 빈 값인 경우, 에러를 발생시킨다.',
-                (totalRound) => {
-                    expect(() => validateTotalRound(totalRound)).toThrow(
-                        TotalRoundEmptyError,
-                    );
-                },
-            );
+        describe('input이 빈 값인 경우', () => {
+            it.each(['', null, undefined, ' '])('%p', (input) => {
+                expect(() => validateTotalRound(input)).toThrow(
+                    TotalRoundEmptyError,
+                );
+            });
         });
 
-        describe('RoundCount가 숫자 형태의 string이 아닌 경우', () => {
+        describe('input이 숫자 형태의 string이 아닌 경우', () => {
             it.each(['12@', '123456*', '12ab', 'abcde', '-12a'])(
                 '%p',
-                (totalRound) => {
-                    expect(() => validateTotalRound(totalRound)).toThrow(
+                (input) => {
+                    expect(() => validateTotalRound(input)).toThrow(
                         TotalRoundNotNumberError,
                     );
                 },
             );
         });
 
-        describe('RoundCount가 정수 형태의 number가 아닌 경우.', () => {
-            it.each([1.5, 0.5, 1.03])('%p', (totalRound) => {
-                expect(() => validateTotalRound(totalRound)).toThrow(
+        describe('input이 정수 형태의 number가 아닌 경우.', () => {
+            it.each([1.5, 0.5, 1.03])('%p', (input) => {
+                expect(() => validateTotalRound(input)).toThrow(
                     TotalRoundNotIntegerError,
                 );
             });
         });
 
-        describe('RoundCount가 [1, 10] 사이의 정수 형태 number가 아닌 경우', () => {
-            it.each([-10, -1, 0])('%p', (totalRound) => {
-                expect(() => validateTotalRound(totalRound)).toThrow(
+        describe('input이 [1, 10] 사이의 정수 형태 number가 아닌 경우', () => {
+            it.each([-10, -1, 0])('%p', (input) => {
+                expect(() => validateTotalRound(input)).toThrow(
                     TotalRoundOutOfRangeError,
                 );
             });
         });
     });
 
-    describe('유효한 형태의 RoundCount를 입력하면, 에러가 발생하지 않는다.', () => {
-        describe('RoundCount가 [1, 10] 사이의 정수 형태의 number인 경우', () => {
+    describe('유효한 형태의 input를 입력하면, 에러가 발생하지 않는다.', () => {
+        describe('input가 [1, 10] 사이의 정수 형태의 number인 경우', () => {
             it.each([1, 2, 3, 8, 9, 10])('totalRound: %p', (totalRound) => {
                 expect(() => validateTotalRound(totalRound)).not.toThrow();
             });
         });
 
-        describe('RoundCount가 [1, 10] 사이의 정수 형태의 string인 경우', () => {
+        describe('input가 [1, 10] 사이의 정수 형태의 string인 경우', () => {
             it.each(['1', '2', '3', '8', '9', '10'])(
                 'totalRound: %p',
                 (totalRound) => {
                     expect(() => validateTotalRound(totalRound)).not.toThrow();
                 },
             );
+        });
+    });
+});
+
+describe('validateMoveStrategies(moveStrategies, carsCount) 유효성 검증 테스트', () => {
+    const anyMoveStrategy = new MoveStrategy(
+        () => true,
+        () => 5,
+        1,
+    );
+
+    describe('유효하지 않은 경우, 에러가 발생한다.', () => {
+        describe('moveStrategies가 배열이 아닌 경우', () => {
+            it.each([1031, true, null, undefined, {}, function () {}])(
+                '%p',
+                (moveStrategies) => {
+                    expect(() =>
+                        validateMoveStrategies(moveStrategies, 1),
+                    ).toThrow(MoveStrategiesNotArrayError);
+                },
+            );
+        });
+
+        describe('moveStrategies의 요소 중 MoveStrategy가 아닌 요소가 존재하는 경우', () => {
+            it.each([
+                {
+                    moveStrategies: [1031],
+                },
+                { moveStrategies: [true] },
+                { moveStrategies: [null] },
+                { moveStrategies: [undefined] },
+                { moveStrategies: [{}] },
+                { moveStrategies: [function () {}] },
+            ])('%p', ({ moveStrategies }) => {
+                expect(() => validateMoveStrategies(moveStrategies, 3)).toThrow(
+                    MoveStrategiesElementNotMoveStrategyError,
+                );
+            });
+        });
+
+        describe('moveStrategies 길이와 carNames 길이가 같지 않은 경우', () => {
+            it('moveStrategies 길이 < carNames 길이', () => {
+                const carNames = ['erica', 'ryang', 'yang'];
+                const moveStrategies = [anyMoveStrategy, anyMoveStrategy];
+                expect(() => validateMoveStrategies(moveStrategies, 3)).toThrow(
+                    MovesStrategiesLengthError,
+                );
+            });
+
+            it('moveStrategies 길이 > carNames 길이', () => {
+                const moveStrategies = [
+                    anyMoveStrategy,
+                    anyMoveStrategy,
+                    anyMoveStrategy,
+                    anyMoveStrategy,
+                ];
+                expect(() => validateMoveStrategies(moveStrategies, 3)).toThrow(
+                    MovesStrategiesLengthError,
+                );
+            });
+        });
+    });
+
+    describe('유효한 경우, 에러가 발생하지 않는다.', () => {
+        it('moveStrategies가 carsCount 길이의 MoveStrategy로 요소가 구성된 array 타입인 경우', () => {
+            const moveStrategies = [
+                anyMoveStrategy,
+                anyMoveStrategy,
+                anyMoveStrategy,
+            ];
+            expect(() =>
+                validateMoveStrategies(moveStrategies, 3),
+            ).not.toThrow();
         });
     });
 });
