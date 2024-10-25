@@ -1,4 +1,4 @@
-import validateTotalRound from '../../src/Models/service/Rounds/validateTotalRound.js';
+import Rounds from '../../src/Models/service/Rounds/index.js';
 import {
     TotalRoundEmptyError,
     TotalRoundNotNumberError,
@@ -6,8 +6,8 @@ import {
     TotalRoundOutOfRangeError,
 } from '../../src/Models/service/Rounds/errors.js';
 import Round from '../../src/Models/entities/Round/Round.js';
-import createRounds from '../../src/Models/service/Rounds/createRounds.js';
-import getRoundSnapshots from '../../src/Models/service/Rounds/getSnapshots.js';
+
+const { validateTotalRound, createRounds, getRoundSnapshots } = Rounds;
 
 describe('validateTotalRound(totalRound) 테스트', () => {
     describe('유효하지 않은 값을 입력한 경우, 에러가 발생한다.', () => {

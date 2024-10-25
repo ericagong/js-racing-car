@@ -1,14 +1,9 @@
 import createView from '../View/index.js';
-import validateCarNames from '../Models/service/Cars/validateCarNames.js';
-import validateTotalRound from '../Models/service/Rounds/validateTotalRound.js';
-import validateMoveStrategies from '../Models/service/MoveStrategies/validateMoveStrategies.js';
+import Cars from '../Models/service/Cars/index.js';
+import Rounds from '../Models/service/Rounds/index.js';
+import MoveStrategies from '../Models/service/MoveStrategies/index.js';
 import { parseAndTrim } from '../Models/utils/utils.js';
-import createCars from '../Models/service/Cars/createCars.js';
-import createRounds from '../Models/service/Rounds/createRounds.js';
-import { getRandomNumberStrategy } from '../Models/service/MoveStrategies/getMoveStrategies.js';
 import play from '../Models/service/play.js';
-import getRoundSnapshots from '../Models/service/Rounds/getSnapshots.js';
-import getWinnerCarNames from '../Models/service/Cars/getWinnerCarNames.js';
 import RuntimeError from '../RuntimeError.js';
 
 // 리팩토링 방향성
@@ -16,9 +11,12 @@ import RuntimeError from '../RuntimeError.js';
 // [V] moveStrategy 관련 코드 의도 드러내기
 // [V] map 함수 직접 전달 형태 에러 재확인
 // [V] racingGame 파일 분리
-// [ ] service 파일 index.js 도입
-// [ ] 순환 참조 에러 : eslint rule 추가
-// [ ] 코딩 컨벤션 일괄 적용
+// [V] 순환 참조 에러 : eslint rule 추가
+// [V] service 파일 index.js 도입
+// [ ] 코딩 컨벤션 일괄 적용 - prettier, eslint
+// [ ] 불필요한 주석 제거
+// [ ] round별로 moveStrategy 적용하는 형태로 코드 변경
+// [ ] 폴더 구조 변경 - Controller, Domain(Models, Service), UI(View)
 
 export default function createController() {
     const view = createView();
@@ -30,8 +28,8 @@ export default function createController() {
     const CAR_NAMES_INPUT_SEPERATOR = ',';
     const eventHandler = (carNamesInput, totalRoundInput) => {
         try {
-            validateCarNames(carNamesInput);
-            validateTotalRound(totalRoundInput);
+            Cars.validateCarNames(carNamesInput);
+            Rounds.validateTotalRound(totalRoundInput);
 
             const carNames = parseAndTrim(
                 carNamesInput,
@@ -46,18 +44,18 @@ export default function createController() {
             // (현재) 매 라운드, 모든 자동차가 동일한 이동 전략을 사용한다고 가정해 sameStrategiesForAllRoundAndAllCars 주입
             const sameStrategiesForAllRoundAndAllCars = Array.from({
                 length: carNames.length,
-            }).fill(getRandomNumberStrategy());
+            }).fill(MoveStrategies.getRandomNumberStrategy());
 
-            validateMoveStrategies(
+            MoveStrategies.validateMoveStrategies(
                 sameStrategiesForAllRoundAndAllCars,
                 carNames.length,
             );
 
-            let cars = createCars(carNames);
-            let rounds = createRounds(totalRound);
+            let cars = Cars.createCars(carNames);
+            let rounds = Rounds.createRounds(totalRound);
             play(cars, rounds, sameStrategiesForAllRoundAndAllCars);
-            const roundSnapshots = getRoundSnapshots(rounds);
-            const winnerCarNames = getWinnerCarNames(cars);
+            const roundSnapshots = Rounds.getRoundSnapshots(rounds);
+            const winnerCarNames = Cars.getWinnerCarNames(cars);
 
             view.printGameResult({
                 roundSnapshots,

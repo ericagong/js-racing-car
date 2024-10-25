@@ -1,11 +1,12 @@
+import MoveStrategies from '../../src/Models/service/MoveStrategies/index.js';
 import MoveStrategy from '../../src/Models/entities/MoveStrategy/MoveStrategy.js';
-import validateMoveStrategies from '../../src/Models/service/MoveStrategies/validateMoveStrategies.js';
 import {
     MoveStrategiesNotArrayError,
     MoveStrategiesElementNotMoveStrategyError,
     MoveStrategiesLengthError,
 } from '../../src/Models/service/MoveStrategies/errors.js';
-import { getRandomNumberStrategy } from '../../src/Models/service/MoveStrategies/getMoveStrategies.js';
+
+const { validateMoveStrategies, getRandomNumberStrategy } = MoveStrategies;
 
 describe('validateMoveStrategies(moveStrategies, carsCount) 유효성 검증 테스트', () => {
     const anyMoveStrategy = new MoveStrategy(

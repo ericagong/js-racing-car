@@ -1,12 +1,12 @@
-import validateCarNames from '../../src/Models/service/Cars/validateCarNames.js';
+import Cars from '../../src/Models/service/Cars/index.js';
 import {
     CarNamesNotStringError,
     CarNamesEmptyStringError,
     CarNamesDuplicatedError,
 } from '../../src/Models/service/Cars/errors.js';
 import Car from '../../src/Models/entities/Car/Car.js';
-import createCars from '../../src/Models/service/Cars/createCars.js';
-import getWinnerCarNames from '../../src/Models/service/Cars/getWinnerCarNames.js';
+
+const { validateCarNames, createCars, getWinnerCarNames } = Cars;
 
 describe('validateCarNames(carNames) 테스트', () => {
     describe('유효하지 않은 형태의 carNames이라면, 에러가 발생한다.', () => {

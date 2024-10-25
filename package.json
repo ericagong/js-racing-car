@@ -37,6 +37,7 @@
     "clean-webpack-plugin": "^4.0.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jest": "^28.8.2",
     "eslint-plugin-prettier": "^5.2.1",
     "esm": "^3.2.25",
@@ -51,12 +52,12 @@
       "\\.[jt]sx?$": "babel-jest"
     },
     "testMatch": [
-      "**/__tests__/**/*.test.js", 
+      "**/__tests__/**/*.test.js",
       "**/?(*.)+(spec|test).[jt]s?(x)"
     ],
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "/__tests__/Fixture/" 
+      "/__tests__/Fixture/"
     ]
   },
   "babel": {
