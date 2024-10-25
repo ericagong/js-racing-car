@@ -1,24 +1,22 @@
 import createView from '../View/index.js';
-import {
-    validateCarNames,
-    validateTotalRound,
-    validateMoveStrategies,
-} from '../Models/service/validation.js';
-import { parseAndTrim } from '../../src/Models/utils/utils.js';
-import { randomNumberStrategy } from '../Models/service/moveStrategies.js';
+import validateCarNames from '../Models/service/Cars/validateCarNames.js';
+import validateTotalRound from '../Models/service/Rounds/validateTotalRound.js';
+import validateMoveStrategies from '../Models/service/MoveStrategies/validateMoveStrategies.js';
+import { parseAndTrim } from '../Models/utils/utils.js';
+import createCars from '../Models/service/Cars/createCars.js';
+import createRounds from '../Models/service/Rounds/createRounds.js';
+import { getRandomNumberStrategy } from '../Models/service/MoveStrategies/getMoveStrategies.js';
+import play from '../Models/service/play.js';
+import getRoundSnapshots from '../Models/service/Rounds/getSnapshots.js';
+import getWinnerCarNames from '../Models/service/Cars/getWinnerCarNames.js';
 import RuntimeError from '../RuntimeError.js';
-import {
-    createCars,
-    playWith,
-    getRoundSnapshots,
-    getWinnerCarNames,
-} from '../Models/service/RacingGame.js';
 
 // 리팩토링 방향성
 // [V] Controller와 Model 영역 확실히 분리 - view 까지 의존하는지 여부
 // [V] moveStrategy 관련 코드 의도 드러내기
 // [V] map 함수 직접 전달 형태 에러 재확인
 // [V] racingGame 파일 분리
+// [ ] service 파일 index.js 도입
 // [ ] 순환 참조 에러 : eslint rule 추가
 // [ ] 코딩 컨벤션 일괄 적용
 
@@ -48,7 +46,7 @@ export default function createController() {
             // (현재) 매 라운드, 모든 자동차가 동일한 이동 전략을 사용한다고 가정해 sameStrategiesForAllRoundAndAllCars 주입
             const sameStrategiesForAllRoundAndAllCars = Array.from({
                 length: carNames.length,
-            }).fill(randomNumberStrategy);
+            }).fill(getRandomNumberStrategy());
 
             validateMoveStrategies(
                 sameStrategiesForAllRoundAndAllCars,
@@ -56,11 +54,8 @@ export default function createController() {
             );
 
             let cars = createCars(carNames);
-            let rounds = playWith(
-                cars,
-                totalRound,
-                sameStrategiesForAllRoundAndAllCars,
-            );
+            let rounds = createRounds(totalRound);
+            play(cars, rounds, sameStrategiesForAllRoundAndAllCars);
             const roundSnapshots = getRoundSnapshots(rounds);
             const winnerCarNames = getWinnerCarNames(cars);
 
