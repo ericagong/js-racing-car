@@ -1,32 +1,33 @@
 import { isString, isEmptyString } from '../../utils/utils.js';
 import {
-    CarNameNotStringError,
-    CarNameEmptyError,
-    CarNameTooLongError,
+    ValueNotStringError,
+    ValueEmptyStringError,
+    ValueLengthTooLongError,
 } from './errors.js';
 
 export default class CarName {
     #value;
 
-    // TODO 순환 참조 문제 해결
     static MAX_LENGTH = 5;
 
     static of(value) {
         return new CarName(value);
     }
 
-    static #isTooLong(value) {
-        return value.trim().length > CarName.MAX_LENGTH;
+    static #isBelowMaxLength(value) {
+        return value.trim().length <= CarName.MAX_LENGTH;
     }
 
     static #validate(value) {
-        if (!isString(value)) throw new CarNameNotStringError();
-        if (isEmptyString(value)) throw new CarNameEmptyError();
-        if (CarName.#isTooLong(value)) throw new CarNameTooLongError();
+        if (!isString(value)) throw new ValueNotStringError();
+        if (isEmptyString(value)) throw new ValueEmptyStringError();
+        if (!CarName.#isBelowMaxLength(value))
+            throw new ValueLengthTooLongError();
     }
 
     constructor(value) {
         CarName.#validate(value);
+
         this.#value = value.trim();
     }
 

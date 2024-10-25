@@ -1,24 +1,32 @@
 import ValidationError from '../ValidationError.js';
 
-export class CarNamesNotStringError extends ValidationError {
-    static #MESSAGE = '사용자는 자동차 이름들을 문자열 형태로 입력해야합니다.';
+class CarsError extends ValidationError {
+    static #TYPE = '[CarsError]';
+
+    constructor(message) {
+        super(`${CarsError.#TYPE} ${message}`);
+    }
+}
+
+export class CarNamesNotStringError extends CarsError {
+    static #MESSAGE = 'carNames는 string 타입이어야합니다.';
 
     constructor() {
         super(CarNamesNotStringError.#MESSAGE);
     }
 }
 
-export class CarNamesEmptyStringError extends ValidationError {
-    static #MESSAGE = '사용자는 빈 값으로 자동차 이름들을 입력해서는 안됩니다.';
+export class CarNamesEmptyStringError extends CarsError {
+    static #MESSAGE =
+        'carNames는 빈 형태의 string 타입으로 설정할 수 없습니다.';
 
     constructor() {
         super(CarNamesEmptyStringError.#MESSAGE);
     }
 }
 
-export class CarNamesDuplicatedError extends ValidationError {
-    static #MESSAGE =
-        '사용자는 자동차 이름들로 중복되지 않은 자동차 이름을 입력해야합니다.';
+export class CarNamesDuplicatedError extends CarsError {
+    static #MESSAGE = 'carNames는 중복되지 않은 이름으로 설정해야합니다.';
 
     constructor() {
         super(CarNamesDuplicatedError.#MESSAGE);

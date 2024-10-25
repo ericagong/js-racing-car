@@ -1,9 +1,17 @@
 import ValidationError from '../ValidationError.js';
 
-export class RoundIndexNotNumberError extends ValidationError {
-    static #MESSAGE = '라운드 인덱스로 숫자 타입을 입력해주세요.';
+class RoundError extends ValidationError {
+    static #TYPE = 'RoundError';
+
+    constructor(message) {
+        super(`${RoundError.#TYPE} ${message}`);
+    }
+}
+
+export class IndexNotNumberError extends RoundError {
+    static #MESSAGE = 'index는 number 타입이어야합니다.';
 
     constructor() {
-        super(RoundIndexNotNumberError.#MESSAGE);
+        super(IndexNotNumberError.#MESSAGE);
     }
 }

@@ -1,4 +1,6 @@
 import CarName from '../CarName/CarName.js';
+import MoveStrategy from '../MoveStrategy/MoveStrategy.js';
+import { TryMoveArgNotMoveStrategyError } from './errors.js';
 
 export default class Car {
     #name;
@@ -10,6 +12,15 @@ export default class Car {
         return new Car(name, position);
     }
 
+    static #IsInstanceOfMoveStrategy(moveStrategy) {
+        return moveStrategy instanceof MoveStrategy;
+    }
+
+    static #validate(moveStrategy) {
+        if (!Car.#IsInstanceOfMoveStrategy(moveStrategy))
+            throw new TryMoveArgNotMoveStrategyError();
+    }
+
     constructor(name, position = Car.#INITIAL_POSITION) {
         this.#name = CarName.of(name);
         this.#position = position;
@@ -19,17 +30,19 @@ export default class Car {
         this.#position += step;
     }
 
-    get position() {
-        return this.#position;
+    tryMove(moveStrategy) {
+        Car.#validate(moveStrategy);
+
+        if (moveStrategy.isMovable()) {
+            this.#move(moveStrategy.step);
+        }
     }
 
     get name() {
         return this.#name.value;
     }
 
-    tryMove(moveStrategy) {
-        if (moveStrategy.isMovable()) {
-            this.#move(moveStrategy.step);
-        }
+    get position() {
+        return this.#position;
     }
 }

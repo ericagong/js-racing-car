@@ -6,10 +6,10 @@ import {
     TotalRoundOutOfRangeError,
 } from './errors.js';
 
-const ROUNDS_MIN = 1;
-const ROUNDS_MAX = 10;
+const TOTAL_ROUND_MIN = 1;
+const TOTAL_ROUND_MAX = 10;
 const isOutOfBoundary = (totalRound) => {
-    return totalRound < ROUNDS_MIN || totalRound > ROUNDS_MAX;
+    return totalRound < TOTAL_ROUND_MIN || totalRound > TOTAL_ROUND_MAX;
 };
 
 export default function validateTotalRound(totalRound) {

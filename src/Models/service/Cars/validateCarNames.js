@@ -5,7 +5,7 @@ import {
     CarNamesDuplicatedError,
 } from './errors.js';
 
-const hasDuplicate = (input) => new Set(input).size !== input.length;
+const hasDuplicate = (carNames) => new Set(carNames).size !== carNames.length;
 
 const CAR_NAMES_SEPERATOR = ',';
 export default function validateCarNames(carNames) {

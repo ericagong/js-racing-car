@@ -1,7 +1,8 @@
 import ValidationError from '../ValidationError.js';
 
+// [ ] 제거 isEmptyValue
 export class TotalRoundEmptyError extends ValidationError {
-    static #MESSAGE = '사용자는 시도 횟수로 빈 값을 입력해서는 안됩니다.';
+    static #MESSAGE = 'totalRound는 빈 값이어서는 안됩니다.';
 
     constructor() {
         super(TotalRoundEmptyError.#MESSAGE);
@@ -9,7 +10,7 @@ export class TotalRoundEmptyError extends ValidationError {
 }
 
 export class TotalRoundNotNumberError extends ValidationError {
-    static #MESSAGE = '사용자는 시도 횟수로 숫자 형태를 입력해야합니다.';
+    static #MESSAGE = 'totalRound는 number 타입이어야합니다.';
 
     constructor() {
         super(TotalRoundNotNumberError.#MESSAGE);
@@ -17,7 +18,7 @@ export class TotalRoundNotNumberError extends ValidationError {
 }
 
 export class TotalRoundNotIntegerError extends ValidationError {
-    static #MESSAGE = '사용자는 시도 횟수로 정수를 입력해야합니다.';
+    static #MESSAGE = 'totalRound는 정수 형태이어야합니다.';
 
     constructor() {
         super(TotalRoundNotIntegerError.#MESSAGE);
@@ -25,8 +26,7 @@ export class TotalRoundNotIntegerError extends ValidationError {
 }
 
 export class TotalRoundOutOfRangeError extends ValidationError {
-    static #MESSAGE =
-        '사용자는 시도 횟수로는 1 이상 10 이하의 숫자를 입력해야합니다.';
+    static #MESSAGE = 'totalRounds는 [1, 10] 사이의 값이어야합니다.';
 
     constructor() {
         super(TotalRoundOutOfRangeError.#MESSAGE);

@@ -1,23 +1,31 @@
 import ValidationError from '../ValidationError.js';
 
-export class MovableConditionNotFunctionError extends ValidationError {
-    static #MESSAGE = 'movableCondition은 함수 형태여야 합니다.';
+class MoveStrategyError extends ValidationError {
+    static #TYPE = 'MoveStrategyError';
+
+    constructor(message) {
+        super(`${MoveStrategyError.#TYPE} ${message}`);
+    }
+}
+
+export class MovableConditionNotFunctionError extends MoveStrategyError {
+    static #MESSAGE = 'movableCondition은 function 타입이어야합니다.';
 
     constructor() {
         super(MovableConditionNotFunctionError.#MESSAGE);
     }
 }
 
-export class GenerateConditionArgsNotFunctionError extends ValidationError {
-    static #MESSAGE = 'generateConditionArgs는 함수 형태여야 합니다.';
+export class GenerateConditionArgsNotFunctionError extends MoveStrategyError {
+    static #MESSAGE = 'generateConditionArgs는 function 타입이어야합니다.';
 
     constructor() {
         super(GenerateConditionArgsNotFunctionError.#MESSAGE);
     }
 }
 
-export class StepNotNumberError extends ValidationError {
-    static #MESSAGE = 'step은 숫자여야 합니다.';
+export class StepNotNumberError extends MoveStrategyError {
+    static #MESSAGE = 'step은 number 타입이어야합니다.';
 
     constructor() {
         super(StepNotNumberError.#MESSAGE);
@@ -25,7 +33,7 @@ export class StepNotNumberError extends ValidationError {
 }
 
 export class StepNotIntegerError extends ValidationError {
-    static #MESSAGE = 'step은 정수여야 합니다.';
+    static #MESSAGE = 'step은 정수 형태이어야 합니다.';
 
     constructor() {
         super(StepNotIntegerError.#MESSAGE);

@@ -1,5 +1,3 @@
-import createController from './Controller/Controller.js';
+import setRacingGameEnvironment from './Controller/Controller.js';
 
-const controller = createController();
-
-controller.initiate();
+setRacingGameEnvironment();

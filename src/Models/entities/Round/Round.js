@@ -1,18 +1,19 @@
 import { isNumber } from '../../utils/utils.js';
-import { RoundIndexNotNumberError } from './errors.js';
+import { IndexNotNumberError } from './errors.js';
 
 export default class Round {
-    #index = 0;
-    #snapshot = [];
+    #index;
+    #snapshot;
 
     static of(index) {
         return new Round(index);
     }
 
-    static #validateIndex(index) {
-        if (!isNumber(index)) throw new RoundIndexNotNumberError();
+    static #validate(index) {
+        if (!isNumber(index)) throw new IndexNotNumberError();
     }
 
+    // [ ] moveStrategy 로직 수정
     static #moveCars(cars, moveStrategies) {
         return cars.map((car, i) => {
             return car.tryMove(moveStrategies[i]);
@@ -20,8 +21,10 @@ export default class Round {
     }
 
     constructor(index) {
-        Round.#validateIndex(index);
+        Round.#validate(index);
+
         this.#index = index;
+        this.#snapshot = [];
     }
 
     #takeSnapshot(cars) {

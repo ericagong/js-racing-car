@@ -1,14 +1,11 @@
-import createConsoleReader from './consoleReader';
-import createConsoleWritter from './consoleWritter';
+import { addEventHandler, close } from './consoleReader.js';
+import { gameResultTemplate, errorMessageTemplate } from './consoleWritter.js';
 
-export default function createView() {
-    const inputReader = createConsoleReader();
-    const outputPrinter = createConsoleWritter();
+const View = {
+    addEventHandlerToInputReader: addEventHandler,
+    closeInputReader: close,
+    printGameResult: gameResultTemplate,
+    printErrorMessage: errorMessageTemplate,
+};
 
-    return {
-        addEventHandlerToInputReader: inputReader.addEventHandler,
-        closeInputReader: inputReader.close,
-        printGameResult: outputPrinter.gameResultTemplate,
-        printErrorMessage: outputPrinter.errorMessageTemplate,
-    };
-}
+export default View;
