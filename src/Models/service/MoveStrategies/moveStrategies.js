@@ -10,26 +10,20 @@ const STEP = 1;
 
 // randomNumberStrategy는 자동차 미션에서 설정된,
 // 0-9 사이의 임의의 숫자를 생성하여, 숫자가 4 이상일 때만 이동하는 전략
-const randomNumberStrategy = new MoveStrategy(
+export const randomNumberStrategy = new MoveStrategy(
     MOVABLE_CONDITION,
     GENERATE_RANDOM_NUMBER,
     STEP,
 );
 
 // 이 외에도 하단처럼 다양한 이동 전략을 설정하여, 각 자동차별로 적용 가능
-// const alwaysMoveStrategy = new MoveStrategy(
+// export const alwaysMoveStrategy = new MoveStrategy(
 //     () => true,
 //     () => {},
 //     1,
 // );
-// const neverMoveStrategy = new MoveStrategy(
+// export const neverMoveStrategy = new MoveStrategy(
 //     () => false,
 //     () => {},
 //     1,
 // );
-
-export const getRandomNumberStrategy = () => randomNumberStrategy;
-
-// 이동 전략을 추가하고, 하단처럼 전략 생성 함수를 추가하여 외부에서 사용 가능
-// export const getAlwaysMoveStrategy = () => alwaysMoveStrategy;
-// export const getNeverMoveStrategy = () => neverMoveStrategy;

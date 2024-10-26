@@ -14,7 +14,8 @@ import RuntimeError from '../RuntimeError.js';
 // [V] service 파일 index.js 도입
 // [V] 코딩 컨벤션 일괄 적용 - prettier, eslint
 // [V] Round 객체에서 라운드 별 차량 이동 책임 service/play로 이동
-// [ ] round별로 moveStrategy 적용하는 형태로 코드 변경
+// [V] round별로 moveStrategy 적용하는 형태로 코드 변경
+// [ ] MoveStrategy를 MoveRule과 MoveTactics로 분리
 // [ ] 불필요한 주석 제거
 
 const CAR_NAMES_INPUT_SEPERATOR = ',';
@@ -28,29 +29,21 @@ const runRacingGame = (carNamesInput, totalRoundInput) => {
         const carNames = parseAndTrim(carNamesInput, CAR_NAMES_INPUT_SEPERATOR);
         const totalRound = Number(totalRoundInput);
 
-        // ** 게임 내 이동 전략이 변경되면, RacingGame에 주입되는 MoveStrategy[#Round] 배열만 변경하면 됨 **
-        // ** 각 라운드마다 각각의 자동차들은 MoveStrategies[carIdx]에 매칭되는 이동 전략에 따라 이동 **
-        // ** 따라서 자동차마다 다른 이동 여부 판단 함수, 판단 함수 인자 생성 함수, 이동 크기 적용 가능 **
-
-        // (현재) 매 라운드, 모든 자동차가 동일한 이동 전략을 사용한다고 가정해 sameStrategiesForAllRoundAndAllCars 주입
-        const sameStrategyForAllCars = Array.from({
-            length: carNames.length,
-        }).fill(MoveStrategies.getRandomNumberStrategy());
-
-        // 이동 전략 유효성 검사
-        MoveStrategies.validateMoveStrategies(
-            sameStrategyForAllCars,
-            carNames.length,
+        // 라운드별 이동 전략 생성
+        // 라운드 별 이동전략 변경 시 moveStrategies 수정
+        // 현재는 모든 라운드 이동 전략이 MoveStrategies.randomNumberStrategy로 고정
+        const sameMoveStrategies = Array.from(
+            { length: totalRound },
+            () => MoveStrategies.randomNumberStrategy,
         );
+        MoveStrategies.validateMoveStrategies(sameMoveStrategies, totalRound);
 
         const cars = Cars.createCars(carNames);
         const rounds = Rounds.createRounds(totalRound);
 
         for (let i = 0; i < totalRound; i++) {
-            // const currRoundMoveStrategy = moveStrategies[i];
-            // Cars.moveCars(cars, currRoundMoveStrategy);
-            // const currRoundMoveStrategy = moveStrategies[i];
-            Cars.moveCars(cars, sameStrategyForAllCars);
+            const currRoundMoveStrategy = sameMoveStrategies[i];
+            Cars.moveCars(cars, currRoundMoveStrategy);
             rounds[i].snapshot = cars;
         }
 

@@ -6,7 +6,7 @@ import {
     MoveStrategiesLengthError,
 } from '../../src/Models/service/MoveStrategies/errors.js';
 
-const { validateMoveStrategies, getRandomNumberStrategy } = MoveStrategies;
+const { validateMoveStrategies } = MoveStrategies;
 
 describe('validateMoveStrategies(moveStrategies, carsCount) 유효성 검증 테스트', () => {
     const anyMoveStrategy = new MoveStrategy(
@@ -16,7 +16,7 @@ describe('validateMoveStrategies(moveStrategies, carsCount) 유효성 검증 테
     );
 
     describe('유효하지 않은 경우, 에러가 발생한다.', () => {
-        describe('moveStrategies가 배열이 아닌 경우', () => {
+        describe('moveStrategies가 Array 타입이 아닌 경우', () => {
             it.each([1031, true, null, undefined, {}, function () {}])(
                 '%p',
                 (moveStrategies) => {
@@ -44,15 +44,15 @@ describe('validateMoveStrategies(moveStrategies, carsCount) 유효성 검증 테
             });
         });
 
-        describe('moveStrategies 길이와 carNames 길이가 같지 않은 경우', () => {
-            it('moveStrategies 길이 < carNames 길이', () => {
+        describe('moveStrategies 길이와 count 길이가 같지 않은 경우', () => {
+            it('moveStrategies 길이 < count 길이', () => {
                 const moveStrategies = [anyMoveStrategy, anyMoveStrategy];
                 expect(() => validateMoveStrategies(moveStrategies, 3)).toThrow(
                     MoveStrategiesLengthError,
                 );
             });
 
-            it('moveStrategies 길이 > carNames 길이', () => {
+            it('moveStrategies 길이 > count 길이', () => {
                 const moveStrategies = [
                     anyMoveStrategy,
                     anyMoveStrategy,
@@ -67,7 +67,7 @@ describe('validateMoveStrategies(moveStrategies, carsCount) 유효성 검증 테
     });
 
     describe('유효한 경우, 에러가 발생하지 않는다.', () => {
-        it('moveStrategies가 carsCount 길이의 MoveStrategy로 요소가 구성된 array 타입인 경우', () => {
+        it('moveStrategies가 count 길이의 MoveStrategy로 요소가 구성된 Array 타입인 경우', () => {
             const moveStrategies = [
                 anyMoveStrategy,
                 anyMoveStrategy,
@@ -77,17 +77,5 @@ describe('validateMoveStrategies(moveStrategies, carsCount) 유효성 검증 테
                 validateMoveStrategies(moveStrategies, 3),
             ).not.toThrow();
         });
-    });
-});
-
-describe('getRandomNumberStrategy() 테스트', () => {
-    it('랜덤 숫자를 반환하는 MoveStrategy 객체를 반환한다.', () => {
-        const randomNumberStrategy = getRandomNumberStrategy();
-        const expected = new MoveStrategy(
-            (number) => number >= 4,
-            () => Math.floor(Math.random() * (9 - 0 + 1)) + 0,
-            1,
-        );
-        expect(randomNumberStrategy).toEqual(expected);
     });
 });

@@ -1,6 +1,6 @@
 import validateTotalRound from './validateTotalRound.js';
 import createRounds from './createRounds.js';
-import getRoundSnapshots from './getSnapshots.js';
+import getRoundSnapshots from './getRoundSnapshots.js';
 
 const Rounds = {
     validateTotalRound,
