@@ -5,8 +5,9 @@ import {
     CarNamesDuplicatedError,
 } from '../../src/Models/service/Cars/errors.js';
 import Car from '../../src/Models/entities/Car/Car.js';
+import MoveStrategy from '../../src/Models/entities/MoveStrategy/MoveStrategy.js';
 
-const { validateCarNames, createCars, getWinnerCarNames } = Cars;
+const { validateCarNames, createCars, getWinnerCarNames, moveCars } = Cars;
 
 describe('validateCarNames(carNames) 테스트', () => {
     describe('유효하지 않은 형태의 carNames이라면, 에러가 발생한다.', () => {
@@ -117,6 +118,64 @@ describe('getWinnerCarNames(cars) 테스트', () => {
             },
         ])(`cars: $cars`, ({ cars, expected }) => {
             expect(getWinnerCarNames(cars)).toEqual(expected);
+        });
+    });
+});
+
+describe('moveCars(cars, moveStrategy) 테스트', () => {
+    describe('moveStrategy에 따라 cars 배열의 Car들을 이동시킨다.', () => {
+        const cars = [
+            Car.of('erica', 0),
+            Car.of('Erica', 0),
+            Car.of('ryang', 0),
+            Car.of('yang', 0),
+        ];
+        it.each([
+            {
+                name: '항상 이동 전략 - 1칸 이동',
+                moveStrategy: MoveStrategy.from(
+                    () => true,
+                    () => {},
+                    1,
+                ),
+                expected: [
+                    Car.of('erica', 1),
+                    Car.of('Erica', 1),
+                    Car.of('ryang', 1),
+                    Car.of('yang', 1),
+                ],
+            },
+            {
+                name: '항상 이동 전략 - 2칸 이동',
+                moveStrategy: MoveStrategy.from(
+                    () => true,
+                    () => {},
+                    2,
+                ),
+                expected: [
+                    Car.of('erica', 2),
+                    Car.of('Erica', 2),
+                    Car.of('ryang', 2),
+                    Car.of('yang', 2),
+                ],
+            },
+            {
+                name: '항상 정지 전략',
+                moveStrategy: MoveStrategy.from(
+                    () => false,
+                    () => {},
+                    1,
+                ),
+                expected: [
+                    Car.of('erica', 0),
+                    Car.of('Erica', 0),
+                    Car.of('ryang', 0),
+                    Car.of('yang', 0),
+                ],
+            },
+        ])('$name', ({ moveStrategy, expected }) => {
+            moveCars(cars, moveStrategy);
+            expect(cars).toEqual(expected);
         });
     });
 });

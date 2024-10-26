@@ -6,7 +6,6 @@ import {
     StepNotIntegerError,
 } from './errors.js';
 
-// [ ] static isMoveStrategy 함수 추가
 export default class MoveStrategy {
     #movableCondition;
     #generateConditionArgs;

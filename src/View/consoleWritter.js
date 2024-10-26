@@ -11,7 +11,6 @@ const resultGuideTemplate = () => {
     write('실행 결과');
 };
 
-// [ ] car 외부로 분리
 const carRecordTemplate = ({ name, position }) => {
     write(`${name} : ${'-'.repeat(position)}`);
 };

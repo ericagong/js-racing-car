@@ -98,7 +98,7 @@ describe('get index 테스트', () => {
     });
 });
 
-// [ ] question - 동일한 테스트 코드 반복
+// [ ] question - getter와 setter 동일한 테스트 코드 반복
 describe('set snapshot(cars) 테스트', () => {
     describe('cars 유효성 검사 테스트', () => {
         describe('cars가 유효하지 않은 경우, 에러가 발생한다.', () => {

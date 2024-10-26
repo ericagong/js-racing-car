@@ -1,6 +1,5 @@
 import ValidationError from '../ValidationError.js';
 
-// [ ] 제거 isEmptyValue
 export class TotalRoundEmptyError extends ValidationError {
     static #MESSAGE = 'totalRound는 빈 값이어서는 안됩니다.';
 
@@ -10,7 +9,7 @@ export class TotalRoundEmptyError extends ValidationError {
 }
 
 export class TotalRoundNotNumberError extends ValidationError {
-    static #MESSAGE = 'totalRound는 number 타입이어야합니다.';
+    static #MESSAGE = 'totalRound는 Number 타입이어야합니다.';
 
     constructor() {
         super(TotalRoundNotNumberError.#MESSAGE);
