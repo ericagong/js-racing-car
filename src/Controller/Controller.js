@@ -3,7 +3,6 @@ import Cars from '../Models/service/Cars/index.js';
 import Rounds from '../Models/service/Rounds/index.js';
 import MoveStrategies from '../Models/service/MoveStrategies/index.js';
 import { parseAndTrim } from '../Models/utils/utils.js';
-import play from '../Models/service/play.js';
 import RuntimeError from '../RuntimeError.js';
 
 // 리팩토링 방향성
@@ -21,13 +20,15 @@ import RuntimeError from '../RuntimeError.js';
 const CAR_NAMES_INPUT_SEPERATOR = ',';
 const runRacingGame = (carNamesInput, totalRoundInput) => {
     try {
+        // 사용자 입력값에 대한 유효성 검사
         Cars.validateCarNames(carNamesInput);
         Rounds.validateTotalRound(totalRoundInput);
 
+        // 사용자 입력값 가공
         const carNames = parseAndTrim(carNamesInput, CAR_NAMES_INPUT_SEPERATOR);
         const totalRound = Number(totalRoundInput);
 
-        // ** 게임 내 이동 전략이 변경되면, RacingGame에 주입되는 MoveStrategy[#Car] 배열만 변경하면 됨 **
+        // ** 게임 내 이동 전략이 변경되면, RacingGame에 주입되는 MoveStrategy[#Round] 배열만 변경하면 됨 **
         // ** 각 라운드마다 각각의 자동차들은 MoveStrategies[carIdx]에 매칭되는 이동 전략에 따라 이동 **
         // ** 따라서 자동차마다 다른 이동 여부 판단 함수, 판단 함수 인자 생성 함수, 이동 크기 적용 가능 **
 
@@ -36,16 +37,25 @@ const runRacingGame = (carNamesInput, totalRoundInput) => {
             length: carNames.length,
         }).fill(MoveStrategies.getRandomNumberStrategy());
 
+        // 이동 전략 유효성 검사
         MoveStrategies.validateMoveStrategies(
             sameStrategyForAllCars,
             carNames.length,
         );
 
-        const { roundSnapshots, winnerCarNames } = play(
-            carNames,
-            totalRound,
-            sameStrategyForAllCars,
-        );
+        const cars = Cars.createCars(carNames);
+        const rounds = Rounds.createRounds(totalRound);
+
+        for (let i = 0; i < totalRound; i++) {
+            // const currRoundMoveStrategy = moveStrategies[i];
+            // Cars.moveCars(cars, currRoundMoveStrategy);
+            // const currRoundMoveStrategy = moveStrategies[i];
+            Cars.moveCars(cars, sameStrategyForAllCars);
+            rounds[i].snapshot = cars;
+        }
+
+        const roundSnapshots = Rounds.getRoundSnapshots(rounds);
+        const winnerCarNames = Cars.getWinnerCarNames(cars);
 
         View.printGameResult(roundSnapshots, winnerCarNames);
 
