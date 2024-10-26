@@ -10,6 +10,8 @@ export const isEmptyValue = (target) => {
         (isString(target) && isEmptyString(target))
     );
 };
+export const isEmptyArray = (target) => target.length === 0;
+export const isPositive = (target) => target > 0;
 
 // target : Array
 export const parseAndTrim = (target, separator) => {

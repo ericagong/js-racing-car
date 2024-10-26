@@ -14,6 +14,7 @@ import RuntimeError from '../RuntimeError.js';
 // [V] 순환 참조 에러 : eslint rule 추가
 // [V] service 파일 index.js 도입
 // [V] 코딩 컨벤션 일괄 적용 - prettier, eslint
+// [V] Round 객체에서 라운드 별 차량 이동 책임 service/play로 이동
 // [ ] round별로 moveStrategy 적용하는 형태로 코드 변경
 // [ ] 불필요한 주석 제거
 
@@ -31,22 +32,20 @@ const runRacingGame = (carNamesInput, totalRoundInput) => {
         // ** 따라서 자동차마다 다른 이동 여부 판단 함수, 판단 함수 인자 생성 함수, 이동 크기 적용 가능 **
 
         // (현재) 매 라운드, 모든 자동차가 동일한 이동 전략을 사용한다고 가정해 sameStrategiesForAllRoundAndAllCars 주입
-        const sameStrategiesForAllRoundAndAllCars = Array.from({
+        const sameStrategyForAllCars = Array.from({
             length: carNames.length,
         }).fill(MoveStrategies.getRandomNumberStrategy());
 
         MoveStrategies.validateMoveStrategies(
-            sameStrategiesForAllRoundAndAllCars,
+            sameStrategyForAllCars,
             carNames.length,
         );
 
-        let cars = Cars.createCars(carNames);
-        let rounds = Rounds.createRounds(totalRound);
-
-        play(cars, rounds, sameStrategiesForAllRoundAndAllCars);
-
-        const roundSnapshots = Rounds.getRoundSnapshots(rounds);
-        const winnerCarNames = Cars.getWinnerCarNames(cars);
+        const { roundSnapshots, winnerCarNames } = play(
+            carNames,
+            totalRound,
+            sameStrategyForAllCars,
+        );
 
         View.printGameResult(roundSnapshots, winnerCarNames);
 

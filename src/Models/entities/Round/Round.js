@@ -1,5 +1,13 @@
-import { isNumber } from '../../utils/utils.js';
-import { IndexNotNumberError } from './errors.js';
+import { isNumber, isPositive, isEmptyArray } from '../../utils/utils.js';
+import {
+    IndexNotNumberError,
+    IndexNotIntegerError,
+    IndexNotPositiveError,
+    CarsNotArrayError,
+    CarsEmptyArrayError,
+    CarsElementNotCarError,
+} from './errors.js';
+import Car from '../Car/Car.js';
 
 export default class Round {
     #index;
@@ -9,41 +17,41 @@ export default class Round {
         return new Round(index);
     }
 
-    static #validate(index) {
+    static #validateIndex(index) {
         if (!isNumber(index)) throw new IndexNotNumberError();
+        if (!Number.isInteger(index)) throw new IndexNotIntegerError();
+        if (!isPositive(index)) throw new IndexNotPositiveError();
     }
 
-    // [ ] moveStrategy 로직 수정
-    static #moveCars(cars, moveStrategies) {
-        return cars.map((car, i) => {
-            return car.tryMove(moveStrategies[i]);
-        });
+    static #carsElementNotCar(cars) {
+        return cars.some((car) => !(car instanceof Car));
+    }
+
+    static #validateCars(cars) {
+        if (!Array.isArray(cars)) throw new CarsNotArrayError();
+        if (isEmptyArray(cars)) throw new CarsEmptyArrayError();
+        if (Round.#carsElementNotCar(cars)) throw new CarsElementNotCarError();
+    }
+
+    static #deepCopyCars(cars) {
+        return cars.map((car) => ({ name: car.name, position: car.position }));
     }
 
     constructor(index) {
-        Round.#validate(index);
+        Round.#validateIndex(index);
 
         this.#index = index;
         this.#snapshot = [];
     }
 
-    #takeSnapshot(cars) {
-        this.#snapshot = cars.map((car) => {
-            return {
-                name: car.name,
-                position: car.position,
-            };
-        });
-    }
-
-    run(cars, moveStrategies) {
-        Round.#moveCars(cars, moveStrategies);
-        this.#takeSnapshot(cars);
-        return cars;
-    }
-
     get index() {
         return this.#index;
+    }
+
+    set snapshot(cars) {
+        Round.#validateCars(cars);
+
+        this.#snapshot = Round.#deepCopyCars(cars);
     }
 
     get snapshot() {
