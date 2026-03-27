@@ -25,7 +25,6 @@
         "jest/valid-expect": "error",
         "import/no-cycle": ["error", { "maxDepth": 1 }],
         "no-var": "error",
-        // "no-console": ["error", { "allow": ["warn", "info"] }],
         "eqeqeq": "warn",
         "no-unused-vars": "warn"
     }

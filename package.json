@@ -26,26 +26,24 @@
   },
   "homepage": "https://github.com/ericagong/javascript-racingcar#readme",
   "devDependencies": {
-    "@babel/cli": "^7.20.7",
-    "@babel/core": "^7.20.12",
-    "@babel/preset-env": "^7.20.2",
-    "@commitlint/cli": "^19.4.0",
-    "@commitlint/config-conventional": "^19.2.2",
-    "@types/jest": "^29.2.5",
-    "babel-jest": "^29.3.1",
-    "babel-loader": "^9.1.2",
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.2",
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
+    "babel-jest": "^30.3.0",
+    "babel-loader": "^10.1.1",
     "clean-webpack-plugin": "^4.0.0",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-jest": "^28.8.2",
-    "eslint-plugin-prettier": "^5.2.1",
-    "esm": "^3.2.25",
-    "husky": "^9.1.5",
-    "jest": "^29.3.1",
-    "prettier": "^3.3.3",
-    "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.1"
+    "eslint": "^10.1.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jest": "^29.15.1",
+    "eslint-plugin-prettier": "^5.5.5",
+    "husky": "^9.1.7",
+    "jest": "^30.3.0",
+    "lint-staged": "^16.1.0",
+    "prettier": "^3.8.1",
+    "webpack": "^5.105.4",
+    "webpack-cli": "^7.0.2"
   },
   "jest": {
     "transform": {
@@ -57,7 +55,14 @@
     ],
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "/__tests__/Fixture/"
+      "/__tests__/Fixture/",
+      "/.claude/"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "prettier --cache --write",
+      "eslint --cache --fix"
     ]
   },
   "babel": {
