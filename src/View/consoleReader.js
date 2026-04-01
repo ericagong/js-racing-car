@@ -19,7 +19,7 @@ const readlineFromConsole = async (guideMessage) => {
 
 export const addEventHandler = async (eventHandler) => {
     const carNamesInput = await readlineFromConsole(GUIDE_MESSAGES.CAR_NAMES);
-    const roundsInput = await readlineFromConsole(GUIDE_MESSAGES.TOTAL_ROUNDS);
+    const roundsInput = await readlineFromConsole(GUIDE_MESSAGES.ROUND_COUNT);
 
     eventHandler(carNamesInput, roundsInput);
 };

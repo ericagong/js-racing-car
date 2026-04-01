@@ -1,9 +1,9 @@
-import CarName from '../../src/Models/entities/CarName/CarName.js';
+import CarName from '../../src/Domain/CarName/CarName.js';
 import {
     ValueNotStringError,
     ValueEmptyStringError,
     ValueLengthTooLongError,
-} from '../../src/Models/entities/CarName/errors.js';
+} from '../../src/Domain/CarName/errors.js';
 
 describe('static of(value) 테스트', () => {
     it('value로 생성한 CarName 인스턴스를 반환한다.', () => {

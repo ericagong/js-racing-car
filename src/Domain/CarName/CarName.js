@@ -1,4 +1,4 @@
-import { isString, isEmptyString } from '../../utils/utils.js';
+import { isString, isEmptyString } from '../../utils.js';
 import {
     ValueNotStringError,
     ValueEmptyStringError,
@@ -14,15 +14,15 @@ export default class CarName {
         return new CarName(value);
     }
 
-    static #isBelowMaxLength(value) {
-        return value.trim().length <= CarName.MAX_LENGTH;
+    static #isOverMaxLength(value) {
+        return value.trim().length > CarName.MAX_LENGTH;
     }
 
     static #validate(value) {
         if (!isString(value)) throw new ValueNotStringError();
         if (isEmptyString(value)) throw new ValueEmptyStringError();
-        if (!CarName.#isBelowMaxLength(value))
-            throw new ValueLengthTooLongError();
+        if (CarName.#isOverMaxLength(value))
+            throw new ValueLengthTooLongError(CarName.MAX_LENGTH);
     }
 
     constructor(value) {

@@ -1,6 +1,6 @@
-import ValidationError from '../ValidationError.js';
+import DomainError from '../DomainError.js';
 
-class CarNameError extends ValidationError {
+class CarNameError extends DomainError {
     static #TYPE = '[CarNameError]';
 
     constructor(message) {
@@ -17,7 +17,7 @@ export class ValueNotStringError extends CarNameError {
 }
 
 export class ValueEmptyStringError extends CarNameError {
-    static #MESSAGE = 'value는 빈 값으로 설정할 수 없습니다.';
+    static #MESSAGE = 'value는 빈 문자열로 설정할 수 없습니다.';
 
     constructor() {
         super(ValueEmptyStringError.#MESSAGE);
@@ -25,9 +25,7 @@ export class ValueEmptyStringError extends CarNameError {
 }
 
 export class ValueLengthTooLongError extends CarNameError {
-    static #MESSAGE = 'value는 5자를 초과하여 설정할 수 없습니다.';
-
-    constructor() {
-        super(ValueLengthTooLongError.#MESSAGE);
+    constructor(maxLength) {
+        super(`value는 ${maxLength}자를 초과하여 설정할 수 없습니다.`);
     }
 }
