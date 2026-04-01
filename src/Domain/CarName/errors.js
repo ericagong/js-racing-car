@@ -9,7 +9,7 @@ class CarNameError extends DomainError {
 }
 
 export class ValueNotStringError extends CarNameError {
-    static #MESSAGE = 'value는 string 타입이어야합니다.';
+    static #MESSAGE = 'carName은 string 타입이어야합니다.';
 
     constructor() {
         super(ValueNotStringError.#MESSAGE);
@@ -17,7 +17,7 @@ export class ValueNotStringError extends CarNameError {
 }
 
 export class ValueEmptyStringError extends CarNameError {
-    static #MESSAGE = 'value는 빈 문자열로 설정할 수 없습니다.';
+    static #MESSAGE = 'carName은 빈 문자열로 설정할 수 없습니다.';
 
     constructor() {
         super(ValueEmptyStringError.#MESSAGE);
@@ -26,6 +26,6 @@ export class ValueEmptyStringError extends CarNameError {
 
 export class ValueLengthTooLongError extends CarNameError {
     constructor(maxLength) {
-        super(`value는 ${maxLength}자를 초과하여 설정할 수 없습니다.`);
+        super(`carName은 ${maxLength}자를 초과하여 설정할 수 없습니다.`);
     }
 }

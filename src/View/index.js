@@ -2,8 +2,8 @@ import { addEventHandler, close } from './consoleReader.js';
 import { gameResultTemplate, errorMessageTemplate } from './consoleWritter.js';
 
 const View = {
-    addEventHandlerToInputReader: addEventHandler,
-    closeInputReader: close,
+    onInput: addEventHandler,
+    close: close,
     printGameResult: gameResultTemplate,
     printErrorMessage: errorMessageTemplate,
 };
