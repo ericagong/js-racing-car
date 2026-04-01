@@ -1,6 +1,6 @@
-import View from './View/index.js';
-import Cars from './Domain/Cars/Cars.js';
-import TotalRound from './Domain/TotalRound/TotalRound.js';
+import View from './view/index.js';
+import Cars from './domain/Cars/Cars.js';
+import TotalRound from './domain/TotalRound/TotalRound.js';
 import { randomMoveStrategy } from './moveStrategies.js';
 import { parseAndTrim } from './utils.js';
 import AppError from './AppError.js';
@@ -13,15 +13,12 @@ const convertStringToNumber = (input) => Number(input);
 
 const handleGameInput = (carNamesInput, totalRoundInput) => {
     try {
-        // convert input
         const carNames = convertStringToArray(carNamesInput);
         const totalRound = convertStringToNumber(totalRoundInput);
 
-        // validate
         const totalRoundValue = TotalRound.of(totalRound);
         const cars = Cars.of(carNames);
 
-        // execute game
         const roundSnapshots = [];
         for (let i = 0; i < totalRoundValue.value; i++) {
             cars.moveAll(randomMoveStrategy);
@@ -29,7 +26,6 @@ const handleGameInput = (carNamesInput, totalRoundInput) => {
         }
         const winnerCarNames = cars.getWinnerNames();
 
-        // print output
         View.printGameResult(roundSnapshots, winnerCarNames);
     } catch (error) {
         if (error instanceof AppError) {

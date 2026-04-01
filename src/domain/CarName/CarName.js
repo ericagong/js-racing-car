@@ -8,21 +8,21 @@ import {
 export default class CarName {
     #value;
 
-    static MAX_LENGTH = 5;
+    static #MAX_LENGTH = 5;
 
     static of(value) {
         return new CarName(value);
     }
 
     static #isOverMaxLength(value) {
-        return value.trim().length > CarName.MAX_LENGTH;
+        return value.trim().length > CarName.#MAX_LENGTH;
     }
 
     static #validate(value) {
         if (!isString(value)) throw new ValueNotStringError();
         if (isEmptyString(value)) throw new ValueEmptyStringError();
         if (CarName.#isOverMaxLength(value))
-            throw new ValueLengthTooLongError(CarName.MAX_LENGTH);
+            throw new ValueLengthTooLongError(CarName.#MAX_LENGTH);
     }
 
     constructor(value) {

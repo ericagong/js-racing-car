@@ -1,4 +1,4 @@
-import Car from '../../src/Domain/Car/Car.js';
+import Car from '../../src/domain/Car/Car.js';
 
 describe('static of(name, position) 테스트', () => {
     describe('name, position을 인자로 생성한 Car 인스턴스를 반환한다.', () => {

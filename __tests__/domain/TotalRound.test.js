@@ -1,9 +1,9 @@
-import TotalRound from '../../src/Domain/TotalRound/TotalRound.js';
+import TotalRound from '../../src/domain/TotalRound/TotalRound.js';
 import {
     TotalRoundNotNumberError,
     TotalRoundNotIntegerError,
     TotalRoundOutOfRangeError,
-} from '../../src/Domain/TotalRound/errors.js';
+} from '../../src/domain/TotalRound/errors.js';
 
 describe('TotalRound.of(value) 테스트', () => {
     describe('유효하지 않은 값을 입력하면 에러가 발생한다.', () => {

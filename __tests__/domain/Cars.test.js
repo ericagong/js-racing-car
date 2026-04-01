@@ -1,6 +1,6 @@
-import Cars from '../../src/Domain/Cars/Cars.js';
-import Car from '../../src/Domain/Car/Car.js';
-import { CarNamesDuplicatedError } from '../../src/Domain/Cars/errors.js';
+import Cars from '../../src/domain/Cars/Cars.js';
+import Car from '../../src/domain/Car/Car.js';
+import { CarNamesDuplicatedError } from '../../src/domain/Cars/errors.js';
 
 const alwaysMove = () => true;
 const neverMove = () => false;

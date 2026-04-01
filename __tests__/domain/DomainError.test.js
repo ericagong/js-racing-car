@@ -1,4 +1,4 @@
-import DomainError from '../../src/Domain/DomainError.js';
+import DomainError from '../../src/domain/DomainError.js';
 
 describe('getMessage() 테스트', () => {
     describe('message를 반환한다.', () => {
