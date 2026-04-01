@@ -1,9 +1,11 @@
 // consoleWritter는 내부적으로 Console.log로 출력 수행
 const write = console.log;
 
+const NEW_LINE = '\n';
+
 // [componentName]Template은 Console에 출력되는 컴포넌트의 형식 정의
 const dividerTemplate = () => {
-    write('');
+    write(NEW_LINE);
 };
 
 const resultGuideTemplate = () => {
@@ -11,14 +13,11 @@ const resultGuideTemplate = () => {
     write('실행 결과');
 };
 
-const carRecordTemplate = ({ name, position }) => {
-    write(`${name} : ${'-'.repeat(position)}`);
-};
+const carRecordTemplate = ({ name, position }) =>
+    `${name} : ${'-'.repeat(position)}`;
 
 const roundTemplate = (cars) => {
-    cars.forEach((car) => {
-        carRecordTemplate(car);
-    });
+    write(cars.map(carRecordTemplate).join(NEW_LINE));
     dividerTemplate();
 };
 
@@ -28,9 +27,7 @@ const winnerNamesTemplate = (winnerNames) => {
 
 export const gameResultTemplate = (roundSnapshots, winnerCarNames) => {
     resultGuideTemplate();
-    roundSnapshots.forEach((round) => {
-        roundTemplate(round);
-    });
+    write(roundSnapshots.map(roundTemplate).join(NEW_LINE));
     winnerNamesTemplate(winnerCarNames);
 };
 
