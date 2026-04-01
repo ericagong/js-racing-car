@@ -1,50 +1,39 @@
+// consoleWritter는 내부적으로 Console.log로 출력 수행
 const write = console.log;
 
-export default function createConsoleWritter() {
-    function dividerTemplate() {
-        write('');
-    }
+// [componentName]Template은 Console에 출력되는 컴포넌트의 형식 정의
+const dividerTemplate = () => {
+    write('');
+};
 
-    function resultGuideTemplate() {
-        dividerTemplate();
+const resultGuideTemplate = () => {
+    dividerTemplate();
+    write('실행 결과');
+};
 
-        write('실행 결과');
-    }
+const carRecordTemplate = ({ name, position }) => {
+    write(`${name} : ${'-'.repeat(position)}`);
+};
 
-    function carRecordTemplate(car) {
-        write(`${car.name} : ${'-'.repeat(car.position)}`);
-    }
+const roundTemplate = (cars) => {
+    cars.forEach((car) => {
+        carRecordTemplate(car);
+    });
+    dividerTemplate();
+};
 
-    function roundTemplate(cars) {
-        cars.forEach((car) => {
-            carRecordTemplate(car);
-        });
+const winnerNamesTemplate = (winnerNames) => {
+    write(`${winnerNames.join(', ')}가 최종 우승했습니다.`);
+};
 
-        dividerTemplate();
-    }
+export const gameResultTemplate = (roundSnapshots, winnerCarNames) => {
+    resultGuideTemplate();
+    roundSnapshots.forEach((round) => {
+        roundTemplate(round);
+    });
+    winnerNamesTemplate(winnerCarNames);
+};
 
-    function winnerNamesTemplate(winnerNames) {
-        write(winnerNames.join(', ') + '가 최종 우승했습니다.');
-    }
-
-    function gameResultTemplate(result) {
-        resultGuideTemplate();
-
-        const { roundHistory, winnerNames } = result;
-
-        roundHistory.forEach((round) => {
-            roundTemplate(round);
-        });
-
-        winnerNamesTemplate(winnerNames);
-    }
-
-    function errorMessageTemplate(errorMsg) {
-        write('[ERROR]', errorMsg);
-    }
-
-    return {
-        gameResultTemplate,
-        errorMessageTemplate,
-    };
-}
+export const errorMessageTemplate = (errorType, errorMsg) => {
+    write(`[${errorType}] ${errorMsg}`);
+};
