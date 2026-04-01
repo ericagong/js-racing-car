@@ -1,19 +1,13 @@
 export default class AppError extends Error {
-    static type = 'APP';
+    static #DEFAULT_TYPE = 'APP';
     #type;
-    #message;
 
     constructor(type, message) {
         super(message);
-        this.#type = type ?? AppError.type;
-        this.#message = message;
+        this.#type = type ?? AppError.#DEFAULT_TYPE;
     }
 
-    getType() {
+    get type() {
         return this.#type;
-    }
-
-    getMessage() {
-        return this.#message;
     }
 }

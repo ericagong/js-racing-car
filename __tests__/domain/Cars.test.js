@@ -5,8 +5,8 @@ import { CarNamesDuplicatedError } from '../../src/domain/Cars/errors.js';
 const alwaysMove = () => true;
 const neverMove = () => false;
 
-describe('Cars.of(names) 테스트', () => {
-    describe('유효한 이름 배열로 Cars 인스턴스를 생성한다.', () => {
+describe('static of(names) 테스트', () => {
+    describe('names가 유효한 경우, Cars 인스턴스를 생성한다.', () => {
         it.each([
             { names: ['erica'] },
             { names: ['erica', 'ryang'] },
@@ -16,7 +16,7 @@ describe('Cars.of(names) 테스트', () => {
         });
     });
 
-    describe('중복된 이름이 존재하면 에러가 발생한다.', () => {
+    describe('names에 중복된 이름이 존재하는 경우, 에러가 발생한다.', () => {
         it.each([
             { names: ['erica', 'erica'] },
             { names: ['gong0', 'gong0', 'Gong'] },
@@ -28,34 +28,38 @@ describe('Cars.of(names) 테스트', () => {
 });
 
 describe('moveAll(moveStrategy) 테스트', () => {
-    it('항상 이동 전략 적용 시 모든 자동차가 이동한다.', () => {
-        const cars = Cars.of(['erica', 'ryang', 'yang']);
+    describe('전진 조건에 부합하는 경우, 모든 자동차가 이동한다.', () => {
+        it('항상 이동 전략 적용', () => {
+            const cars = Cars.of(['erica', 'ryang', 'yang']);
 
-        cars.moveAll(alwaysMove);
+            cars.moveAll(alwaysMove);
 
-        expect(cars.snapshot).toEqual([
-            { name: 'erica', position: 1 },
-            { name: 'ryang', position: 1 },
-            { name: 'yang', position: 1 },
-        ]);
+            expect(cars.snapshot).toEqual([
+                { name: 'erica', position: 1 },
+                { name: 'ryang', position: 1 },
+                { name: 'yang', position: 1 },
+            ]);
+        });
     });
 
-    it('항상 정지 전략 적용 시 모든 자동차가 이동하지 않는다.', () => {
-        const cars = Cars.of(['erica', 'ryang', 'yang']);
+    describe('전진 조건에 부합하지 않는 경우, 모든 자동차가 이동하지 않는다.', () => {
+        it('항상 정지 전략 적용', () => {
+            const cars = Cars.of(['erica', 'ryang', 'yang']);
 
-        cars.moveAll(neverMove);
+            cars.moveAll(neverMove);
 
-        expect(cars.snapshot).toEqual([
-            { name: 'erica', position: 0 },
-            { name: 'ryang', position: 0 },
-            { name: 'yang', position: 0 },
-        ]);
+            expect(cars.snapshot).toEqual([
+                { name: 'erica', position: 0 },
+                { name: 'ryang', position: 0 },
+                { name: 'yang', position: 0 },
+            ]);
+        });
     });
 });
 
-describe('getWinnerNames() 테스트', () => {
-    describe('우승자가 한 대인 경우', () => {
-        it('가장 맨 앞에 있는 자동차의 이름을 반환한다.', () => {
+describe('getWinnerNames 테스트', () => {
+    describe('우승자가 한 대인 경우, 해당 자동차의 이름을 반환한다.', () => {
+        it('가장 맨 앞에 있는 자동차', () => {
             const cars = Cars.from([
                 Car.of('erica', 3),
                 Car.of('ryang', 1),
@@ -66,7 +70,7 @@ describe('getWinnerNames() 테스트', () => {
         });
     });
 
-    describe('우승자가 여러 대인 경우', () => {
+    describe('우승자가 여러 대인 경우, 해당 자동차들의 이름을 반환한다.', () => {
         it.each([
             {
                 desc: '2대가 동일한 최대 position',
@@ -92,35 +96,37 @@ describe('getWinnerNames() 테스트', () => {
     });
 });
 
-describe('snapshot 테스트', () => {
-    it.each([
-        {
-            desc: '자동차 1대',
-            cars: Cars.from([Car.of('erica', 2)]),
-            expected: [{ name: 'erica', position: 2 }],
-        },
-        {
-            desc: '자동차 2대',
-            cars: Cars.from([Car.of('erica', 3), Car.of('ryang', 1)]),
-            expected: [
-                { name: 'erica', position: 3 },
-                { name: 'ryang', position: 1 },
-            ],
-        },
-        {
-            desc: '자동차 3대',
-            cars: Cars.from([
-                Car.of('erica', 3),
-                Car.of('ryang', 1),
-                Car.of('yang', 0),
-            ]),
-            expected: [
-                { name: 'erica', position: 3 },
-                { name: 'ryang', position: 1 },
-                { name: 'yang', position: 0 },
-            ],
-        },
-    ])('$desc', ({ cars, expected }) => {
-        expect(cars.snapshot).toEqual(expected);
+describe('get snapshot 테스트', () => {
+    describe('각 자동차의 name과 position을 반환한다.', () => {
+        it.each([
+            {
+                desc: '자동차 1대',
+                cars: Cars.from([Car.of('erica', 2)]),
+                expected: [{ name: 'erica', position: 2 }],
+            },
+            {
+                desc: '자동차 2대',
+                cars: Cars.from([Car.of('erica', 3), Car.of('ryang', 1)]),
+                expected: [
+                    { name: 'erica', position: 3 },
+                    { name: 'ryang', position: 1 },
+                ],
+            },
+            {
+                desc: '자동차 3대',
+                cars: Cars.from([
+                    Car.of('erica', 3),
+                    Car.of('ryang', 1),
+                    Car.of('yang', 0),
+                ]),
+                expected: [
+                    { name: 'erica', position: 3 },
+                    { name: 'ryang', position: 1 },
+                    { name: 'yang', position: 0 },
+                ],
+            },
+        ])('$desc', ({ cars, expected }) => {
+            expect(cars.snapshot).toEqual(expected);
+        });
     });
 });
