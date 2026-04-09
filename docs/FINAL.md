@@ -562,7 +562,7 @@ export const printLine = (text = '') => console.log(text);
 
 - ESLint flat config 마이그레이션으로 린트 설정 최신화
 - Husky + lint-staged 도입으로 커밋 시 자동 린트 검사
-- [코딩 컨벤션](../CONVENTION.md) 기준 하에 전체 코드 일관성 정리
+- [코딩 컨벤션](./CONVENTION.md) 기준 하에 전체 코드 일관성 정리
 - 상수는 사용 지점에 최대한 가까이 배치 (static private field 활용)
 
 ---
