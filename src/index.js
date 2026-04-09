@@ -1,3 +1,3 @@
-import setRacingGameEnvironment from './Controller/Controller.js';
+import initializeApp from './RacingCarGame.js';
 
-setRacingGameEnvironment();
+initializeApp();

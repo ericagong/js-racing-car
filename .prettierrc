@@ -7,7 +7,7 @@
   "bracketSpacing": true,
   "arrowParens": "always",
   "useTabs": false,
-  "endOfLine": "auto",
+  "endOfLine": "lf",
   "proseWrap": "preserve",
   "quoteProps": "as-needed"
 }
