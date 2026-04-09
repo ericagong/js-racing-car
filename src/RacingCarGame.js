@@ -11,13 +11,17 @@ const convertStringToArray = (input) =>
 
 const convertStringToNumber = (input) => Number(input);
 
-const playGame = (carNames, totalRound) => {
+export const playGame = (
+    carNames,
+    totalRound,
+    moveStrategy = randomMoveStrategy,
+) => {
     const totalRoundValue = TotalRound.of(totalRound);
     const cars = Cars.of(carNames);
 
     const roundSnapshots = [];
     for (let i = 0; i < totalRoundValue.value; i++) {
-        cars.moveAll(randomMoveStrategy);
+        cars.moveAll(moveStrategy);
         roundSnapshots.push(cars.snapshot);
     }
 

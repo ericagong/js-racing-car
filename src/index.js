@@ -1,3 +1,3 @@
-import initializeApp from './Controller.js';
+import initializeApp from './RacingCarGame.js';
 
 initializeApp();
